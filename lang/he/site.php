@@ -1,0 +1,81 @@
+<?php
+
+return [
+    'nav_home'        => 'דף הבית',
+    'nav_about'       => 'אודות',
+    'nav_courses'     => 'קורסים',
+    'nav_methodology' => 'מתודולוגיה',
+    'nav_contact'     => 'יצירת קשר',
+    'nav_privacy'     => 'מדיניות פרטיות',
+    'nav_terms'       => 'תנאי שימוש',
+    'nav_login'       => 'כניסה',
+    'nav_dashboard'   => 'לוח בקרה',
+
+    'hero_title'    => 'למד שפות עם מומחי שפה',
+    'hero_subtitle' => 'מתודולוגיה מודרנית, מורים מוסמכים וחוויית לימוד שמשנה חיים.',
+    'hero_cta'      => 'גלה את הקורסים שלנו',
+    'hero_cta2'     => 'למד עוד',
+
+    'courses_title'    => 'הקורסים שלנו',
+    'courses_subtitle' => 'בחר שפה והתחל את המסע שלך',
+
+    'course_portuguese' => 'פורטוגזית',
+    'course_english'    => 'אנגלית',
+    'course_spanish'    => 'ספרדית',
+    'course_hebrew'     => 'עברית',
+    'course_greek'      => 'יוונית',
+    'course_learn_more' => 'למד עוד',
+
+    'advantages_title'    => 'למה לבחור ב-Gramma?',
+    'advantage_1_title'   => 'דוברי שפת אם',
+    'advantage_1_text'    => 'למד עם דוברי שפת אם ומקצוענים מוסמכים.',
+    'advantage_2_title'   => 'מתודולוגיה מודרנית',
+    'advantage_2_text'    => 'שיעורים דינמיים, אינטראקטיביים ומותאמים לקצב שלך.',
+    'advantage_3_title'   => 'גמישות מלאה',
+    'advantage_3_text'    => 'לוחות זמנים גמישים ומסגרות פנים-אל-פנים ומקוונות.',
+    'advantage_4_title'   => 'הסמכה בינלאומית',
+    'advantage_4_text'    => 'תעודות המוכרות בינלאומית.',
+
+    'methodology_title'    => 'המתודולוגיה שלנו',
+    'methodology_subtitle' => 'גישה מוכחת ללימוד שפות',
+    'methodology_1_title'  => 'הטמעה תרבותית',
+    'methodology_1_text'   => 'שקע את עצמך בשפה ובתרבות שאתה לומד.',
+    'methodology_2_title'  => 'תרגול שיחה',
+    'methodology_2_text'   => 'דבר מהשיעור הראשון עם מצבים אמיתיים.',
+    'methodology_3_title'  => 'הערכה מתמשכת',
+    'methodology_3_text'   => 'מעקב מותאם אישית אחר ההתקדמות שלך.',
+
+    'testimonials_title'    => 'מה אומרים הסטודנטים שלנו',
+    'testimonial_1_text'    => 'Gramma Institute שינה את הקשר שלי עם האנגלית. תוך 6 חודשים כבר תקשרתי בביטחון.',
+    'testimonial_1_author'  => 'מריה סילבה',
+    'testimonial_2_text'    => 'ללמוד עברית נראה בלתי אפשרי לפני Gramma. המתודולוגיה מדהימה!',
+    'testimonial_2_author'  => 'ז\'ואן פריירה',
+    'testimonial_3_text'    => 'מורים מצוינים, שיעורים דינמיים. אני ממליץ בלי היסוס.',
+    'testimonial_3_author'  => 'אנה קוסטה',
+
+    'contact_title'    => 'צור קשר',
+    'contact_subtitle' => 'אנחנו מוכנים לענות על שאלותיך',
+    'contact_name'     => 'שם',
+    'contact_email'    => 'דואר אלקטרוני',
+    'contact_message'  => 'הודעה',
+    'contact_send'     => 'שלח הודעה',
+    'contact_phone'    => 'טלפון',
+    'contact_address'  => 'כתובת',
+
+    'about_title'    => 'אודות Gramma Institute',
+    'about_subtitle' => 'היסטוריה של מצוינות בהוראת שפות',
+    'about_mission'  => 'המשימה שלנו',
+    'about_vision'   => 'החזון שלנו',
+    'about_values'   => 'הערכים שלנו',
+
+    'footer_rights'  => 'כל הזכויות שמורות.',
+    'footer_privacy' => 'מדיניות פרטיות',
+    'footer_terms'   => 'תנאי שימוש',
+    'footer_contact' => 'יצירת קשר',
+
+    'language_select' => 'שפה',
+    'select_language' => 'בחר שפה',
+
+    'page_not_found' => 'הדף לא נמצא',
+    'go_home'        => 'חזרה לדף הבית',
+];

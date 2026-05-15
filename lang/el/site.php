@@ -1,0 +1,81 @@
+<?php
+
+return [
+    'nav_home'        => 'Αρχική',
+    'nav_about'       => 'Σχετικά',
+    'nav_courses'     => 'Μαθήματα',
+    'nav_methodology' => 'Μεθοδολογία',
+    'nav_contact'     => 'Επικοινωνία',
+    'nav_privacy'     => 'Πολιτική Απορρήτου',
+    'nav_terms'       => 'Όροι Χρήσης',
+    'nav_login'       => 'Σύνδεση',
+    'nav_dashboard'   => 'Πίνακας',
+
+    'hero_title'    => 'Μάθε Γλώσσες με Εμπειρογνώμονες',
+    'hero_subtitle' => 'Σύγχρονη μεθοδολογία, εξειδικευμένοι δάσκαλοι και μια εμπειρία μάθησης που αλλάζει ζωές.',
+    'hero_cta'      => 'Δες τα μαθήματά μας',
+    'hero_cta2'     => 'Μάθε περισσότερα',
+
+    'courses_title'    => 'Τα Μαθήματά μας',
+    'courses_subtitle' => 'Επίλεξε γλώσσα και ξεκίνα το ταξίδι σου',
+
+    'course_portuguese' => 'Πορτογαλικά',
+    'course_english'    => 'Αγγλικά',
+    'course_spanish'    => 'Ισπανικά',
+    'course_hebrew'     => 'Εβραϊκά',
+    'course_greek'      => 'Ελληνικά',
+    'course_learn_more' => 'Μάθε περισσότερα',
+
+    'advantages_title'    => 'Γιατί να επιλέξεις Gramma;',
+    'advantage_1_title'   => 'Φυσικοί Ομιλητές',
+    'advantage_1_text'    => 'Μάθε από φυσικούς ομιλητές και πιστοποιημένους επαγγελματίες.',
+    'advantage_2_title'   => 'Σύγχρονη Μεθοδολογία',
+    'advantage_2_text'    => 'Δυναμικά, διαδραστικά μαθήματα προσαρμοσμένα στο ρυθμό σου.',
+    'advantage_3_title'   => 'Πλήρης Ευελιξία',
+    'advantage_3_text'    => 'Ευέλικτα ωράρια και δια ζώσης ή διαδικτυακά μαθήματα.',
+    'advantage_4_title'   => 'Διεθνής Πιστοποίηση',
+    'advantage_4_text'    => 'Πιστοποιητικά διεθνώς αναγνωρισμένα.',
+
+    'methodology_title'    => 'Η Μεθοδολογία μας',
+    'methodology_subtitle' => 'Μια αποδεδειγμένη προσέγγιση για εκμάθηση γλωσσών',
+    'methodology_1_title'  => 'Πολιτισμική Εμβύθιση',
+    'methodology_1_text'   => 'Βυθίσου στη γλώσσα και τον πολιτισμό που σπουδάζεις.',
+    'methodology_2_title'  => 'Συνομιλιακή Εξάσκηση',
+    'methodology_2_text'   => 'Μίλα από το πρώτο μάθημα με πραγματικές καταστάσεις.',
+    'methodology_3_title'  => 'Συνεχής Αξιολόγηση',
+    'methodology_3_text'   => 'Εξατομικευμένη παρακολούθηση της προόδου σου.',
+
+    'testimonials_title'    => 'Τι λένε οι μαθητές μας',
+    'testimonial_1_text'    => 'Το Gramma Institute άλλαξε τη σχέση μου με τα αγγλικά. Σε 6 μήνες επικοινωνούσα με σιγουριά.',
+    'testimonial_1_author'  => 'Μαρία Σίλβα',
+    'testimonial_2_text'    => 'Να μάθω εβραϊκά φαινόταν αδύνατο πριν το Gramma. Η μεθοδολογία είναι απίστευτη!',
+    'testimonial_2_author'  => 'Ζοάο Φερέιρα',
+    'testimonial_3_text'    => 'Εξαιρετικοί δάσκαλοι, δυναμικά μαθήματα. Το συνιστώ χωρίς δισταγμό.',
+    'testimonial_3_author'  => 'Άνα Κόστα',
+
+    'contact_title'    => 'Επικοινωνήστε μαζί μας',
+    'contact_subtitle' => 'Είμαστε εδώ να απαντήσουμε τις ερωτήσεις σας',
+    'contact_name'     => 'Όνομα',
+    'contact_email'    => 'Email',
+    'contact_message'  => 'Μήνυμα',
+    'contact_send'     => 'Αποστολή Μηνύματος',
+    'contact_phone'    => 'Τηλέφωνο',
+    'contact_address'  => 'Διεύθυνση',
+
+    'about_title'    => 'Σχετικά με το Gramma Institute',
+    'about_subtitle' => 'Μια ιστορία αριστείας στη διδασκαλία γλωσσών',
+    'about_mission'  => 'Η Αποστολή μας',
+    'about_vision'   => 'Το Όραμά μας',
+    'about_values'   => 'Οι Αξίες μας',
+
+    'footer_rights'  => 'Όλα τα δικαιώματα διατηρούνται.',
+    'footer_privacy' => 'Πολιτική Απορρήτου',
+    'footer_terms'   => 'Όροι Χρήσης',
+    'footer_contact' => 'Επικοινωνία',
+
+    'language_select' => 'Γλώσσα',
+    'select_language' => 'Επιλογή γλώσσας',
+
+    'page_not_found' => 'Η σελίδα δεν βρέθηκε',
+    'go_home'        => 'Επιστροφή στην αρχική',
+];

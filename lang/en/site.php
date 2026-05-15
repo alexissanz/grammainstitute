@@ -1,0 +1,81 @@
+<?php
+
+return [
+    'nav_home'        => 'Home',
+    'nav_about'       => 'About',
+    'nav_courses'     => 'Courses',
+    'nav_methodology' => 'Methodology',
+    'nav_contact'     => 'Contact',
+    'nav_privacy'     => 'Privacy Policy',
+    'nav_terms'       => 'Terms of Use',
+    'nav_login'       => 'Login',
+    'nav_dashboard'   => 'Dashboard',
+
+    'hero_title'    => 'Learn Languages with Language Experts',
+    'hero_subtitle' => 'Modern methodology, qualified teachers and a learning experience that transforms.',
+    'hero_cta'      => 'Explore our courses',
+    'hero_cta2'     => 'Learn more',
+
+    'courses_title'    => 'Our Courses',
+    'courses_subtitle' => 'Choose a language and start your journey',
+
+    'course_portuguese' => 'Portuguese',
+    'course_english'    => 'English',
+    'course_spanish'    => 'Spanish',
+    'course_hebrew'     => 'Hebrew',
+    'course_greek'      => 'Greek',
+    'course_learn_more' => 'Learn more',
+
+    'advantages_title'    => 'Why choose Gramma?',
+    'advantage_1_title'   => 'Native Speakers',
+    'advantage_1_text'    => 'Learn from native speakers and certified professionals.',
+    'advantage_2_title'   => 'Modern Methodology',
+    'advantage_2_text'    => 'Dynamic, interactive classes adapted to your pace.',
+    'advantage_3_title'   => 'Full Flexibility',
+    'advantage_3_text'    => 'Flexible schedules and in-person and online modalities.',
+    'advantage_4_title'   => 'International Certification',
+    'advantage_4_text'    => 'Internationally recognized certificates.',
+
+    'methodology_title'    => 'Our Methodology',
+    'methodology_subtitle' => 'A proven approach to language learning',
+    'methodology_1_title'  => 'Cultural Immersion',
+    'methodology_1_text'   => 'Dive into the language and culture you are studying.',
+    'methodology_2_title'  => 'Conversational Practice',
+    'methodology_2_text'   => 'Speak from the first lesson with real situations.',
+    'methodology_3_title'  => 'Continuous Assessment',
+    'methodology_3_text'   => 'Personalized tracking of your progress.',
+
+    'testimonials_title'    => 'What our students say',
+    'testimonial_1_text'    => 'Gramma Institute transformed my relationship with English. In 6 months I was already communicating with confidence.',
+    'testimonial_1_author'  => 'Maria Silva',
+    'testimonial_2_text'    => 'Learning Hebrew seemed impossible before Gramma. The methodology is incredible!',
+    'testimonial_2_author'  => 'João Ferreira',
+    'testimonial_3_text'    => 'Excellent teachers, dynamic classes. I recommend without hesitation.',
+    'testimonial_3_author'  => 'Ana Costa',
+
+    'contact_title'    => 'Get in Touch',
+    'contact_subtitle' => 'We are ready to answer your questions',
+    'contact_name'     => 'Name',
+    'contact_email'    => 'Email',
+    'contact_message'  => 'Message',
+    'contact_send'     => 'Send Message',
+    'contact_phone'    => 'Phone',
+    'contact_address'  => 'Address',
+
+    'about_title'    => 'About Gramma Institute',
+    'about_subtitle' => 'A history of excellence in language teaching',
+    'about_mission'  => 'Our Mission',
+    'about_vision'   => 'Our Vision',
+    'about_values'   => 'Our Values',
+
+    'footer_rights'  => 'All rights reserved.',
+    'footer_privacy' => 'Privacy Policy',
+    'footer_terms'   => 'Terms of Use',
+    'footer_contact' => 'Contact',
+
+    'language_select' => 'Language',
+    'select_language' => 'Select language',
+
+    'page_not_found' => 'Page not found',
+    'go_home'        => 'Back to home',
+];
