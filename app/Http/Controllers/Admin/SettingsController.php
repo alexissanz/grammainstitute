@@ -24,7 +24,7 @@ class SettingsController extends Controller
         $data['whatsapp_ativo'] = $request->boolean('whatsapp_ativo');
 
         // File uploads: images
-        foreach (['logo', 'favicon', 'imagem_hero', 'founder_foto', 'founder_assinatura'] as $field) {
+        foreach (['logo', 'logo_rodape', 'favicon', 'imagem_hero', 'founder_foto', 'founder_assinatura'] as $field) {
             if ($request->hasFile($field)) {
                 if ($settings->$field) {
                     Storage::disk('public')->delete($settings->$field);

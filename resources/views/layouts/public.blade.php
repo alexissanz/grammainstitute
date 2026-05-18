@@ -23,11 +23,15 @@
         <link rel="icon" href="{{ Storage::url($settings->favicon) }}">
     @endif
 
-    {{-- Premium typography: Cormorant Garamond (serif body), Cinzel (display caps),
-         Cormorant SC (small-caps subtitles), Noto Sans Hebrew (RTL), Noto Serif (fallback) --}}
+    {{-- Premium typography:
+         GFS Didot (Didot revival — primary global font),
+         Bodoni Moda (Didot-style display fallback),
+         Cormorant Garamond (italics + small caps support),
+         Cinzel (monumental display caps),
+         Noto Sans Hebrew (RTL), Noto Serif (fallback) --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+SC:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Hebrew:wght@300;400;500;600;700&family=Noto+Serif:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;0,6..96,800;0,6..96,900;1,6..96,400;1,6..96,500;1,6..96,600;1,6..96,700&family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+SC:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Hebrew:wght@300;400;500;600;700&family=Noto+Serif:wght@400;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -63,11 +67,18 @@
         }
 
         @php
+            // === DIDOT IS THE GLOBAL FONT ===
+            // Stack: real "Didot" if installed → GFS Didot (Google web) → Bodoni Moda (Didot-cousin) → Cormorant → serif
+            $didotStack = '"Didot","GFS Didot","Bodoni Moda","Bodoni 72","Cormorant Garamond","Noto Serif",Georgia,serif';
+
             $bodyStack = $locale === 'he'
-                ? "'Noto Sans Hebrew','Cormorant Garamond','Noto Serif',Georgia,serif"
-                : "'Cormorant Garamond','Noto Serif',Georgia,serif";
-            $displayStack = "'Cinzel','Cormorant Garamond',Georgia,serif";
-            $smallCapsStack = "'Cormorant SC','Cinzel',Georgia,serif";
+                ? "'Noto Sans Hebrew',$didotStack"
+                : $didotStack;
+            // Display headlines: monumental Bodoni/Didot (uppercase-friendly), Cinzel as backup
+            $displayStack = '"Bodoni Moda","Didot","GFS Didot","Cinzel",Georgia,serif';
+            // Small-caps eyebrows — keep Cormorant SC (it has real petite caps)
+            $smallCapsStack = '"Cormorant SC","Cinzel",Georgia,serif';
+            // Sans for tiny UI labels only (badges, top-bar)
             $sansStack = "'Inter',system-ui,-apple-system,'Segoe UI',sans-serif";
         @endphp
 
@@ -174,15 +185,30 @@
             background: var(--ink);
             color: var(--ivory);
             border-radius: 0;
-            padding: .55rem 1.3rem;
-            font-size: .75rem;
+            padding: .5rem 1.1rem;
+            font-size: .72rem;
             font-weight: 600;
-            letter-spacing: .18em;
+            letter-spacing: .16em;
             text-transform: uppercase;
             border: 1.5px solid var(--ink);
             transition: all .2s;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            line-height: 1;
         }
         .gramma-navbar .btn-nav-cta:hover { background: var(--bronze-dark); border-color: var(--bronze-dark); color: var(--ivory); }
+
+        /* Make sure the navbar items can shrink and never overflow on tight desktop widths */
+        .gramma-navbar .container { flex-wrap: nowrap; }
+        .gramma-navbar .navbar-collapse { min-width: 0; }
+        .gramma-navbar .navbar-nav { flex-wrap: nowrap; }
+        @media (min-width: 992px) and (max-width: 1199px) {
+            .gramma-navbar .nav-link { padding: .5rem .65rem !important; font-size: .72rem; letter-spacing: .1em; }
+            .gramma-navbar .btn-nav-cta { padding: .45rem .9rem; font-size: .68rem; letter-spacing: .12em; }
+            .lang-globe-btn { padding: .4rem .65rem; }
+        }
         /* ====== MOBILE NAV ACTIONS (always-visible row) ====== */
         .nav-mobile-actions { margin-left: auto; }
         .mobile-globe.lang-globe-btn {
@@ -218,7 +244,13 @@
             color: var(--ink);
             cursor: pointer;
             transition: all .2s;
+            -webkit-tap-highlight-color: rgba(168,120,65,.18);
+            touch-action: manipulation;     /* avoid double-tap zoom on iOS */
+            position: relative;
+            z-index: 2;
         }
+        /* Children must not eat the click on iOS Safari */
+        .lang-globe-btn > * { pointer-events: none; }
         .lang-globe-btn:hover { border-color: var(--bronze); color: var(--bronze-dark); }
         .lang-globe-btn[aria-expanded="true"] {
             background: var(--ink);
@@ -376,6 +408,7 @@
         @media (max-width: 575px) {
             .lang-panel {
                 top: auto;
+                bottom: 0;                                /* anchor at viewport bottom */
                 right: 0; left: 0;
                 width: 100%;
                 max-width: 100%;
@@ -384,6 +417,7 @@
                 border-radius: 20px 20px 0 0;
                 transform: translateY(100%);
                 box-shadow: 0 -18px 60px rgba(0,0,0,.25);
+                padding-bottom: env(safe-area-inset-bottom);
             }
             [dir="rtl"] .lang-panel { transform: translateY(100%); }
             .lang-panel.is-open { transform: translateY(0); }
@@ -1084,10 +1118,24 @@
         <div class="row g-4">
             <div class="col-lg-4 mb-3">
                 <div class="footer-brand">
-                    <span style="display:inline-flex; align-items:center; gap:.7rem;">
-                        <span style="display:inline-flex; width:42px; height:42px; align-items:center; justify-content:center; border:1.5px solid var(--gold-light); border-radius:50%; font-size:1.05rem;">Γ</span>
-                        Gramma
-                    </span>
+                    @if(!empty($settings->logo_rodape))
+                        <a href="{{ route('home') }}" class="d-inline-block">
+                            <img src="{{ Storage::url($settings->logo_rodape) }}"
+                                 alt="{{ $settings->nome_site ?? 'Gramma' }}"
+                                 style="height:54px; width:auto; filter: brightness(0) invert(1); opacity:.95;">
+                        </a>
+                    @elseif(!empty($settings->logo))
+                        <a href="{{ route('home') }}" class="d-inline-block">
+                            <img src="{{ Storage::url($settings->logo) }}"
+                                 alt="{{ $settings->nome_site ?? 'Gramma' }}"
+                                 style="height:54px; width:auto; filter: brightness(0) invert(1); opacity:.95;">
+                        </a>
+                    @else
+                        <span style="display:inline-flex; align-items:center; gap:.7rem;">
+                            <span style="display:inline-flex; width:42px; height:42px; align-items:center; justify-content:center; border:1.5px solid var(--gold-light); border-radius:50%; font-size:1.05rem;">Γ</span>
+                            Gramma
+                        </span>
+                    @endif
                 </div>
                 <p style="color:rgba(250,246,236,.7); font-style: italic;">
                     {{ $settings->descricao_site ?? __('site.hero_subtitle') }}

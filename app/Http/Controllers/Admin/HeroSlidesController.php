@@ -17,57 +17,64 @@ class HeroSlidesController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'imagem'         => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
-            'titulo.pt_BR'   => ['required', 'string', 'max:255'],
-            'subtitulo.pt_BR'=> ['nullable', 'string', 'max:500'],
-        ]);
+        $data = $this->validated($request);
 
-        $data = [
+        $payload = [
             'ordem'    => (HeroSlide::max('ordem') ?? -1) + 1,
+            'tipo'     => $data['tipo'],
             'titulo'   => $request->input('titulo', []),
             'subtitulo'=> $request->input('subtitulo', []),
             'ativo'    => $request->boolean('ativo', true),
         ];
 
         if ($request->hasFile('imagem')) {
-            $data['imagem'] = $request->file('imagem')->store('slides', 'public');
+            $payload['imagem'] = $request->file('imagem')->store('slides', 'public');
+        }
+        if ($request->hasFile('video')) {
+            $payload['video'] = $request->file('video')->store('slides/videos', 'public');
+        }
+        if ($request->hasFile('poster')) {
+            $payload['poster'] = $request->file('poster')->store('slides', 'public');
         }
 
-        HeroSlide::create($data);
+        HeroSlide::create($payload);
 
         return redirect()->route('admin.hero-slides.index')->with('success', 'Slide criado com sucesso.');
     }
 
     public function update(Request $request, HeroSlide $heroSlide)
     {
-        $request->validate([
-            'imagem'       => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
-            'titulo.pt_BR' => ['required', 'string', 'max:255'],
-        ]);
+        $data = $this->validated($request, $heroSlide);
 
-        $data = [
+        $payload = [
+            'tipo'      => $data['tipo'],
             'titulo'    => $request->input('titulo', $heroSlide->titulo ?? []),
             'subtitulo' => $request->input('subtitulo', $heroSlide->subtitulo ?? []),
             'ativo'     => $request->boolean('ativo', true),
         ];
 
         if ($request->hasFile('imagem')) {
-            if ($heroSlide->imagem) {
-                Storage::disk('public')->delete($heroSlide->imagem);
-            }
-            $data['imagem'] = $request->file('imagem')->store('slides', 'public');
+            if ($heroSlide->imagem) Storage::disk('public')->delete($heroSlide->imagem);
+            $payload['imagem'] = $request->file('imagem')->store('slides', 'public');
+        }
+        if ($request->hasFile('video')) {
+            if ($heroSlide->video) Storage::disk('public')->delete($heroSlide->video);
+            $payload['video'] = $request->file('video')->store('slides/videos', 'public');
+        }
+        if ($request->hasFile('poster')) {
+            if ($heroSlide->poster) Storage::disk('public')->delete($heroSlide->poster);
+            $payload['poster'] = $request->file('poster')->store('slides', 'public');
         }
 
-        $heroSlide->update($data);
+        $heroSlide->update($payload);
 
         return redirect()->route('admin.hero-slides.index')->with('success', 'Slide atualizado.');
     }
 
     public function destroy(HeroSlide $heroSlide)
     {
-        if ($heroSlide->imagem) {
-            Storage::disk('public')->delete($heroSlide->imagem);
+        foreach (['imagem', 'video', 'poster'] as $f) {
+            if ($heroSlide->$f) Storage::disk('public')->delete($heroSlide->$f);
         }
         $heroSlide->delete();
 
@@ -81,5 +88,17 @@ class HeroSlidesController extends Controller
             HeroSlide::where('id', (int) $id)->update(['ordem' => $index]);
         }
         return response()->json(['ok' => true]);
+    }
+
+    private function validated(Request $request, ?HeroSlide $existing = null): array
+    {
+        return $request->validate([
+            'tipo'            => ['required', 'in:imagem,video'],
+            'imagem'          => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'video'           => ['nullable', 'file', 'mimes:mp4,webm,mov,m4v', 'max:51200'], // 50MB
+            'poster'          => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'titulo.pt_BR'    => ['required', 'string', 'max:255'],
+            'subtitulo.pt_BR' => ['nullable', 'string', 'max:500'],
+        ]);
     }
 }

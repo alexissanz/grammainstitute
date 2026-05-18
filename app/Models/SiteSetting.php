@@ -18,7 +18,7 @@ class SiteSetting extends Model
         'founder_citacao_curta', 'founder_bio', 'founder_carta',
         'founder_facebook', 'founder_instagram', 'founder_linkedin',
         'founder_youtube', 'founder_twitter', 'founder_email',
-        'logo', 'favicon', 'imagem_hero', 'hero_tipo', 'hero_video',
+        'logo', 'logo_rodape', 'favicon', 'imagem_hero', 'hero_tipo', 'hero_video',
         'facebook', 'instagram', 'linkedin', 'youtube', 'tiktok',
         'idioma_padrao', 'idiomas_activos', 'texto_rodape',
         'meta_title', 'meta_description',

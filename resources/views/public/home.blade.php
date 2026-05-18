@@ -14,7 +14,9 @@
         align-items: center;
         background:
             linear-gradient(135deg, rgba(26,22,18,.78) 0%, rgba(26,22,18,.55) 55%, rgba(26,22,18,.85) 100%),
-            url('https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=2400&q=85') center/cover no-repeat;
+            radial-gradient(circle at 30% 30%, rgba(168,120,65,.45), transparent 55%),
+            radial-gradient(circle at 75% 75%, rgba(200,164,75,.35), transparent 60%),
+            #1a1612;
         color: var(--ivory);
         overflow: hidden;
     }
@@ -445,10 +447,17 @@
         <div class="carousel-inner h-100">
             @foreach($heroSlides as $i => $slide)
             <div class="carousel-item {{ $i === 0 ? 'active' : '' }}">
-                @if($slide->imagem)
+                @if($slide->isVideo())
+                    <video class="carousel-item-bg" autoplay muted loop playsinline
+                           @if($slide->posterUrl()) poster="{{ $slide->posterUrl() }}" @endif
+                           style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;">
+                        <source src="{{ Storage::url($slide->video) }}" type="video/mp4">
+                    </video>
+                    <div style="position:absolute; inset:0; background: linear-gradient(135deg, rgba(26,22,18,.65) 0%, rgba(26,22,18,.4) 55%, rgba(26,22,18,.75) 100%); z-index:1;"></div>
+                @elseif($slide->imagem)
                     <div class="carousel-item-bg" style="background-image:url('{{ Storage::url($slide->imagem) }}');"></div>
                 @endif
-                <div class="carousel-item-content">
+                <div class="carousel-item-content" style="position:relative; z-index:2;">
                     <div class="container">
                         <div class="row align-items-center">
                             <div class="col-lg-9">
@@ -567,9 +576,13 @@
         <div class="row align-items-center">
             <div class="col-lg-5 mb-5 mb-lg-0">
                 <div style="position: relative;">
-                    <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=1100&q=85"
+                    @php
+                        $manifestoImg = $settings->imagem_hero ? Storage::url($settings->imagem_hero) : asset('images/site/manuscript.jpg');
+                    @endphp
+                    <img src="{{ $manifestoImg }}"
                          alt="Manuscritos clássicos"
-                         style="width:100%; height: 540px; object-fit: cover; filter: sepia(.12) contrast(1.02);">
+                         onerror="this.style.background='linear-gradient(135deg,#a87841 0%,#1a1612 100%)'; this.removeAttribute('src');"
+                         style="width:100%; height: 540px; object-fit: cover; filter: sepia(.12) contrast(1.02); background:linear-gradient(135deg,#a87841 0%,#1a1612 100%);">
                     <div style="position:absolute; bottom:-24px; right:-24px; background: var(--ink); color: var(--gold-light); padding: 1.5rem 2rem; font-family: 'Cinzel', serif; letter-spacing: .14em; text-transform: uppercase; font-size: .8rem;">
                         <div style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 2.2rem; color: var(--ivory); text-transform: none; letter-spacing: 0; line-height:1;">
                             Anno {{ now()->year }}

@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class PromotionsController extends Controller
 {
-    private array $locales = ['pt_BR', 'en', 'es', 'he', 'el'];
+    private array $locales = ['pt_BR', 'en', 'es', 'he', 'el', 'la'];
 
     public function index()
     {

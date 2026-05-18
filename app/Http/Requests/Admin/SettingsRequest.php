@@ -48,6 +48,7 @@ class SettingsRequest extends FormRequest
             'cidade'              => ['nullable', 'string', 'max:100'],
             'pais'                => ['nullable', 'string', 'max:100'],
             'logo'                => ['nullable', 'image', 'mimes:jpg,jpeg,png,svg,webp', 'max:2048'],
+            'logo_rodape'         => ['nullable', 'image', 'mimes:jpg,jpeg,png,svg,webp', 'max:2048'],
             'favicon'             => ['nullable', 'file', 'mimes:ico,png', 'max:512'],
             'imagem_hero'         => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'hero_tipo'           => ['nullable', 'string', 'in:imagem,slides,video'],

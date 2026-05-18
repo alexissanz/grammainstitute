@@ -490,14 +490,30 @@
             <div class="tab-pane fade" id="tab-midia">
                 <div class="row g-4">
                     <div class="col-md-6">
-                        <label class="form-label">Logo do Site <small>(PNG/SVG/WebP recomendado, máx. 2MB)</small></label>
+                        <label class="form-label">Logo do Site (cabeçalho) <small>(PNG/SVG/WebP, máx. 2MB)</small></label>
                         <input name="logo" type="file" class="form-control" accept="image/*">
                         @if($settings->logo)
-                            <div class="mt-2">
-                                <img src="{{ Storage::url($settings->logo) }}" class="img-preview" alt="Logo">
-                                <div class="mt-1 small text-muted">{{ basename($settings->logo) }}</div>
+                            <div class="mt-2 d-flex align-items-center gap-3 p-2" style="background:#fafafa;border-radius:8px;">
+                                <img src="{{ Storage::url($settings->logo) }}" class="img-preview" alt="Logo" style="max-height:60px;">
+                                <div class="small text-muted">{{ basename($settings->logo) }}</div>
                             </div>
                         @endif
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Logo do Rodapé (versão escura/preta)
+                            <small>(opcional, para mostrar sobre fundo ink — PNG/SVG, máx. 2MB)</small></label>
+                        <input name="logo_rodape" type="file" class="form-control" accept="image/*">
+                        @if($settings->logo_rodape)
+                            <div class="mt-2 d-flex align-items-center gap-3 p-2" style="background:#1a1612;border-radius:8px;">
+                                <img src="{{ Storage::url($settings->logo_rodape) }}" alt="Logo rodapé"
+                                     style="max-height:60px; filter: brightness(0) invert(1);">
+                                <div class="small" style="color:#c8a44b;">{{ basename($settings->logo_rodape) }}</div>
+                            </div>
+                        @endif
+                        <small class="text-muted d-block mt-1">
+                            <i class="fas fa-info-circle me-1"></i> Se não definir, o rodapé usará o logo do cabeçalho.
+                            Será automaticamente invertido para aparecer claro sobre o fundo escuro.
+                        </small>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Favicon <small>(ICO ou PNG 32×32, máx. 512KB)</small></label>

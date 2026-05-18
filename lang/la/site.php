@@ -155,4 +155,20 @@ return [
 
     // Promos
     'promo_code'    => 'Cōdex',
+
+    // Login / extras
+    'subtitulo_site'      => 'Īnstitūtum linguārum classicārum et modernārum',
+    'login_welcome'       => 'Salvē! In domō verbōrum intrās.',
+    'login_subtitle'      => 'Verba volant, scripta manent — disce linguās ad fundāmenta',
+    'language_change'     => 'Mutāre linguam',
+
+    // Misc UI
+    'continue'            => 'Procēdere',
+    'cancel'              => 'Renūntiāre',
+    'save'                => 'Servāre',
+    'edit'                => 'Recēnsēre',
+    'delete'              => 'Tollere',
+    'create'              => 'Creāre',
+    'view'                => 'Vidēre',
+    'back'                => 'Redīre',
 ];

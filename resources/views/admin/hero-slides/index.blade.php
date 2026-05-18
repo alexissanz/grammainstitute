@@ -11,16 +11,31 @@
 <style>
     .slide-item { border-radius:10px; border:1px solid #e5e7eb; transition:box-shadow .2s, border-color .2s; }
     .slide-item:hover { box-shadow:0 4px 16px rgba(0,0,0,0.09); border-color:#c7d7f5; }
-    .slide-thumb { width:100px; height:62px; object-fit:cover; border-radius:6px; flex-shrink:0; }
-    .slide-thumb-placeholder { width:100px; height:62px; border-radius:6px; background:#f3f4f6; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .slide-thumb { width:120px; height:74px; object-fit:cover; border-radius:6px; flex-shrink:0; background:#000; }
+    .slide-thumb-placeholder { width:120px; height:74px; border-radius:6px; background:#f3f4f6; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#9ca3af; font-size:1.4rem; }
     .drag-handle { cursor:grab; color:#d1d5db; font-size:1.1rem; flex-shrink:0; }
     .drag-handle:active { cursor:grabbing; }
     .lang-tabs-mini .nav-link { font-size:.75rem; padding:.25rem .6rem; border-radius:4px; color:#6b7280; }
     .lang-tabs-mini .nav-link.active { background:#1a3a5c; color:#fff; }
     .lang-tabs-mini .nav-item + .nav-item { margin-left:.25rem; }
     .slide-active-badge { font-size:.72rem; padding:.2rem .65rem; border-radius:20px; font-weight:600; }
-    /* SortableJS ghost */
+    .tipo-badge { font-size:.7rem; padding:.18rem .55rem; border-radius:20px; font-weight:600; background:#eef2ff; color:#4338ca; }
+    .tipo-badge.is-video { background:#fef3c7; color:#92400e; }
     .sortable-ghost { opacity: .4; background: #eef3ff; }
+
+    /* Media-type pickers in modal */
+    .media-type-toggle { display:flex; gap:.5rem; margin-bottom:1rem; }
+    .media-type-toggle .opt {
+        flex:1; cursor:pointer; border:2px solid #e5e7eb; border-radius:8px;
+        padding:.85rem .75rem; text-align:center; transition:all .15s;
+        background:#fff;
+    }
+    .media-type-toggle .opt.active { border-color:#1a3a5c; background:#eef3fb; color:#1a3a5c; }
+    .media-type-toggle .opt i { font-size:1.2rem; display:block; margin-bottom:.25rem; }
+    .media-type-toggle .opt input { display:none; }
+
+    .media-pane { display:none; }
+    .media-pane.show { display:block; }
 </style>
 @endpush
 
@@ -29,7 +44,7 @@
 <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
     <div>
         <p class="text-muted mb-0" style="font-size:.875rem;">
-            Cada slide aparece no carrossel da página inicial quando o hero está em modo <strong>Slides</strong>.
+            Cada slide aparece no carrossel da página inicial. Pode usar <strong>imagem</strong> ou <strong>vídeo</strong>.
             <a href="{{ route('admin.settings.edit') }}#tab-hero" style="color:#2d6a9f;">Mudar tipo de Hero →</a>
         </p>
     </div>
@@ -51,21 +66,31 @@
         <div class="card-body d-flex align-items-center gap-3 flex-wrap">
             <span class="drag-handle"><i class="fas fa-grip-vertical"></i></span>
 
-            @if($slide->imagem)
+            @if($slide->isVideo())
+                <video class="slide-thumb" muted playsinline preload="metadata"
+                       @if($slide->poster) poster="{{ Storage::url($slide->poster) }}" @endif>
+                    <source src="{{ Storage::url($slide->video) }}">
+                </video>
+            @elseif($slide->imagem)
                 <img src="{{ Storage::url($slide->imagem) }}" class="slide-thumb" alt="">
             @else
-                <div class="slide-thumb-placeholder"><i class="fas fa-image text-muted"></i></div>
+                <div class="slide-thumb-placeholder"><i class="fas fa-image"></i></div>
             @endif
 
             <div class="flex-grow-1 min-width-0">
-                <div class="fw-bold" style="font-size:.9rem; color:#1a3a5c;">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="tipo-badge {{ $slide->isVideo() ? 'is-video' : '' }}">
+                        <i class="fas fa-{{ $slide->isVideo() ? 'film' : 'image' }} me-1"></i>{{ $slide->isVideo() ? 'Vídeo' : 'Imagem' }}
+                    </span>
+                </div>
+                <div class="fw-bold" style="font-size:.92rem; color:#1a3a5c;">
                     {{ $slide->titulo['pt_BR'] ?? 'Sem título (PT-BR)' }}
                 </div>
-                <div class="text-muted" style="font-size:.8rem;">
+                <div class="text-muted" style="font-size:.82rem;">
                     {{ $slide->subtitulo['pt_BR'] ?? '' }}
                 </div>
                 <div class="mt-1 d-flex gap-1 flex-wrap">
-                    @foreach(['pt_BR', 'en', 'es', 'he', 'el'] as $loc)
+                    @foreach(['pt_BR', 'en', 'es', 'he', 'el', 'la'] as $loc)
                         @if(!empty($slide->titulo[$loc]))
                         <span style="background:#f3f4f6; border-radius:4px; padding:.1rem .4rem; font-size:.68rem; color:#6b7280;">{{ $loc }}</span>
                         @endif
@@ -77,7 +102,7 @@
                 <span class="slide-active-badge" style="background: {{ $slide->ativo ? '#dcfce7; color:#16a34a;' : '#f3f4f6; color:#6b7280;' }}">
                     {{ $slide->ativo ? 'Ativo' : 'Inativo' }}
                 </span>
-                <button class="btn btn-sm btn-outline-primary" onclick='openEditModal({{ json_encode($slide) }})' style="border-radius:6px;">
+                <button class="btn btn-sm btn-outline-primary" onclick='openEditModal(@json($slide))' style="border-radius:6px;">
                     <i class="fas fa-edit"></i>
                 </button>
                 <form method="post" action="{{ route('admin.hero-slides.destroy', $slide) }}" class="d-inline"
@@ -108,11 +133,43 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    {{-- Image --}}
-                    <div class="form-group">
-                        <label class="font-weight-bold" style="font-size:.875rem;">Imagem do Slide <small class="text-muted">(JPG/PNG/WebP, máx. 5MB)</small></label>
-                        <input type="file" name="imagem" id="slideImagem" class="form-control-file" accept="image/*">
-                        <div id="slideImgPreview" class="mt-2"></div>
+                    {{-- Media type picker --}}
+                    <label class="font-weight-bold" style="font-size:.875rem;">Tipo de mídia</label>
+                    <div class="media-type-toggle">
+                        <label class="opt active" data-tipo="imagem">
+                            <input type="radio" name="tipo" value="imagem" checked>
+                            <i class="fas fa-image"></i>
+                            Imagem
+                        </label>
+                        <label class="opt" data-tipo="video">
+                            <input type="radio" name="tipo" value="video">
+                            <i class="fas fa-film"></i>
+                            Vídeo
+                        </label>
+                    </div>
+
+                    {{-- Image pane --}}
+                    <div class="media-pane show" data-pane="imagem">
+                        <div class="form-group">
+                            <label class="font-weight-bold" style="font-size:.85rem;">Imagem <small class="text-muted">(JPG/PNG/WebP — recomendado 1920×1080, máx. 5MB)</small></label>
+                            <input type="file" name="imagem" id="slideImagem" class="form-control-file" accept="image/*">
+                            <div id="slideImgPreview" class="mt-2"></div>
+                        </div>
+                    </div>
+
+                    {{-- Video pane --}}
+                    <div class="media-pane" data-pane="video">
+                        <div class="form-group">
+                            <label class="font-weight-bold" style="font-size:.85rem;">Vídeo <small class="text-muted">(MP4/WebM, máx. 50MB)</small></label>
+                            <input type="file" name="video" id="slideVideo" class="form-control-file" accept="video/mp4,video/webm,video/quicktime">
+                            <div id="slideVideoPreview" class="mt-2"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold" style="font-size:.85rem;">Poster (imagem do vídeo)
+                                <small class="text-muted">opcional — aparece enquanto o vídeo carrega</small></label>
+                            <input type="file" name="poster" id="slidePoster" class="form-control-file" accept="image/*">
+                            <div id="slidePosterPreview" class="mt-2"></div>
+                        </div>
                     </div>
 
                     <hr>
@@ -120,14 +177,14 @@
                     {{-- Language tabs for titulo/subtitulo --}}
                     <label class="font-weight-bold" style="font-size:.875rem;">Título e Subtítulo por Idioma</label>
                     <ul class="nav nav-tabs lang-tabs-mini mt-2 mb-3" id="slideLangTabs">
-                        @foreach(['pt_BR' => '🇧🇷 PT-BR *', 'en' => '🇬🇧 EN', 'es' => '🇪🇸 ES', 'he' => '🇮🇱 HE', 'el' => '🇬🇷 EL'] as $code => $label)
+                        @foreach(['pt_BR' => '🇧🇷 PT-BR *', 'en' => '🇬🇧 EN', 'es' => '🇪🇸 ES', 'he' => '🇮🇱 HE', 'el' => '🇬🇷 EL', 'la' => '🏛 LA'] as $code => $label)
                         <li class="nav-item">
                             <a class="nav-link {{ $loop->first ? 'active' : '' }}" data-toggle="tab" href="#slang-{{ $code }}">{{ $label }}</a>
                         </li>
                         @endforeach
                     </ul>
                     <div class="tab-content">
-                        @foreach(['pt_BR' => 'ltr', 'en' => 'ltr', 'es' => 'ltr', 'he' => 'rtl', 'el' => 'ltr'] as $code => $dir)
+                        @foreach(['pt_BR' => 'ltr', 'en' => 'ltr', 'es' => 'ltr', 'he' => 'rtl', 'el' => 'ltr', 'la' => 'ltr'] as $code => $dir)
                         <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="slang-{{ $code }}">
                             <div class="form-group">
                                 <label style="font-size:.82rem; color:#6b7280;">Título ({{ $code }})</label>
@@ -186,19 +243,43 @@ if (list) {
     });
 }
 
+// Tipo (imagem/video) toggle
+document.querySelectorAll('.media-type-toggle .opt').forEach(function(opt) {
+    opt.addEventListener('click', function() {
+        var tipo = opt.getAttribute('data-tipo');
+        document.querySelectorAll('.media-type-toggle .opt').forEach(function(o){ o.classList.remove('active'); });
+        opt.classList.add('active');
+        opt.querySelector('input').checked = true;
+        document.querySelectorAll('.media-pane').forEach(function(p){ p.classList.toggle('show', p.getAttribute('data-pane') === tipo); });
+    });
+});
+
+function setTipo(tipo) {
+    var opt = document.querySelector('.media-type-toggle .opt[data-tipo="' + tipo + '"]');
+    if (opt) opt.click();
+    else document.querySelector('.media-type-toggle .opt[data-tipo="imagem"]').click();
+}
+
+function clearMediaPreviews() {
+    ['slideImgPreview','slideVideoPreview','slidePosterPreview'].forEach(function(id){
+        var el = document.getElementById(id); if (el) el.innerHTML = '';
+    });
+}
+
 function openAddModal() {
     document.getElementById('slideModalTitle').innerHTML = '<i class="fas fa-plus me-2"></i>Adicionar Slide';
     document.getElementById('slideForm').action = '{{ route("admin.hero-slides.store") }}';
     document.getElementById('slideFormMethod').value = 'POST';
     document.getElementById('slideForm').reset();
-    document.getElementById('slideImgPreview').innerHTML = '';
-    ['pt_BR','en','es','he','el'].forEach(function(loc) {
+    clearMediaPreviews();
+    ['pt_BR','en','es','he','el','la'].forEach(function(loc) {
         var t = document.getElementById('titulo_' + loc);
         var s = document.getElementById('subtitulo_' + loc);
         if (t) t.value = '';
         if (s) s.value = '';
     });
     document.getElementById('slideAtivo').checked = true;
+    setTipo('imagem');
 }
 
 function openEditModal(slide) {
@@ -206,10 +287,9 @@ function openEditModal(slide) {
     document.getElementById('slideForm').action = '{{ url("admin/hero-slides") }}/' + slide.id;
     document.getElementById('slideFormMethod').value = 'POST';
 
-    // Populate fields
     var titulo = slide.titulo || {};
     var subtitulo = slide.subtitulo || {};
-    ['pt_BR','en','es','he','el'].forEach(function(loc) {
+    ['pt_BR','en','es','he','el','la'].forEach(function(loc) {
         var t = document.getElementById('titulo_' + loc);
         var s = document.getElementById('subtitulo_' + loc);
         if (t) t.value = titulo[loc] || '';
@@ -218,27 +298,52 @@ function openEditModal(slide) {
 
     document.getElementById('slideAtivo').checked = !!slide.ativo;
 
-    // Show current image
-    var preview = document.getElementById('slideImgPreview');
+    clearMediaPreviews();
+
     if (slide.imagem) {
-        preview.innerHTML = '<img src="/storage/' + slide.imagem + '" style="max-height:80px;border-radius:6px;border:1px solid #e5e7eb;" alt="">';
-    } else {
-        preview.innerHTML = '';
+        document.getElementById('slideImgPreview').innerHTML =
+            '<img src="/storage/' + slide.imagem + '" style="max-height:120px;border-radius:6px;border:1px solid #e5e7eb;" alt="">';
     }
+    if (slide.video) {
+        document.getElementById('slideVideoPreview').innerHTML =
+            '<video src="/storage/' + slide.video + '" controls muted style="max-height:150px;border-radius:6px;border:1px solid #e5e7eb;background:#000;"></video>';
+    }
+    if (slide.poster) {
+        document.getElementById('slidePosterPreview').innerHTML =
+            '<img src="/storage/' + slide.poster + '" style="max-height:90px;border-radius:6px;border:1px solid #e5e7eb;" alt="">';
+    }
+
+    setTipo(slide.tipo === 'video' ? 'video' : 'imagem');
 
     $('#slideModal').modal('show');
 }
 
-// Image preview on file select
+// Live previews
 document.getElementById('slideImagem').addEventListener('change', function(e) {
-    var file = e.target.files[0];
-    if (!file) return;
-    var reader = new FileReader();
-    reader.onload = function(ev) {
+    var f = e.target.files[0]; if (!f) return;
+    var r = new FileReader();
+    r.onload = function(ev) {
         document.getElementById('slideImgPreview').innerHTML =
-            '<img src="' + ev.target.result + '" style="max-height:80px;border-radius:6px;border:1px solid #e5e7eb;margin-top:.5rem;" alt="">';
+            '<img src="' + ev.target.result + '" style="max-height:120px;border-radius:6px;border:1px solid #e5e7eb;margin-top:.5rem;" alt="">';
     };
-    reader.readAsDataURL(file);
+    r.readAsDataURL(f);
+});
+
+document.getElementById('slideVideo').addEventListener('change', function(e) {
+    var f = e.target.files[0]; if (!f) return;
+    var url = URL.createObjectURL(f);
+    document.getElementById('slideVideoPreview').innerHTML =
+        '<video src="' + url + '" controls muted style="max-height:150px;border-radius:6px;border:1px solid #e5e7eb;background:#000;margin-top:.5rem;"></video>';
+});
+
+document.getElementById('slidePoster').addEventListener('change', function(e) {
+    var f = e.target.files[0]; if (!f) return;
+    var r = new FileReader();
+    r.onload = function(ev) {
+        document.getElementById('slidePosterPreview').innerHTML =
+            '<img src="' + ev.target.result + '" style="max-height:90px;border-radius:6px;border:1px solid #e5e7eb;margin-top:.5rem;" alt="">';
+    };
+    r.readAsDataURL(f);
 });
 </script>
 @endpush
