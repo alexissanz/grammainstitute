@@ -11,6 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Trust the Cloudflare quick-tunnel proxy so https + host are correct
+        $middleware->trustProxies(at: '*');
+
         $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
         ]);

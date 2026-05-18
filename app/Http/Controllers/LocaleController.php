@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class LocaleController extends Controller
 {
-    private array $allowed = ['pt_BR', 'en', 'es', 'he', 'el'];
+    private array $allowed = ['pt_BR', 'en', 'es', 'he', 'el', 'la'];
 
     public function switch(Request $request, string $locale)
     {
