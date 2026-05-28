@@ -79,6 +79,7 @@ class AboutController extends Controller
             'quote_text'      => $data['quote_text']      ?? [],
             'quote_author'    => $data['quote_author']    ?? null,
             'foto'            => $about->foto,
+            'foto_bw'         => $request->boolean('foto_bw'),
             'founder_title'   => $data['founder_title']   ?? [],
             'founder_text'    => $data['founder_text']    ?? [],
             'institute_title' => $data['institute_title'] ?? [],

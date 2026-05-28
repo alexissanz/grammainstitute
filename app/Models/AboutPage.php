@@ -9,7 +9,7 @@ class AboutPage extends Model
     protected $table = 'about_page';
 
     protected $fillable = [
-        'quote_text', 'quote_author', 'foto',
+        'quote_text', 'quote_author', 'foto', 'foto_bw',
         'founder_title', 'founder_text',
         'institute_title', 'institute_text',
         'mission_title', 'mission_text',
@@ -29,6 +29,7 @@ class AboutPage extends Model
         'expertise_items' => 'array',
         'closing_title'   => 'array',
         'closing_text'    => 'array',
+        'foto_bw'         => 'boolean',
     ];
 
     /** Singleton: always the first row (create it on first access). */

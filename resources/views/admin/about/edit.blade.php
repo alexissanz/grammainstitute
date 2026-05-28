@@ -85,7 +85,7 @@
         <div class="d-flex align-items-center mb-3" style="gap:1rem; flex-wrap:wrap;">
             <div style="width:96px; height:96px; border-radius:12px; overflow:hidden; background:#f3f4f6; border:1px solid #e5e7eb; flex-shrink:0;">
                 @if($about->foto)
-                    <img src="{{ $about->fotoUrl() }}" alt="Foto" style="width:100%; height:100%; object-fit:cover; filter:grayscale(100%);">
+                    <img src="{{ $about->fotoUrl() }}" alt="Foto" style="width:100%; height:100%; object-fit:cover; filter:{{ $about->foto_bw ? 'grayscale(100%)' : 'none' }};">
                 @else
                     <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#9ca3af;"><i class="fas fa-user fa-2x"></i></div>
                 @endif
@@ -93,7 +93,11 @@
             <div>
                 <label class="pane-label">Foto (retrato de Alvaro Cunha)</label>
                 <input type="file" name="foto" accept="image/png,image/jpeg,image/webp" class="form-control">
-                <small class="text-muted">JPG/PNG/WebP, máx. 6MB. É exibida em "Who is" (a preto e branco).</small>
+                <small class="text-muted d-block">JPG/PNG/WebP, máx. 6MB. Exibida na secção "Who is".</small>
+                <div class="form-check mt-2">
+                    <input type="checkbox" name="foto_bw" id="foto_bw" class="form-check-input" value="1" {{ $about->foto_bw ? 'checked' : '' }}>
+                    <label class="form-check-label" for="foto_bw">Mostrar a foto a <strong>preto e branco</strong> (desmarque para <strong>cores</strong>)</label>
+                </div>
             </div>
         </div>
 

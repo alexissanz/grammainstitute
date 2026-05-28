@@ -40,6 +40,7 @@
             border: 1px solid rgba(0,0,0,.12);
             box-shadow: 0 22px 48px rgba(0,0,0,.20);
         }
+        .who-portrait.is-color img { filter: none; }
         .who-portrait figcaption {
             margin-top: .65rem;
             text-align: center;
@@ -76,7 +77,7 @@
                     @endif
                 @else
                     @if($current === 'who-is' && $about->fotoUrl())
-                        <figure class="who-portrait">
+                        <figure class="who-portrait {{ $about->foto_bw ? '' : 'is-color' }}">
                             <img src="{{ $about->fotoUrl() }}" alt="{{ $sectionTitle }}">
                             @if($about->quote_author)
                                 <figcaption>{{ $about->quote_author }}</figcaption>
