@@ -32,15 +32,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-9 about-content">
 
-                @if($current === 'mission')
-                    <div class="accent-card">
-                        <p>{{ $about->t('mission_text') }}</p>
-                    </div>
-                @elseif($current === 'closing-statement')
-                    <div class="accent-card">
-                        <p>{{ $about->t('closing_text') }}</p>
-                    </div>
-                @elseif($current === 'areas-of-expertise')
+                @if($current === 'areas-of-expertise')
                     @php $list = $about->expertiseList(); @endphp
                     @if(!empty($list))
                         <div class="expertise-grid">
