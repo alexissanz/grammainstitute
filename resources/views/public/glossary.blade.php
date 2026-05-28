@@ -249,13 +249,13 @@
     (function() {
         const buttons = document.querySelectorAll('.gl-alpha-btn');
         const panes = document.querySelectorAll('.gl-pane');
-        const row = document.getElementById('glAlphaRow');
         const prev = document.getElementById('glAlphaPrev');
         const next = document.getElementById('glAlphaNext');
-        let autoTimer = null;
         let index = 0;
 
-        function activateByIndex(newIndex, userTriggered) {
+        // Static glossary: content changes ONLY when the user clicks a letter
+        // (or the prev/next arrows). No auto-advance.
+        function activateByIndex(newIndex, scroll) {
             if (!buttons.length) return;
             index = (newIndex + buttons.length) % buttons.length;
             const button = buttons[index];
@@ -264,30 +264,18 @@
             panes.forEach(x => x.classList.remove('active'));
             button.classList.add('active');
             document.querySelector('[data-letter-pane="' + letter + '"]')?.classList.add('active');
-            button.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-            if (userTriggered) restartAuto();
-        }
-
-        function restartAuto() {
-            clearInterval(autoTimer);
-            autoTimer = setInterval(function() {
-                activateByIndex(index + 1, false);
-            }, 4200);
+            if (scroll) button.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
         }
 
         buttons.forEach(function(button, buttonIndex) {
-            button.addEventListener('click', function() {
-                activateByIndex(buttonIndex, true);
-            });
+            button.addEventListener('click', function() { activateByIndex(buttonIndex, true); });
         });
 
         prev?.addEventListener('click', function() { activateByIndex(index - 1, true); });
         next?.addEventListener('click', function() { activateByIndex(index + 1, true); });
-        row?.addEventListener('pointerenter', function() { clearInterval(autoTimer); });
-        row?.addEventListener('pointerleave', restartAuto);
 
+        // Show the first letter on load, without auto-rotating.
         activateByIndex(0, false);
-        restartAuto();
     })();
 </script>
 @endpush
