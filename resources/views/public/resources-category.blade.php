@@ -42,19 +42,24 @@
                         <i class="fas fa-bookmark"></i> Links will be added soon.
                     </div>
                 @else
-                    <div class="resource-link-list">
-                        @foreach($links as $link)
-                            <a href="{{ $link->url }}" target="_blank" rel="noopener noreferrer" class="resource-link">
-                                <div class="body">
-                                    <div class="title">{{ $link->t('title') ?: $link->url }}</div>
-                                    @if($link->t('description'))
-                                        <p class="desc">{{ $link->t('description') }}</p>
-                                    @endif
-                                </div>
-                                <span class="open">{{ __('site.resources_open_link') }} <i class="fas fa-external-link-alt"></i></span>
-                            </a>
-                        @endforeach
-                    </div>
+                    @foreach($links->groupBy('grupo') as $grupo => $grupoLinks)
+                        @if($grupo !== '' && $grupo !== null)
+                            <h2 class="resource-group-title">{{ $grupo }}</h2>
+                        @endif
+                        <div class="resource-link-list">
+                            @foreach($grupoLinks as $link)
+                                <a href="{{ $link->url }}" @if($link->url !== '#') target="_blank" rel="noopener noreferrer" @endif class="resource-link">
+                                    <div class="body">
+                                        <div class="title">{{ $link->t('title') ?: $link->url }}</div>
+                                        @if($link->t('description'))
+                                            <p class="desc">{{ $link->t('description') }}</p>
+                                        @endif
+                                    </div>
+                                    <span class="open">{{ __('site.resources_open_link') }} <i class="fas fa-external-link-alt"></i></span>
+                                </a>
+                            @endforeach
+                        </div>
+                    @endforeach
                 @endif
             </div>
         </div>

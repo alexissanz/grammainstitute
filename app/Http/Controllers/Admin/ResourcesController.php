@@ -82,6 +82,8 @@ class ResourcesController extends Controller
         $data = $this->validatedLink($request);
         ResourceLink::create([
             'category_id' => $category->id,
+            'grupo'       => $data['grupo'] ?? null,
+            'grupo_ordem' => (int) ($data['grupo_ordem'] ?? 0),
             'title'       => $data['title'] ?? [],
             'description' => $data['description'] ?? [],
             'url'         => $data['url'],
@@ -96,6 +98,8 @@ class ResourcesController extends Controller
         abort_unless($link->category_id === $category->id, 404);
         $data = $this->validatedLink($request);
         $link->update([
+            'grupo'       => $data['grupo'] ?? null,
+            'grupo_ordem' => (int) ($data['grupo_ordem'] ?? 0),
             'title'       => $data['title'] ?? [],
             'description' => $data['description'] ?? [],
             'url'         => $data['url'],
@@ -139,7 +143,10 @@ class ResourcesController extends Controller
     private function validatedLink(Request $request): array
     {
         return $request->validate([
-            'url'           => ['required', 'url', 'max:500'],
+            // Allow a real http(s) URL or a "#" placeholder (to be completed later).
+            'url'           => ['required', 'string', 'max:500', 'regex:/^(https?:\/\/.+|#)$/'],
+            'grupo'         => ['nullable', 'string', 'max:160'],
+            'grupo_ordem'   => ['nullable', 'integer', 'min:0', 'max:999'],
             'title'         => ['array'],
             'title.*'       => ['nullable', 'string', 'max:160'],
             'description'   => ['array'],

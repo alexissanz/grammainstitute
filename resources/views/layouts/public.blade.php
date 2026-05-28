@@ -1306,6 +1306,17 @@
             font-size: .85rem;
             color: var(--stone);
         }
+        /* Sub-section header inside a category (3rd level) */
+        .nav-pill .nav-dd-cat-group {
+            padding: .55rem 1.1rem .2rem 2rem;
+            margin-top: .35rem;
+            font-family: 'Cormorant SC', serif;
+            font-size: .64rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--bronze-dark);
+        }
+        .nav-pill .nav-dd-cat-group:first-child { margin-top: 0; }
 
         /* Nested mobile sub (category accordion inside Resources accordion) */
         .nav-mobile-cat { margin: .25rem 0; }
@@ -1350,6 +1361,16 @@
             font-size: .82rem;
             color: var(--stone);
         }
+        .nav-mobile-cat-group {
+            padding: .55rem 0 .15rem .5rem;
+            margin-top: .35rem;
+            font-family: 'Cormorant SC', serif;
+            font-size: .62rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--bronze-dark);
+        }
+        .nav-mobile-cat-group:first-child { margin-top: 0; }
 
         /* Mobile accordion sub-menu (About + Resources) */
         .nav-mobile-group { display: flex; flex-direction: column; }
@@ -1700,7 +1721,7 @@
 
     // Resources — categories WITH their active links (for the nested mega-menu)
     $resourceMenu = \App\Models\ResourceCategory::where('ativo', true)
-        ->with(['activeLinks' => fn ($q) => $q->orderBy('ordem')])
+        ->with(['activeLinks' => fn ($q) => $q->orderBy('grupo_ordem')->orderBy('ordem')])
         ->orderBy('ordem')->orderBy('id')
         ->get();
 @endphp
@@ -1746,8 +1767,13 @@
                                     <span class="nav-dd-cat-count">{{ $cat->activeLinks->count() }}</span>
                                 </button>
                                 <div class="nav-dd-cat-links">
-                                    @forelse($cat->activeLinks as $link)
-                                        <a href="{{ $link->url }}" target="_blank" rel="noopener noreferrer" class="nav-dd-cat-link"><span>{{ $link->t('title') ?: $link->url }}</span></a>
+                                    @forelse($cat->activeLinks->groupBy('grupo') as $grupo => $grupoLinks)
+                                        @if($grupo !== '' && $grupo !== null)
+                                            <div class="nav-dd-cat-group">{{ $grupo }}</div>
+                                        @endif
+                                        @foreach($grupoLinks as $link)
+                                            <a href="{{ $link->url }}" @if($link->url !== '#') target="_blank" rel="noopener noreferrer" @endif class="nav-dd-cat-link"><span>{{ $link->t('title') ?: $link->url }}</span></a>
+                                        @endforeach
                                     @empty
                                         <span class="nav-dd-cat-empty">No links yet.</span>
                                     @endforelse
@@ -1807,8 +1833,13 @@
                             <div class="nav-mobile-cat" data-mobile-group>
                                 <button type="button" class="nav-mobile-cat-toggle" data-mobile-toggle><span>{{ $cat->t('title') }}</span></button>
                                 <div class="nav-mobile-cat-links nav-mobile-sub">
-                                    @forelse($cat->activeLinks as $link)
-                                        <a href="{{ $link->url }}" target="_blank" rel="noopener noreferrer">{{ $link->t('title') ?: $link->url }}</a>
+                                    @forelse($cat->activeLinks->groupBy('grupo') as $grupo => $grupoLinks)
+                                        @if($grupo !== '' && $grupo !== null)
+                                            <div class="nav-mobile-cat-group">{{ $grupo }}</div>
+                                        @endif
+                                        @foreach($grupoLinks as $link)
+                                            <a href="{{ $link->url }}" @if($link->url !== '#') target="_blank" rel="noopener noreferrer" @endif>{{ $link->t('title') ?: $link->url }}</a>
+                                        @endforeach
                                     @empty
                                         <span class="nav-mobile-empty">No links yet.</span>
                                     @endforelse

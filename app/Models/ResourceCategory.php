@@ -18,7 +18,9 @@ class ResourceCategory extends Model
 
     public function links(): HasMany
     {
-        return $this->hasMany(ResourceLink::class, 'category_id')->orderBy('ordem');
+        return $this->hasMany(ResourceLink::class, 'category_id')
+            ->orderBy('grupo_ordem')
+            ->orderBy('ordem');
     }
 
     public function activeLinks(): HasMany

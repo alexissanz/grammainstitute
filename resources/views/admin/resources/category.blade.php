@@ -25,6 +25,7 @@
     .link-row .url { font-family:monospace; font-size:.78rem; color:#7e5223; word-break:break-all; }
     .link-row .title { font-family:'Bodoni Moda',serif; font-weight:500; }
     .link-row .desc { font-size:.85rem; color:#6b7280; }
+    .link-row .grupo-badge { font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; color:#a87841; font-weight:700; margin-bottom:.15rem; }
     .link-row .actions { display:flex; gap:.35rem; flex-shrink:0; }
 </style>
 @endpush
@@ -118,6 +119,9 @@
                     <div class="link-row" data-id="{{ $link->id }}">
                         <span class="drag-handle"><i class="fas fa-grip-vertical"></i></span>
                         <div class="info">
+                            @if($link->grupo)
+                                <div class="grupo-badge"><i class="fas fa-folder-open me-1"></i>{{ $link->grupo }}</div>
+                            @endif
                             <div class="title">{{ $link->title['pt_BR'] ?? $link->title['en'] ?? '(sem título)' }}</div>
                             <a href="{{ $link->url }}" target="_blank" class="url">{{ $link->url }}</a>
                             @if(!empty($link->description['pt_BR']) || !empty($link->description['en']))
@@ -145,9 +149,20 @@
         <form method="post" action="{{ route('admin.resources.storeLink', $category) }}">
             @csrf
             <div class="form-group">
-                <label>URL</label>
-                <input type="url" name="url" class="form-control" required
-                       placeholder="https://www.perseus.tufts.edu/hopper/">
+                <label>URL <small class="text-muted">(ou # para preencher depois)</small></label>
+                <input type="text" name="url" class="form-control" required
+                       placeholder="https://www.perseus.tufts.edu/hopper/  —  ou  #">
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <label>Sub-secção <small class="text-muted">(grupo — ex.: Beginner Grammar)</small></label>
+                    <input type="text" name="grupo" class="form-control mb-2"
+                           placeholder="ex.: Alphabet and Pronunciation">
+                </div>
+                <div class="col-md-4">
+                    <label>Ordem da sub-secção</label>
+                    <input type="number" name="grupo_ordem" class="form-control mb-2" value="0" min="0">
+                </div>
             </div>
 
             <ul class="nav nav-tabs lang-tabs mb-3">
@@ -195,8 +210,18 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>URL</label>
-                            <input type="url" name="url" id="el_url" class="form-control" required>
+                            <label>URL <small class="text-muted">(ou # para preencher depois)</small></label>
+                            <input type="text" name="url" id="el_url" class="form-control" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 form-group">
+                                <label>Sub-secção (grupo)</label>
+                                <input type="text" name="grupo" id="el_grupo" class="form-control">
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>Ordem da sub-secção</label>
+                                <input type="number" name="grupo_ordem" id="el_grupo_ordem" class="form-control" min="0">
+                            </div>
                         </div>
                         <ul class="nav nav-tabs lang-tabs mb-3">
                             @foreach($languages as $code => $lang)
@@ -248,6 +273,8 @@ const LANGS = @json(array_keys($languages));
 function openEditLink(link) {
     document.getElementById('editLinkForm').action = '{{ url("admin/resources/categories/" . $category->id . "/links") }}/' + link.id;
     document.getElementById('el_url').value = link.url || '';
+    document.getElementById('el_grupo').value = link.grupo || '';
+    document.getElementById('el_grupo_ordem').value = (link.grupo_ordem != null ? link.grupo_ordem : 0);
     document.getElementById('el_ativo').checked = !!link.ativo;
     LANGS.forEach(function(code) {
         var t = document.getElementById('el_title_' + code);

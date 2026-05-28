@@ -1,5 +1,16 @@
 {{-- Shared Resources page styles (Didot + parchment, classical) --}}
 <style>
+    .resource-group-title {
+        font-family: 'Bodoni Moda','Didot',serif;
+        font-weight: 500;
+        font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+        letter-spacing: .02em;
+        color: var(--ink);
+        margin: 2.2rem 0 .9rem;
+        padding-bottom: .4rem;
+        border-bottom: 1px solid var(--line);
+    }
+    .resource-group-title:first-child { margin-top: 0; }
     .resources-hero {
         position: relative;
         background:
