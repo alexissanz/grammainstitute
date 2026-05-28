@@ -33,7 +33,7 @@
         position: absolute;
         top: 8%;
         right: -2%;
-        font-family: 'Cinzel', serif;
+        font-family: var(--font-site-display);
         font-size: clamp(8rem, 22vw, 22rem);
         line-height: 1;
         color: rgba(250,246,236,.05);
@@ -44,7 +44,7 @@
     }
     .hero-classical .container { position: relative; z-index: 2; padding-top: 4rem; padding-bottom: 4rem; }
     .hero-eyebrow {
-        font-family: 'Cormorant SC', serif;
+        font-family: var(--font-site-smallcaps);
         font-size: .9rem;
         font-weight: 600;
         letter-spacing: .42em;
@@ -53,7 +53,7 @@
         margin-bottom: 1rem;
     }
     .hero-headline {
-        font-family: 'Cinzel', serif;
+        font-family: var(--font-site-display);
         font-weight: 600;
         font-size: clamp(2.6rem, 6vw, 5rem);
         line-height: 1.06;
@@ -69,7 +69,7 @@
         letter-spacing: 0;
     }
     .hero-lede {
-        font-family: 'Cormorant Garamond', serif;
+        font-family: var(--font-site-body);
         font-size: 1.35rem;
         line-height: 1.7;
         color: rgba(250,246,236,.86);
@@ -87,7 +87,7 @@
         align-items: center;
     }
     .hero-langs-strip .lang-item {
-        font-family: 'Cinzel', serif;
+        font-family: var(--font-site-course);
         font-weight: 500;
         font-size: .95rem;
         letter-spacing: .22em;
@@ -98,7 +98,7 @@
         gap: .65rem;
     }
     .hero-langs-strip .lang-glyph {
-        font-family: 'Cinzel', serif;
+        font-family: var(--font-site-course);
         font-size: 1.5rem;
         color: var(--gold-light);
         line-height: 1;
@@ -180,73 +180,76 @@
     /* ============================================================
        LANGUAGE OFFERINGS — TALL CARDS WITH IMAGES
        ============================================================ */
-    .lang-offerings { background: var(--parchment); padding: 7rem 0; }
+    .lang-offerings { background: #fff; padding: 7rem 0; }
     .lang-card {
         position: relative;
-        height: 460px;
+        min-height: 360px;
         overflow: hidden;
-        background: var(--ink);
+        background: #000;
+        border: 1px solid rgba(255,255,255,.12);
+        box-shadow: 0 16px 42px rgba(0,0,0,.22);
         cursor: pointer;
-        transition: transform .35s;
+        transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
     }
-    .lang-card:hover { transform: translateY(-6px); }
-    .lang-card .bg {
-        position: absolute; inset: 0;
-        background-size: cover;
-        background-position: center;
-        filter: grayscale(.4) brightness(.7);
-        transition: filter .45s, transform .55s;
+    .lang-card:hover {
+        transform: translateY(-12px) scale(1.015);
+        box-shadow: 0 28px 64px rgba(0,0,0,.3);
+        border-color: rgba(255,255,255,.32);
     }
-    .lang-card:hover .bg { filter: grayscale(0) brightness(.75); transform: scale(1.05); }
     .lang-card::after {
         content: '';
-        position: absolute; inset: 0;
-        background: linear-gradient(180deg, rgba(26,22,18,0) 35%, rgba(26,22,18,.55) 65%, rgba(26,22,18,.95) 100%);
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,.08) 100%);
+        opacity: 0;
+        transition: opacity .35s ease;
+        pointer-events: none;
+    }
+    .lang-card:hover::after { opacity: 1; }
+    /* /gil/ watermark on every course card */
+    .lang-card::before {
+        content: '/gil/';
+        position: absolute;
+        top: 1rem;
+        right: 1.2rem;
+        font-family: "Bodoni Moda","Didot","GFS Didot",Georgia,serif;
+        font-size: 1.35rem;
+        font-weight: 400;
+        color: rgba(255,255,255,.18);
+        letter-spacing: -.01em;
+        z-index: 3;
+        pointer-events: none;
     }
     .lang-card .content {
-        position: absolute;
-        bottom: 0; left: 0; right: 0;
+        position: relative;
+        min-height: 360px;
         padding: 2rem 1.8rem;
-        color: var(--ivory);
+        color: #fff;
         z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-end;
+        pointer-events: none;
+        text-align: left;
     }
-    .lang-card .glyph {
-        font-family: 'Cinzel', serif;
-        font-size: 3rem;
-        font-weight: 700;
-        color: var(--gold-light);
-        line-height: 1;
-        margin-bottom: .25rem;
+    .home-course-link {
+        display: block;
+        height: 100%;
+        position: relative;
+        z-index: 4;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(255,255,255,.14);
     }
     .lang-card .name {
-        font-family: 'Cinzel', serif;
-        font-size: 1.35rem;
+        font-family: var(--font-site-course);
+        font-size: clamp(1.2rem, 2.6vw, var(--font-size-course));
         font-weight: 600;
         letter-spacing: .18em;
         text-transform: uppercase;
-        margin-bottom: .6rem;
+        margin-bottom: 0;
+        color: #fff;
     }
-    .lang-card .meta {
-        font-family: 'Cormorant Garamond', serif;
-        font-style: italic;
-        font-size: 1rem;
-        color: rgba(250,246,236,.78);
-        margin-bottom: 1rem;
-    }
-    .lang-card .more {
-        font-family: 'Inter', sans-serif;
-        font-size: .72rem;
-        font-weight: 600;
-        letter-spacing: .25em;
-        text-transform: uppercase;
-        color: var(--gold-light);
-        display: inline-flex;
-        align-items: center;
-        gap: .5rem;
-        text-decoration: none;
-        transition: gap .25s;
-    }
-    .lang-card .more:hover { gap: .9rem; color: var(--ivory); }
 
     /* ============================================================
        PILLARS / METHODOLOGY
@@ -388,37 +391,611 @@
         margin: 0 auto 2.5rem;
     }
 
-    /* HERO video / slides keep working (legacy) */
-    .hero-carousel, .hero-video-section, .hero-section { display:none; }
-    .hero-carousel.show, .hero-video-section.show, .hero-section.show { display:flex; }
-    .hero-carousel { position:relative; width:100%; min-height:92vh; overflow:hidden; }
-    .hero-carousel .carousel-inner { height:100%; }
-    .hero-carousel .carousel-item {
+    /* ===========================================================
+       HERO SLIDES — custom cross-fade carousel (images + videos)
+       Smooth, video-aware (advances when each clip ends),
+       images timed by JS, /gil/ watermark consistent with course cards.
+       =========================================================== */
+    .hero-slides {
+        position: relative;
+        width: 100%;
         min-height: 92vh;
+        overflow: hidden;
+        background: var(--ink);
+        color: var(--ivory);
         display: flex;
         align-items: center;
-        background: var(--ink);
+    }
+    .hero-slides.is-intro .hero-slide {
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+    .hero-slides-stage {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+    }
+    .hero-slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: opacity 1.4s cubic-bezier(.4,0,.2,1);
+        pointer-events: none;
+    }
+    .hero-slide.is-active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .hero-slide__media,
+    .hero-slide__media video,
+    .hero-slide__image {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .hero-slide__media {
+        background: #000;
+    }
+    .hero-slide__image {
+        background-size: cover;
+        background-position: center;
+    }
+    .hero-slide__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(26,22,18,.78) 0%, rgba(26,22,18,.55) 55%, rgba(26,22,18,.85) 100%);
+        z-index: 1;
+    }
+    .hero-slide-watermark {
+        position: absolute;
+        top: 1.5rem;
+        right: 2rem;
+        font-family: var(--font-site-display);
+        font-size: 3rem;
+        font-weight: 400;
+        color: rgba(250,246,236,.55);
+        letter-spacing: -.01em;
+        z-index: 4;
+        pointer-events: none;
+        text-shadow: 0 1px 4px rgba(0,0,0,.45);
+    }
+    .hero-slides-content {
         position: relative;
+        z-index: 3;
+        width: 100%;
+        padding: 5rem 0 4rem;
     }
-    .hero-carousel .carousel-item-bg {
-        position:absolute; inset:0;
-        background-size:cover; background-position:center;
-        filter: brightness(.5);
+    .hero-copy {
+        max-width: 860px;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        min-height: 14rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    .hero-carousel .carousel-item-content {
-        position:relative; z-index:2;
-        width:100%; padding: 5rem 0 4rem;
+    .hero-intro {
+        color: var(--ivory);
+        display: inline-grid;
+        grid-template-columns: auto;
+        align-items: start;
+        justify-content: center;
+        gap: 1.9rem;
+        line-height: 1.5;
+        text-align: center;
+        position: absolute;
+        inset: 0;
+        place-content: center;
+        transition: opacity .35s ease, visibility .35s ease;
     }
-    .hero-video-section { position:relative; min-height:92vh; align-items:center; overflow:hidden; }
-    .hero-video-bg { position:absolute; inset:0; object-fit:cover; width:100%; height:100%; }
-    .hero-video-overlay { position:absolute; inset:0; background:rgba(26,22,18,0.7); }
-    .hero-video-content { position:relative; z-index:2; padding:5rem 0 4rem; }
+    .hero-intro.is-hidden,
+    .hero-slide-copy.is-hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+    .hero-intro-right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 1.15rem;
+    }
+    .hero-intro-main {
+        font-family: var(--font-site-display);
+        font-size: clamp(2.25rem, 5.5vw, var(--font-size-hero-intro));
+        line-height: 1.08;
+        color: #fff;
+        display: inline-block;
+        text-align: center;
+        text-transform: uppercase;
+        font-style: normal;
+        letter-spacing: .12em;
+        white-space: nowrap;
+        word-break: keep-all;
+        overflow-wrap: normal;
+    }
+    .hero-intro-sub {
+        font-family: var(--font-site-display);
+        font-size: clamp(2.25rem, 5.5vw, var(--font-size-hero-intro));
+        line-height: 1.12;
+        color: rgba(255,255,255,.96);
+        margin-top: 0;
+        display: inline-block;
+        text-align: center;
+        text-transform: none;
+        font-style: normal;
+        letter-spacing: .12em;
+        white-space: nowrap;
+        word-break: keep-all;
+        overflow-wrap: normal;
+    }
+    .hero-intro-sub .hero-intro-of {
+        font-style: italic;
+        text-transform: lowercase;
+    }
+    .hero-intro-city {
+        font-family: var(--font-site-display);
+        font-size: clamp(1rem, 2vw, 1.45rem);
+        line-height: 1.15;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,.88);
+        margin-top: .55rem;
+        text-align: center;
+        font-style: normal;
+        white-space: nowrap;
+    }
+    .hero-intro-line.is-typing::after,
+    .hero-copy-title.is-typing::after,
+    .hero-copy-title.is-complete::after,
+    .hero-copy-subtitle.is-typing::after,
+    .hero-copy-subtitle.is-complete::after {
+        content: '';
+        display: inline-block;
+        width: 1px;
+        height: .95em;
+        margin-left: .14em;
+        background: currentColor;
+        vertical-align: -.08em;
+        animation: heroCaret .85s steps(1) infinite;
+        box-shadow:
+            0 0 8px rgba(255,255,255,.9),
+            0 0 18px rgba(255,255,255,.58);
+    }
+    .hero-intro-sub.is-complete::after {
+        content: '';
+        display: inline-block;
+        width: 1px;
+        height: .95em;
+        margin-left: .14em;
+        background: currentColor;
+        vertical-align: -.08em;
+        animation: heroCaret .85s steps(1) infinite;
+        box-shadow:
+            0 0 8px rgba(255,255,255,.9),
+            0 0 18px rgba(255,255,255,.58);
+    }
+    .hero-intro-line.is-typing,
+    .hero-copy-title.is-typing,
+    .hero-copy-subtitle.is-typing {
+        animation: heroGlowWrite 1.05s ease-in-out infinite alternate;
+    }
+    .hero-intro-line.is-complete {
+        animation: heroIntroGlowLocked .35s ease-out both;
+        color: #ffffff;
+        opacity: 1;
+    }
+    .hero-copy-title.is-complete,
+    .hero-copy-subtitle.is-complete {
+        animation: heroWhitePulse .78s ease-in-out infinite alternate;
+        color: #ffffff;
+        opacity: 1;
+    }
+    .hero-intro-line.is-empty::after {
+        display: none;
+    }
+    .hero-slide-copy {
+        color: var(--ivory);
+        padding: 1.4rem 1.8rem;
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: opacity .35s ease, visibility .35s ease;
+    }
+    .hero-copy-title {
+        font-family: var(--font-site-display);
+        font-weight: 400;
+        font-size: clamp(2.6rem, 7vw, var(--font-size-hero-slide));
+        line-height: 1.08;
+        letter-spacing: .02em;
+        color: #ffffff;
+        margin-bottom: 1rem;
+        min-height: 1.2em;
+        display: inline-block;
+        max-width: 100%;
+        text-wrap: balance;
+        word-break: keep-all;
+        overflow-wrap: normal;
+        text-shadow:
+            0 0 8px rgba(255,255,255,.42),
+            0 0 16px rgba(255,255,255,.34),
+            0 0 28px rgba(255,255,255,.24),
+            0 0 56px rgba(255,255,255,.14),
+            0 2px 8px rgba(0,0,0,.42);
+    }
+    .hero-copy-subtitle {
+        font-family: var(--font-site-body);
+        font-size: clamp(1.25rem, 3.2vw, calc(var(--font-size-hero-slide) * 0.42));
+        line-height: 1.7;
+        color: rgba(255,255,255,.96);
+        max-width: 760px;
+        min-height: 3.4em;
+        margin: 0 auto;
+        display: block;
+        white-space: pre-line;
+        text-transform: uppercase;
+        text-wrap: balance;
+        word-break: keep-all;
+        overflow-wrap: normal;
+        text-shadow:
+            0 0 6px rgba(255,255,255,.34),
+            0 0 14px rgba(255,255,255,.24),
+            0 0 26px rgba(255,255,255,.14),
+            0 0 48px rgba(255,255,255,.08),
+            0 2px 8px rgba(0,0,0,.38);
+    }
+    .hero-copy-title { text-transform: uppercase; }
+    .hero-copy-title.is-typing,
+    .hero-copy-subtitle.is-typing {
+        animation: heroGlowWrite .48s ease-in-out infinite alternate;
+    }
+    .hero-copy-title.is-empty,
+    .hero-copy-subtitle.is-empty {
+        min-height: 0;
+        margin: 0 auto;
+    }
+    .hero-copy-title.is-empty::after,
+    .hero-copy-subtitle.is-empty::after {
+        display: none;
+    }
+    @keyframes heroCaret {
+        0%, 49% { opacity: 1; }
+        50%, 100% { opacity: 0; }
+    }
+    @keyframes heroGlowWrite {
+        0% {
+            text-shadow:
+                0 0 8px rgba(255,255,255,.34),
+                0 0 16px rgba(255,255,255,.26),
+                0 0 28px rgba(255,255,255,.16),
+                0 0 52px rgba(255,255,255,.08),
+                0 2px 8px rgba(0,0,0,.3);
+            filter: brightness(1);
+        }
+        100% {
+            text-shadow:
+                0 0 12px rgba(255,255,255,.58),
+                0 0 24px rgba(255,255,255,.46),
+                0 0 40px rgba(255,255,255,.3),
+                0 0 78px rgba(255,255,255,.16),
+                0 2px 8px rgba(0,0,0,.42);
+            filter: brightness(1.18);
+        }
+    }
+    @keyframes heroGlowSettle {
+        0% {
+            text-shadow:
+                0 0 14px rgba(255,255,255,.54),
+                0 0 28px rgba(255,255,255,.4),
+                0 0 48px rgba(255,255,255,.24),
+                0 0 86px rgba(255,255,255,.12),
+                0 2px 8px rgba(0,0,0,.42);
+            filter: brightness(1.16);
+        }
+        100% {
+            text-shadow:
+                0 0 8px rgba(255,255,255,.4),
+                0 0 18px rgba(255,255,255,.28),
+                0 0 32px rgba(255,255,255,.16),
+                0 0 60px rgba(255,255,255,.08),
+                0 2px 8px rgba(0,0,0,.34);
+            filter: brightness(1.06);
+        }
+    }
+    @keyframes heroIntroGlowLocked {
+        0% {
+            color: #ffffff;
+            text-shadow:
+                0 0 12px rgba(255,255,255,.54),
+                0 0 24px rgba(255,255,255,.38),
+                0 0 42px rgba(255,255,255,.2),
+                0 0 80px rgba(255,255,255,.1),
+                0 2px 8px rgba(0,0,0,.34);
+            filter: brightness(1.06);
+            transform: none;
+        }
+        100% {
+            color: #ffffff;
+            text-shadow:
+                0 0 22px rgba(255,255,255,.9),
+                0 0 40px rgba(255,255,255,.72),
+                0 0 68px rgba(255,255,255,.46),
+                0 0 118px rgba(255,255,255,.22),
+                0 2px 8px rgba(0,0,0,.38);
+            filter: brightness(1.22);
+            transform: none;
+        }
+    }
+    @keyframes heroWhitePulse {
+        0% {
+            color: #ffffff;
+            text-shadow:
+                0 0 18px rgba(255,255,255,.86),
+                0 0 34px rgba(255,255,255,.7),
+                0 0 58px rgba(255,255,255,.46),
+                0 0 104px rgba(255,255,255,.24),
+                0 2px 8px rgba(0,0,0,.34);
+            filter: brightness(1.18);
+            opacity: 1;
+            transform: translateY(0);
+        }
+        100% {
+            color: #ffffff;
+            text-shadow:
+                0 0 28px rgba(255,255,255,1),
+                0 0 52px rgba(255,255,255,.9),
+                0 0 92px rgba(255,255,255,.68),
+                0 0 156px rgba(255,255,255,.34),
+                0 2px 8px rgba(0,0,0,.38);
+            filter: brightness(1.42);
+            opacity: 1;
+            transform: translateY(-8px);
+        }
+    }
+    @media (min-width: 768px) and (max-width: 1100px) {
+        .hero-slides {
+            min-height: 100svh;
+        }
+        .hero-slide__media,
+        .hero-slide__media video,
+        .hero-slide__image {
+            object-position: center center;
+        }
+        .hero-slides-content {
+            min-height: 100svh;
+            padding: 5.5rem 0 4rem;
+        }
+        .hero-copy {
+            max-width: min(86vw, 900px);
+            padding: 0 1.4rem;
+            min-height: 12.5rem;
+        }
+        .hero-slide-copy {
+            padding: 1.3rem 1.5rem;
+        }
+        .hero-copy-title {
+            font-size: clamp(2.7rem, 5vw, 4.15rem);
+            line-height: 1.08;
+            letter-spacing: .015em;
+            margin-bottom: .85rem;
+        }
+        .hero-copy-subtitle {
+            font-size: clamp(1.22rem, 2.15vw, 1.62rem);
+            line-height: 1.52;
+            max-width: min(82vw, 760px);
+            min-height: 2.8em;
+        }
+        .hero-intro {
+            gap: .8rem;
+        }
+        .hero-intro-main {
+            font-size: clamp(1.8rem, 4vw, 2.85rem);
+            letter-spacing: .06em;
+        }
+        .hero-intro-sub {
+            font-size: clamp(1.8rem, 4vw, 2.85rem);
+            letter-spacing: .06em;
+        }
+        .hero-intro-right {
+            gap: 1rem;
+        }
+    }
+    @media (min-width: 768px) and (max-width: 900px) {
+        .hero-copy-title {
+            font-size: clamp(2.35rem, 4.5vw, 3.3rem);
+        }
+        .hero-copy-subtitle {
+            font-size: clamp(1.08rem, 1.95vw, 1.36rem);
+            max-width: 78vw;
+        }
+        .hero-intro-main {
+            font-size: clamp(1.55rem, 3.5vw, 2.2rem);
+            letter-spacing: .05em;
+        }
+        .hero-intro-sub {
+            font-size: clamp(1.55rem, 3.5vw, 2.2rem);
+            letter-spacing: .05em;
+        }
+    }
+    @media (min-width: 820px) and (max-width: 1400px) and (orientation: landscape) {
+        .hero-slides {
+            min-height: 100svh;
+            align-items: center;
+        }
+        .hero-slides-content {
+            min-height: 100svh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2.6rem 0 2.2rem;
+        }
+        .hero-copy {
+            max-width: min(88vw, 980px);
+            padding: 0 1.1rem;
+            min-height: 11rem;
+        }
+        .hero-slide-copy {
+            padding: .9rem 1rem;
+        }
+        .hero-copy-title {
+            font-size: clamp(2.15rem, 4.2vw, 3.25rem);
+            line-height: 1.04;
+            letter-spacing: 0;
+            margin-bottom: .55rem;
+        }
+        .hero-copy-subtitle {
+            font-size: clamp(1rem, 1.8vw, 1.3rem);
+            line-height: 1.34;
+            max-width: min(74vw, 900px);
+            min-height: 2.2em;
+        }
+        .hero-intro {
+            gap: .45rem;
+            align-items: center;
+        }
+        .hero-intro-main {
+            font-size: clamp(1.42rem, 3vw, 2.1rem);
+            letter-spacing: .03em;
+        }
+        .hero-intro-sub {
+            font-size: clamp(1.42rem, 3vw, 2.1rem);
+            letter-spacing: .03em;
+        }
+        .hero-intro-right {
+            gap: .9rem;
+        }
+        .hero-intro-sub.is-complete::after,
+        .hero-copy-title.is-complete::after,
+        .hero-copy-subtitle.is-complete::after,
+        .hero-copy-title.is-typing::after,
+        .hero-copy-subtitle.is-typing::after,
+        .hero-intro-line.is-typing::after {
+            position: static;
+            right: auto;
+            bottom: auto;
+            margin-left: .05em;
+        }
+    }
+    @media (max-width: 575px) {
+        .hero-slides {
+            min-height: 100svh;
+            align-items: center;
+        }
+        .hero-slides-content {
+            min-height: 100svh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2.4rem 0;
+        }
+        .hero-copy {
+            max-width: 100%;
+            padding: 0 .65rem;
+            min-height: 10.5rem;
+        }
+        .hero-slide-copy {
+            padding: 1rem .35rem;
+            border-radius: 0;
+            background: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+        .hero-copy-title {
+            font-size: clamp(1.9rem, 8.6vw, 2.45rem);
+            line-height: 1.12;
+            margin-bottom: .7rem;
+            letter-spacing: 0;
+        }
+        .hero-copy-subtitle {
+            font-size: 1rem;
+            line-height: 1.42;
+            min-height: 0;
+            max-width: 100%;
+        }
+        .hero-slide-watermark { top: 1rem; right: 1.2rem; font-size: 2rem; }
+        .hero-intro {
+            gap: .65rem;
+            grid-template-columns: auto;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        .hero-intro-main {
+            font-size: clamp(1rem, 5.8vw, 1.28rem);
+            letter-spacing: .03em;
+        }
+        .hero-intro-sub {
+            font-size: clamp(1rem, 5.8vw, 1.28rem);
+            letter-spacing: .03em;
+        }
+        .hero-intro-right {
+            gap: .8rem;
+        }
+        .hero-intro-city {
+            font-size: clamp(.74rem, 3.5vw, .9rem);
+            letter-spacing: .12em;
+        }
+    }
 
     @media (max-width: 767px) {
         .hero-classical { min-height: auto; padding: 5rem 0; }
         .hero-langs-strip { gap: 1.5rem 2rem; margin-top: 2.5rem; }
-        .lang-card { height: 380px; }
+        .lang-card,
+        .lang-card .content { min-height: 330px; }
+        .lang-card {
+            border-radius: 26px;
+            overflow: hidden;
+            box-shadow: 0 18px 42px rgba(0,0,0,.22);
+        }
+        .lang-card .content {
+            padding: 1.4rem 1.25rem 1.5rem;
+        }
+        .lang-card .name {
+            font-size: 1.05rem;
+            line-height: 1.28;
+        }
         .manifesto, .lang-offerings, .pillars, .reviews, .manuscript-banner, .cta-band { padding: 4rem 0; }
+        .hero-intro { align-items: center; }
+        .hero-intro-main { letter-spacing: .05em; }
+        .hero-intro-sub,
+        .hero-intro-city { letter-spacing: .06em; }
+    }
+
+    @media (max-width: 575px) {
+        .lang-offerings .row.g-4 {
+            row-gap: 1rem !important;
+        }
+        .lang-offerings .col-md-6,
+        .lang-offerings .col-lg-4,
+        .lang-offerings .col-lg-6 {
+            width: 100%;
+        }
+        .home-course-link {
+            display: block;
+        }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+        /* On touch devices, never get stuck in :hover — a single tap must navigate. */
+        .lang-card:hover {
+            transform: none;
+            box-shadow: 0 16px 42px rgba(0,0,0,.22);
+            border-color: rgba(255,255,255,.12);
+        }
+        .lang-card:hover::after { opacity: 0; }
+        .lang-card:active {
+            transform: scale(.985);
+            box-shadow: 0 10px 28px rgba(0,0,0,.28);
+        }
+        .home-course-link { -webkit-tap-highlight-color: rgba(255,255,255,.18); }
     }
 </style>
 @endpush
@@ -427,7 +1004,12 @@
 
 @php
     $heroTipo = $settings->hero_tipo ?? 'imagem';
-    $heroImg  = $settings->imagem_hero ? Storage::url($settings->imagem_hero) : null;
+    // Hero image: prefer DB-uploaded, fallback to bundled classical SVG so the page
+    // is never empty before the admin uploads their own photo.
+    $heroImg  = $settings->imagem_hero
+        ? Storage::url($settings->imagem_hero)
+        : asset('images/site/hero-default.svg');
+    $homeCourseImage = asset('images/site/ceu.png');
 
     // Use real courses from DB instead of hardcoded list
     $coursesForHero = $courses ?? collect();
@@ -437,65 +1019,81 @@
      HERO — IMAGEM, SLIDES OU VÍDEO
      ========================================================= --}}
 @if($heroTipo === 'slides' && count($heroSlides) > 0)
-<section class="hero-carousel show" id="heroCarousel">
-    <div id="heroSlideCarousel" class="carousel slide carousel-fade w-100" data-bs-ride="carousel" data-bs-interval="6000">
-        <div class="carousel-indicators">
-            @foreach($heroSlides as $i => $slide)
-                <button type="button" data-bs-target="#heroSlideCarousel" data-bs-slide-to="{{ $i }}" class="{{ $i === 0 ? 'active' : '' }}"></button>
-            @endforeach
-        </div>
-        <div class="carousel-inner h-100">
-            @foreach($heroSlides as $i => $slide)
-            <div class="carousel-item {{ $i === 0 ? 'active' : '' }}">
+<section class="hero-slides" id="heroSlides" aria-roledescription="carousel">
+    <div class="hero-slides-stage" id="heroSlidesStage">
+        @foreach($heroSlides as $i => $slide)
+            <div class="hero-slide"
+                 data-index="{{ $i }}"
+                 data-type="{{ $slide->isVideo() ? 'video' : 'image' }}"
+                 data-title="{{ e($slide->getTitulo()) }}"
+                 data-subtitle="{{ e($slide->getSubtitulo()) }}">
                 @if($slide->isVideo())
-                    <video class="carousel-item-bg" autoplay muted loop playsinline
-                           @if($slide->posterUrl()) poster="{{ $slide->posterUrl() }}" @endif
-                           style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;">
-                        <source src="{{ Storage::url($slide->video) }}" type="video/mp4">
+                    <video class="hero-slide__media"
+                           autoplay muted playsinline webkit-playsinline preload="auto"
+                           @if($slide->posterUrl()) poster="{{ $slide->posterUrl() }}" @endif>
+                        <source src="{{ $slide->mediaUrl() }}" type="{{ $slide->mediaMimeType() }}">
                     </video>
-                    <div style="position:absolute; inset:0; background: linear-gradient(135deg, rgba(26,22,18,.65) 0%, rgba(26,22,18,.4) 55%, rgba(26,22,18,.75) 100%); z-index:1;"></div>
                 @elseif($slide->imagem)
-                    <div class="carousel-item-bg" style="background-image:url('{{ Storage::url($slide->imagem) }}');"></div>
+                    <div class="hero-slide__image" style="background-image:url('{{ $slide->mediaUrl() }}');"></div>
                 @endif
-                <div class="carousel-item-content" style="position:relative; z-index:2;">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-lg-9">
-                                <div class="hero-eyebrow">{{ __('site.about_subtitle') }}</div>
-                                <h1 class="hero-headline">{{ $slide->getTitulo() }}</h1>
-                                @if($slide->getSubtitulo())
-                                    <p class="hero-lede">{{ $slide->getSubtitulo() }}</p>
-                                @endif
-                                <div class="hero-cta-row">
-                                    <a href="{{ route('courses') }}" class="btn-classical">{{ __('site.hero_cta') }} <i class="fas fa-arrow-right"></i></a>
-                                    <a href="{{ route('about') }}" class="btn-classical-outline">{{ __('site.hero_cta2') }}</a>
-                                </div>
+                <div class="hero-slide__overlay"></div>
+            </div>
+        @endforeach
+        <span class="hero-slide-watermark" aria-hidden="true">/gil/</span>
+    </div>
+    <div class="hero-slides-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="hero-copy">
+                        <div class="hero-intro" id="heroIntro">
+                            <div class="hero-intro-right">
+                                <div class="hero-intro-main hero-intro-line" id="heroIntroMain"></div>
+                                <div class="hero-intro-sub hero-intro-line" id="heroIntroSub"></div>
+                                <div class="hero-intro-city hero-intro-line" id="heroIntroCity"></div>
                             </div>
+                        </div>
+                        <div class="hero-slide-copy is-hidden" id="heroSlideCopy">
+                            <h1 class="hero-copy-title" id="heroCopyTitle"></h1>
+                            <p class="hero-copy-subtitle" id="heroCopySubtitle"></p>
                         </div>
                     </div>
                 </div>
             </div>
-            @endforeach
         </div>
     </div>
 </section>
 
 @elseif($heroTipo === 'video' && $settings->hero_video)
-<section class="hero-video-section show">
-    <video class="hero-video-bg" autoplay muted loop playsinline>
-        <source src="{{ Storage::url($settings->hero_video) }}" type="video/mp4">
-    </video>
-    <div class="hero-video-overlay"></div>
-    <div class="hero-video-content w-100">
+<section class="hero-slides" id="heroSlides">
+    <div class="hero-slides-stage">
+        <div class="hero-slide"
+             data-type="video"
+             data-title="{{ e($settings->titulo_site ?: $settings->nome_site ?: 'Gramma Institute') }}"
+             data-subtitle="{{ e($settings->subtitulo_site ?: $settings->descricao_site ?: '') }}">
+            <video class="hero-slide__media" autoplay muted loop playsinline webkit-playsinline preload="auto">
+                <source src="{{ route('media.serve', ['path' => $settings->hero_video], false) }}" type="video/mp4">
+            </video>
+            <div class="hero-slide__overlay"></div>
+        </div>
+        <span class="hero-slide-watermark" aria-hidden="true">/gil/</span>
+    </div>
+    <div class="hero-slides-content">
         <div class="container">
             <div class="row">
-                <div class="col-lg-9">
-                    <div class="hero-eyebrow">{{ __('site.about_subtitle') }}</div>
-                    <h1 class="hero-headline">{{ __('site.hero_title') }}</h1>
-                    <p class="hero-lede">{{ __('site.hero_subtitle') }}</p>
-                    <div class="hero-cta-row">
-                        <a href="{{ route('courses') }}" class="btn-classical">{{ __('site.hero_cta') }} <i class="fas fa-arrow-right"></i></a>
-                        <a href="{{ route('about') }}" class="btn-classical-outline">{{ __('site.hero_cta2') }}</a>
+                <div class="col-lg-12">
+                    <div class="hero-copy">
+                        <div class="hero-intro" id="heroIntro">
+                            <div class="hero-intro-right">
+                                <div class="hero-intro-main hero-intro-line" id="heroIntroMain"></div>
+                                <div class="hero-intro-sub hero-intro-line" id="heroIntroSub"></div>
+                                <div class="hero-intro-city hero-intro-line" id="heroIntroCity"></div>
+                            </div>
+                        </div>
+                        <div class="hero-slide-copy is-hidden" id="heroSlideCopy">
+                            <h1 class="hero-copy-title" id="heroCopyTitle"></h1>
+                            <p class="hero-copy-subtitle" id="heroCopySubtitle"></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -505,460 +1103,235 @@
 
 @else
 {{-- DEFAULT: classical hero with parchment/Greek vibe --}}
-<section class="hero-classical" @if($heroImg) style="background-image: linear-gradient(135deg, rgba(26,22,18,.78) 0%, rgba(26,22,18,.55) 55%, rgba(26,22,18,.85) 100%), url('{{ $heroImg }}');" @endif>
+<section class="hero-classical" style="background-image: linear-gradient(135deg, rgba(26,22,18,.78) 0%, rgba(26,22,18,.55) 55%, rgba(26,22,18,.85) 100%), url('{{ $heroImg }}'); background-size: cover; background-position: center;">
     <span class="hero-greek" aria-hidden="true">Γράμμα</span>
     <div class="container">
         <div class="row">
             <div class="col-lg-9">
-                <div class="hero-eyebrow">{{ __('site.about_subtitle') }}</div>
-                <h1 class="hero-headline">
-                    {{ __('site.hero_title') }}<br>
-                    <em>{{ $settings->subtitulo_site ?? 'γνῶθι σεαυτόν' }}</em>
-                </h1>
-                <p class="hero-lede">{{ __('site.hero_subtitle') }}</p>
-                <div class="hero-cta-row">
-                    <a href="{{ route('courses') }}" class="btn-classical">{{ __('site.hero_cta') }} <i class="fas fa-arrow-right"></i></a>
-                    <a href="{{ route('about') }}" class="btn-classical-outline">{{ __('site.hero_cta2') }}</a>
-                </div>
-
                 <div class="hero-langs-strip">
                     <div class="lang-item"><span class="lang-glyph">Ελ</span> {{ __('site.course_greek') }}</div>
                     <div class="lang-item"><span class="lang-glyph">אב</span> {{ __('site.course_hebrew') }}</div>
                     <div class="lang-item"><span class="lang-glyph">En</span> {{ __('site.course_english') }}</div>
-                    <div class="lang-item"><span class="lang-glyph">Es</span> {{ __('site.course_spanish') }}</div>
-                    <div class="lang-item"><span class="lang-glyph">Pt</span> {{ __('site.course_portuguese') }}</div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 @endif
-
-{{-- =========================================================
-     PROMISE STRIP
-     ========================================================= --}}
-<section class="promise-strip">
-    <div class="container">
-        <div class="row text-center text-md-start">
-            <div class="col-md-3 col-6 mb-3 mb-md-0">
-                <div class="item justify-content-center justify-content-md-start">
-                    <i class="fas fa-feather-alt"></i>
-                    <span>{{ __('site.advantage_1_title') }}</span>
-                </div>
-            </div>
-            <div class="col-md-3 col-6 mb-3 mb-md-0">
-                <div class="item justify-content-center justify-content-md-start">
-                    <i class="fas fa-scroll"></i>
-                    <span>{{ __('site.advantage_2_title') }}</span>
-                </div>
-            </div>
-            <div class="col-md-3 col-6">
-                <div class="item justify-content-center justify-content-md-start">
-                    <i class="fas fa-globe-europe"></i>
-                    <span>{{ __('site.advantage_3_title') }}</span>
-                </div>
-            </div>
-            <div class="col-md-3 col-6">
-                <div class="item justify-content-center justify-content-md-start">
-                    <i class="fas fa-award"></i>
-                    <span>{{ __('site.advantage_4_title') }}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-{{-- =========================================================
-     MANIFESTO / INTRO
-     ========================================================= --}}
-<section class="manifesto">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-5 mb-5 mb-lg-0">
-                <div style="position: relative;">
-                    @php
-                        $manifestoImg = $settings->imagem_hero ? Storage::url($settings->imagem_hero) : asset('images/site/manuscript.jpg');
-                    @endphp
-                    <img src="{{ $manifestoImg }}"
-                         alt="Manuscritos clássicos"
-                         onerror="this.style.background='linear-gradient(135deg,#a87841 0%,#1a1612 100%)'; this.removeAttribute('src');"
-                         style="width:100%; height: 540px; object-fit: cover; filter: sepia(.12) contrast(1.02); background:linear-gradient(135deg,#a87841 0%,#1a1612 100%);">
-                    <div style="position:absolute; bottom:-24px; right:-24px; background: var(--ink); color: var(--gold-light); padding: 1.5rem 2rem; font-family: 'Cinzel', serif; letter-spacing: .14em; text-transform: uppercase; font-size: .8rem;">
-                        <div style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 2.2rem; color: var(--ivory); text-transform: none; letter-spacing: 0; line-height:1;">
-                            Anno {{ now()->year }}
-                        </div>
-                        <div style="margin-top: .35rem;">Quinta Geração</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-7 ps-lg-5">
-                <div class="eyebrow">{{ __('site.about_title') }}</div>
-                <h2 class="section-title-classical">
-                    {{ __('site.about_subtitle') }}.
-                </h2>
-                <div class="ornament">
-                    <i class="fas fa-feather"></i>
-                </div>
-                <p class="lede-quote">
-                    {{ __('site.hero_subtitle') }}
-                    Tratamos cada idioma como aquilo que verdadeiramente é — uma chave para uma civilização, um modo de pensar, um património.
-                    Do <em>grego clássico</em> que moldou a filosofia ocidental ao <em>hebraico</em> em que foram escritas as Escrituras,
-                    o Gramma reúne professores nativos, pequenos grupos e uma metodologia que respeita a profundidade da palavra.
-                </p>
-                <p class="signature">{{ $settings->nome_site ?? 'Gramma Institute' }} · {{ $settings->cidade ?? 'Direção académica' }}</p>
-            </div>
-        </div>
-    </div>
-</section>
 
 {{-- =========================================================
      LANGUAGE OFFERINGS
      ========================================================= --}}
 <section class="lang-offerings">
     <div class="container">
-        <div class="text-center mb-5">
-            <div class="eyebrow">{{ __('site.courses_subtitle') }}</div>
-            <h2 class="section-title-classical">{{ __('site.courses_title') }}</h2>
-            <div class="ornament"><i class="fas fa-quote-right"></i></div>
-        </div>
-
         <div class="row g-4">
             @foreach($coursesForHero as $idx => $course)
-                <div class="col-lg-{{ $idx < 2 ? '6' : '4' }} col-md-6">
-                    <a href="{{ route('courses.show', $course->slug) }}" style="text-decoration: none;">
-                        <div class="lang-card">
-                            @if($course->imagemCapaUrl())
-                                <div class="bg" style="background-image: url('{{ $course->imagemCapaUrl() }}');"></div>
-                            @endif
-                            <div class="content">
-                                <div class="glyph" style="color: {{ $course->cor_destaque }};">{{ $course->glifo }}</div>
-                                <div class="name">{{ $course->t('nome') }}</div>
-                                <div class="meta">{{ $course->t('subtitulo') }}</div>
-                                <span class="more">{{ __('site.course_learn_more') }} <i class="fas fa-arrow-right"></i></span>
-                            </div>
+            <div class="col-lg-4 col-md-6">
+                <a href="{{ route('courses.show', $course->slug) }}" class="home-course-link" style="text-decoration: none;">
+                    <div class="lang-card">
+                        <div class="content">
+                            <div class="name">{{ $course->t('nome') }}</div>
+                        </div>
                         </div>
                     </a>
                 </div>
             @endforeach
         </div>
 
-        <div class="text-center mt-5">
-            <a href="{{ route('courses') }}" class="btn-classical-dark">{{ __('site.see_all_courses') }} <i class="fas fa-arrow-right"></i></a>
-        </div>
-    </div>
-</section>
-
-{{-- =========================================================
-     MANUSCRIPT / TEACHING BANNER
-     ========================================================= --}}
-<section class="manuscript-banner">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="eyebrow light">{{ __('site.methodology_title') }}</div>
-                <h2>
-                    {{ __('site.methodology_subtitle') }}<br>
-                    <em>verba volant, scripta manent</em>.
-                </h2>
-                <p class="lede">
-                    Lemos pergaminhos, comentamos textos, traduzimos passagens.
-                    A nossa metodologia une rigor académico e prática conversacional — porque uma língua só vive quando a habitamos.
-                </p>
-                <a href="{{ route('methodology') }}" class="btn-classical">{{ __('site.hero_cta2') }} <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </div>
-    </div>
-</section>
-
-{{-- =========================================================
-     UPCOMING EVENTS
-     ========================================================= --}}
-@if(isset($upcomingEvents) && $upcomingEvents->count())
-<section class="section section-cream">
-    <div class="container">
-        <div class="text-center mb-5">
-            <div class="eyebrow">{{ __('site.events_eyebrow') }}</div>
-            <h2 class="section-title-classical">{{ __('site.events_upcoming_title') }}</h2>
-            <div class="ornament"><i class="fas fa-calendar-alt"></i></div>
-        </div>
-
-        <div class="row g-4">
-            @foreach($upcomingEvents as $event)
-                <div class="col-lg-4 col-md-6">
-                    <a href="{{ route('events.show', $event->slug) }}"
-                       style="display:flex; flex-direction:column; height:100%; text-decoration:none; color:var(--ink); background:#fff; border-top: 3px solid {{ $event->cor_destaque }}; box-shadow:0 4px 22px rgba(26,22,18,.06); transition:transform .25s, box-shadow .25s;"
-                       onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 18px 50px rgba(26,22,18,.12)';"
-                       onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 22px rgba(26,22,18,.06)';">
-                        @if($event->imagemUrl())
-                            <div style="height:160px; background-image:url('{{ $event->imagemUrl() }}'); background-size:cover; background-position:center; position:relative;">
-                                <div style="position:absolute; top:1rem; left:1rem; background: {{ $event->cor_destaque }}; color:#fff; padding:.5rem .75rem; min-width: 64px; text-align:center;">
-                                    <div style="font-family:'Cormorant SC',serif; font-size:.65rem; letter-spacing:.2em; text-transform:uppercase;">
-                                        {{ strtoupper($event->data_inicio->translatedFormat('M')) }}
-                                    </div>
-                                    <div style="font-family:'Cinzel',serif; font-size:1.7rem; font-weight:700; line-height:1;">
-                                        {{ $event->data_inicio->format('d') }}
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        <div style="padding:1.75rem 1.5rem; flex-grow:1; display:flex; flex-direction:column;">
-                            <div style="display:flex; gap:.4rem; margin-bottom:.75rem; flex-wrap:wrap;">
-                                @if($event->gratuito)
-                                    <span style="font-family:'Cormorant SC',serif; font-size:.65rem; letter-spacing:.22em; text-transform:uppercase; padding:.2rem .55rem; background:#e8f5ed; color:#1f6e3b;">{{ __('site.event_free') }}</span>
-                                @else
-                                    <span style="font-family:'Cormorant SC',serif; font-size:.65rem; letter-spacing:.22em; text-transform:uppercase; padding:.2rem .55rem; background:#fff6e0; color:#8a5a00;">{{ __('site.event_paid') }}</span>
-                                @endif
-                                <span style="font-family:'Cormorant SC',serif; font-size:.65rem; letter-spacing:.22em; text-transform:uppercase; padding:.2rem .55rem; background:#e9eef9; color:#1f3a8a;">
-                                    @if($event->formato === 'online') Online @elseif($event->formato === 'hibrido') Híbrido @else Presencial @endif
-                                </span>
-                            </div>
-                            <div style="font-family:'Cormorant SC',serif; font-size:.7rem; letter-spacing:.25em; color: var(--stone); text-transform:uppercase; margin-bottom:.5rem;">
-                                {{ $event->data_inicio->format('H:i') }}
-                                @if($event->data_fim) — {{ $event->data_fim->format('H:i') }} @endif
-                            </div>
-                            <h4 style="font-family:'Cinzel',serif; font-weight:500; font-size:1.2rem; letter-spacing:.04em; color:var(--ink); margin-bottom:.5rem; line-height:1.3;">
-                                {{ $event->t('titulo') }}
-                            </h4>
-                            <p style="font-family:'Cormorant Garamond',serif; font-style:italic; color: var(--stone); font-size:1rem; flex-grow:1;">
-                                {{ Str::limit($event->t('subtitulo'), 90) }}
-                            </p>
-                            <span style="font-family:'Cormorant SC',serif; font-size:.72rem; letter-spacing:.3em; text-transform:uppercase; color: {{ $event->cor_destaque }}; margin-top:1rem;">
-                                {{ __('site.event_details') }} <i class="fas fa-arrow-right ms-1"></i>
-                            </span>
-                        </div>
-                    </a>
-                </div>
-            @endforeach
-        </div>
-
-        <div class="text-center mt-5">
-            <a href="{{ route('events.index') }}" class="btn-classical-dark">
-                {{ __('site.events_title') }} <i class="fas fa-arrow-right"></i>
-            </a>
-        </div>
-    </div>
-</section>
-@endif
-
-{{-- =========================================================
-     PROMOTIONS BANNER
-     ========================================================= --}}
-@if(isset($homePromotions) && $homePromotions->count())
-@foreach($homePromotions as $promo)
-<section style="padding: 4rem 0; background: {{ $promo->cor_fundo }}; color: {{ $promo->cor_texto }}; position: relative; overflow: hidden;">
-    @if($promo->imagemUrl())
-        <div style="position:absolute; inset:0; background-image: linear-gradient({{ $promo->cor_fundo }}f0, {{ $promo->cor_fundo }}cc), url('{{ $promo->imagemUrl() }}'); background-size:cover; background-position:center;"></div>
-    @endif
-    <div class="container" style="position: relative; z-index: 1;">
-        <div class="row align-items-center g-4">
-            <div class="col-lg-8">
-                @if($promo->t('badge_texto'))
-                    <div style="display:inline-block; font-family:'Cormorant SC',serif; font-size:.75rem; font-weight:600; letter-spacing:.32em; text-transform:uppercase; color: {{ $promo->cor_destaque }}; padding:.3rem .8rem; border:1px solid {{ $promo->cor_destaque }}; margin-bottom: 1rem;">
-                        {{ $promo->t('badge_texto') }}
-                    </div>
-                @endif
-                <h2 style="font-family:'Cinzel',serif; font-weight:500; font-size:clamp(1.8rem,4vw,2.8rem); color: {{ $promo->cor_texto }}; letter-spacing:.02em; line-height:1.18; margin-bottom:1rem;">
-                    {{ $promo->t('titulo') }}
-                </h2>
-                @if($promo->t('subtitulo'))
-                    <p style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.25rem; color: {{ $promo->cor_texto }}; opacity:.85; margin-bottom: 1.5rem; max-width: 620px;">
-                        {{ $promo->t('subtitulo') }}
-                    </p>
-                @endif
-                @if($promo->codigo_promo)
-                    <div style="display:inline-flex; align-items:center; gap:1rem; flex-wrap:wrap; margin-bottom:1.5rem;">
-                        <span style="font-family:'Cormorant SC',serif; font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; opacity:.7;">{{ __('site.promo_code') }}</span>
-                        <span style="font-family:'Cinzel',serif; font-size:1.1rem; letter-spacing:.18em; padding:.5rem 1rem; background: {{ $promo->cor_destaque }}; color: {{ $promo->cor_fundo }};">
-                            {{ $promo->codigo_promo }}
-                        </span>
-                    </div>
-                @endif
-            </div>
-            <div class="col-lg-4 text-lg-end">
-                @if($promo->desconto)
-                    <div style="font-family:'Cinzel',serif; font-size: clamp(2.5rem, 6vw, 4rem); font-weight:700; color: {{ $promo->cor_destaque }}; line-height:1; margin-bottom: 1rem;">
-                        {{ $promo->desconto }}
-                    </div>
-                @endif
-                @if($promo->cta_url)
-                    <a href="{{ $promo->cta_url }}" class="btn-classical" style="background: {{ $promo->cor_destaque }}; color: {{ $promo->cor_fundo }}; border-color: {{ $promo->cor_destaque }};">
-                        {{ $promo->t('cta_texto') ?: __('site.hero_cta') }} <i class="fas fa-arrow-right"></i>
-                    </a>
-                @endif
-            </div>
-        </div>
-    </div>
-</section>
-@endforeach
-@endif
-
-{{-- =========================================================
-     FOUNDER BLOCK
-     ========================================================= --}}
-@php
-    $founderImg = $settings->founder_foto
-        ? Storage::url($settings->founder_foto)
-        : 'https://images.unsplash.com/photo-1559548331-f9cb98001426?auto=format&fit=crop&w=900&q=85';
-    $founderName = $settings->founder_nome ?: 'Prof. Aléxios Konstantínou';
-    $founderRole = $settings->founder_titulo ?: 'Fundador e Diretor Académico';
-    $founderQuote = $settings->founder_citacao_curta ?: 'Cada língua é uma janela. Estudá-la é abrir uma porta para o mundo que a moldou.';
-@endphp
-<section class="section section-ink" style="padding: 6rem 0;">
-    <div class="container">
-        <div class="row align-items-center g-5">
-            <div class="col-lg-5 text-center mb-4 mb-lg-0">
-                <div style="position:relative; display:inline-block; width:100%; max-width: 320px;">
-                    <div style="position:relative; aspect-ratio: 3/4; width:100%;">
-                        <div style="position:absolute; inset:8px; background-image:url('{{ $founderImg }}'); background-size:cover; background-position:center; border-radius: 50%; filter: sepia(.05) contrast(1.04);"></div>
-                        <div style="position:absolute; inset:0; border:1.5px solid var(--gold-light); border-radius: 50%; transform: scaleY(1.05); pointer-events:none;"></div>
-                        <div style="position:absolute; inset:-14px; border:1px solid rgba(231,200,115,.3); border-radius:50%; pointer-events:none;"></div>
-                        <span style="position:absolute; top:-2%; left:6%; font-family:'Cinzel',serif; color: var(--gold-light); font-size:1.3rem; background: var(--ink); padding:.35rem .55rem; border:1px solid rgba(231,200,115,.4); border-radius:50%; width:46px; height:46px; display:flex; align-items:center; justify-content:center; z-index:2;">Γ</span>
-                        <span style="position:absolute; bottom:0%; right:6%; font-family:'Cinzel',serif; color: var(--gold-light); font-size:1.3rem; background: var(--ink); padding:.35rem .55rem; border:1px solid rgba(231,200,115,.4); border-radius:50%; width:46px; height:46px; display:flex; align-items:center; justify-content:center; z-index:2;">Α</span>
-                        <span style="position:absolute; top:14%; right:-4%; font-family:'Noto Sans Hebrew',serif; color: var(--gold-light); font-size:1.3rem; background: var(--ink); padding:.35rem .55rem; border:1px solid rgba(231,200,115,.4); border-radius:50%; width:46px; height:46px; display:flex; align-items:center; justify-content:center; z-index:2;">א</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-7">
-                <div class="eyebrow light">{{ __('site.founder_eyebrow') }}</div>
-                <h2 class="section-title-classical" style="color: var(--ivory);">{{ __('site.founder_section_title') }}</h2>
-                <div class="ornament light" style="justify-content: flex-start;"><i class="fas fa-feather"></i></div>
-                <blockquote style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size: 1.4rem; line-height:1.6; color: rgba(250,246,236,.92); border-left: 2px solid var(--gold-light); padding-left: 1.5rem; margin: 1rem 0 2rem;">
-                    "{{ $founderQuote }}"
-                </blockquote>
-                <p style="font-family:'Cormorant Garamond',serif; font-size:1.18rem; line-height:1.75; color: rgba(250,246,236,.78); margin-bottom: 2rem;">
-                    {{ $settings->founder_bio ?? '' }}
-                </p>
-                <div style="display:flex; align-items:center; gap:1.25rem; flex-wrap: wrap;">
-                    <div>
-                        <div style="font-family:'Cinzel',serif; font-size:1rem; letter-spacing:.18em; text-transform:uppercase; color: var(--ivory);">{{ $founderName }}</div>
-                        <div style="font-family:'Cormorant Garamond',serif; font-style:italic; color: var(--gold-light); font-size:.95rem;">{{ $founderRole }}</div>
-                    </div>
-                    <a href="{{ route('founder') }}" class="btn-classical">{{ __('site.founder_read_letter') }} <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-{{-- =========================================================
-     GLOSSARY TEASER (if any featured terms)
-     ========================================================= --}}
-@if(isset($featuredTerms) && $featuredTerms->count())
-<section class="section section-light">
-    <div class="container">
-        <div class="text-center mb-5">
-            <div class="eyebrow">{{ __('site.glossary_eyebrow') }}</div>
-            <h2 class="section-title-classical">{{ __('site.glossary_title') }}</h2>
-            <div class="ornament"><i class="fas fa-feather"></i></div>
-            <p style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.2rem; color: var(--ink-soft); max-width: 640px; margin: 0 auto;">
-                {{ __('site.glossary_subtitle') }}
-            </p>
-        </div>
-        <div class="row g-4">
-            @foreach($featuredTerms as $t)
-                <div class="col-md-4">
-                    <a href="{{ route('glossary.show', $t->slug) }}" style="text-decoration:none; display:block; background:#fff; padding:2.2rem 1.8rem; height:100%; border-top: 2px solid var(--bronze); color: var(--ink); transition: transform .25s, box-shadow .25s;"
-                       onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 14px 40px rgba(26,22,18,.1)';"
-                       onmouseout="this.style.transform=''; this.style.boxShadow='';">
-                        <div style="font-family:'Cormorant SC',serif; font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color: var(--bronze-dark); margin-bottom:.75rem;">
-                            {{ App\Models\GlossaryTerm::linguaLabel($t->lingua) }}
-                        </div>
-                        <div style="font-family:{{ $t->lingua === 'he' ? "'Noto Sans Hebrew',serif" : "'Cinzel',serif" }}; font-size: 2.4rem; font-weight: 600; color: var(--ink); line-height:1; margin-bottom:.25rem;">
-                            {{ $t->termo }}
-                        </div>
-                        <div style="font-family:'Cormorant Garamond',serif; font-style:italic; color: var(--stone); margin-bottom:1rem;">
-                            {{ $t->transliteracao }}
-                        </div>
-                        <p style="font-family:'Cormorant Garamond',serif; font-size:1.08rem; line-height:1.65; color: var(--ink-soft);">
-                            {{ Str::limit($t->t('significado'), 140) }}
-                        </p>
-                    </a>
-                </div>
-            @endforeach
-        </div>
-        <div class="text-center mt-5">
-            <a href="{{ route('glossary.index') }}" class="btn-classical-dark">{{ __('site.see_glossary') }} <i class="fas fa-arrow-right"></i></a>
-        </div>
-    </div>
-</section>
-@endif
-
-{{-- =========================================================
-     PILLARS / METHODOLOGY DETAILED
-     ========================================================= --}}
-<section class="pillars">
-    <div class="container">
-        <div class="text-center mb-5">
-            <div class="eyebrow">{{ __('site.advantages_title') }}</div>
-            <h2 class="section-title-classical">Os quatro pilares do Gramma</h2>
-            <div class="ornament"><i class="fas fa-scroll"></i></div>
-        </div>
-        <div class="row g-4">
-            @foreach([
-                ['I',   'advantage_1'],
-                ['II',  'advantage_2'],
-                ['III', 'advantage_3'],
-                ['IV',  'advantage_4'],
-            ] as [$roman, $key])
-                <div class="col-md-6 col-lg-3">
-                    <div class="pillar">
-                        <span class="roman">{{ $roman }}</span>
-                        <h4>{{ __("site.{$key}_title") }}</h4>
-                        <p>{{ __("site.{$key}_text") }}</p>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-{{-- =========================================================
-     REVIEWS / TESTIMONIALS
-     ========================================================= --}}
-<section class="reviews">
-    <div class="container">
-        <div class="text-center mb-5">
-            <div class="eyebrow">{{ __('site.testimonials_title') }}</div>
-            <h2 class="section-title-classical">A palavra dos nossos alunos</h2>
-            <div class="ornament"><i class="fas fa-star"></i></div>
-        </div>
-        <div class="row g-4">
-            @foreach([1,2,3] as $i)
-                <div class="col-md-4">
-                    <div class="review-card">
-                        <div class="stars">★ ★ ★ ★ ★</div>
-                        <blockquote>{{ __("site.testimonial_{$i}_text") }}</blockquote>
-                        <div class="author-row">
-                            <div class="avatar">{{ mb_strtoupper(mb_substr(__("site.testimonial_{$i}_author"), 0, 1)) }}</div>
-                            <div>
-                                <div class="author-name">{{ __("site.testimonial_{$i}_author") }}</div>
-                                <div class="author-meta">{{ __('site.course_learn_more') }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-{{-- =========================================================
-     FINAL CTA BAND
-     ========================================================= --}}
-<section class="cta-band">
-    <div class="container">
-        <div class="ornament light"><i class="fas fa-feather"></i></div>
-        <h2>{{ __('site.contact_title') }}</h2>
-        <p>{{ __('site.contact_subtitle') }}</p>
-        <div class="d-inline-flex flex-wrap gap-3 justify-content-center">
-            <a href="{{ route('contact') }}" class="btn-classical">{{ __('site.contact_send') }} <i class="fas fa-arrow-right"></i></a>
-            @if($settings->whatsappLink())
-                <a href="{{ $settings->whatsappLink() }}" target="_blank" rel="noopener" class="btn-classical-outline">
-                    <i class="fab fa-whatsapp"></i> WhatsApp
-                </a>
-            @endif
-        </div>
     </div>
 </section>
 
 @endsection
+
+@push('scripts')
+<script>
+// HERO SLIDES — cross-fade controller. Each video advances on `ended`;
+// images use a 7s timer; previous video is paused after the 1.4s fade completes.
+(function () {
+    var hero = document.getElementById('heroSlides');
+    if (!hero) return;
+    var stage = document.getElementById('heroSlidesStage') || hero.querySelector('.hero-slides-stage');
+    if (!stage) return;
+    var slides = Array.prototype.slice.call(stage.querySelectorAll('.hero-slide'));
+    if (slides.length === 0) return;
+    var introWrap = document.getElementById('heroIntro');
+    var slideCopyWrap = document.getElementById('heroSlideCopy');
+    var introMainEl = document.getElementById('heroIntroMain');
+    var introSubEl = document.getElementById('heroIntroSub');
+    var introCityEl = document.getElementById('heroIntroCity');
+    var titleEl = document.getElementById('heroCopyTitle');
+    var subtitleEl = document.getElementById('heroCopySubtitle');
+    var IMAGE_MS  = 7000;
+    var FADE_MS   = 1500;
+    var current   = -1;
+    var timer     = null;
+    var typeRun   = 0;
+    var introDone = false;
+    var introLines = ['GRAMMA INSTITUTE', 'of LINGUISTICS'];
+
+    hero.classList.add('is-intro');
+    slides.forEach(function (slide) {
+        slide.classList.remove('is-active');
+        pauseMedia(slide);
+    });
+
+    function normalizeVideoText(text) {
+        return String(text || '')
+            .replace(/\r\n/g, "\n")
+            .replace(/[ \t]+\n/g, "\n")
+            .replace(/\n[ \t]+/g, "\n")
+            .trim()
+            .toUpperCase();
+    }
+
+    function applyIntroSubMarkup(el) {
+        if (!el) return;
+        var plain = (el.textContent || '').trim();
+        if (plain.toLowerCase() === 'of linguistics') {
+            el.innerHTML = '<span class="hero-intro-of">of</span> LINGUISTICS';
+        }
+    }
+
+    function typeInto(el, text, cps, token, startDelay) {
+        if (!el) return;
+        el.classList.remove('is-complete', 'is-empty', 'is-typing');
+        el.textContent = '';
+        if (!text) {
+            el.classList.add('is-empty');
+            return;
+        }
+        var output = '';
+        var i = 0;
+        var delay = Math.max(14, Math.round(1000 / cps));
+        var bootDelay = startDelay || 0;
+
+        setTimeout(function () {
+            if (token !== typeRun) return;
+            el.classList.add('is-typing');
+
+            (function step() {
+                if (token !== typeRun) return;
+                if (i >= text.length) {
+                    el.classList.remove('is-typing');
+                    el.classList.add('is-complete');
+                    if (el === introSubEl) {
+                        applyIntroSubMarkup(el);
+                    }
+                    return;
+                }
+                output += text.charAt(i++);
+                el.textContent = output;
+                setTimeout(step, delay);
+            })();
+        }, bootDelay);
+    }
+
+    function typeDuration(text, cps) {
+        return text ? Math.max(14, Math.round(1000 / cps)) * text.length : 0;
+    }
+
+    function updateHeroCopy(slide) {
+        typeRun += 1;
+        var token = typeRun;
+        var titleText = normalizeVideoText(slide.dataset.title || '');
+        var subtitleText = normalizeVideoText(slide.dataset.subtitle || '');
+        var titleMs = typeDuration(titleText, 26);
+
+        typeInto(titleEl, titleText, 26, token, 0);
+        typeInto(subtitleEl, subtitleText, 42, token, titleText ? titleMs + 140 : 0);
+    }
+
+    function startCarousel() {
+        if (introDone) return;
+        introDone = true;
+        hero.classList.remove('is-intro');
+        if (introWrap) introWrap.classList.add('is-hidden');
+        if (slideCopyWrap) slideCopyWrap.classList.remove('is-hidden');
+
+        current = 0;
+        slides[current].classList.add('is-active');
+
+        if (slides.length < 2) {
+            var v0 = slides[current].querySelector('video');
+            if (v0) v0.loop = true;
+            updateHeroCopy(slides[current]);
+            playMedia(slides[current]);
+            return;
+        }
+
+        updateHeroCopy(slides[current]);
+        playMedia(slides[current]);
+        scheduleNext(slides[current]);
+    }
+
+    function playMedia(slide) {
+        var v = slide.querySelector('video');
+        if (!v) return;
+        try { v.currentTime = 0; } catch (e) {}
+        var p = v.play();
+        if (p && typeof p.catch === 'function') p.catch(function () {});
+    }
+    function pauseMedia(slide) {
+        var v = slide.querySelector('video');
+        if (v) { try { v.pause(); } catch (e) {} }
+    }
+    function clearTimer() { if (timer) { clearTimeout(timer); timer = null; } }
+
+    // Single slide — no rotation; loop the video if it's a video.
+    function scheduleNext(slide) {
+        clearTimer();
+        var advanced = false;
+        function advance() { if (!advanced) { advanced = true; goNext(); } }
+
+        if (slide.dataset.type === 'video') {
+            var v = slide.querySelector('video');
+            if (v) {
+                v.addEventListener('ended', advance, { once: true });
+                // Safety fallback in case 'ended' never fires (codec quirks, very short clip)
+                var dur = (isFinite(v.duration) && v.duration > 0 && v.duration < 60) ? v.duration : 8;
+                timer = setTimeout(advance, Math.round(dur * 1000) + 400);
+                return;
+            }
+        }
+        timer = setTimeout(advance, IMAGE_MS);
+    }
+
+    function goNext() {
+        clearTimer();
+        var prev = slides[current];
+        current = (current + 1) % slides.length;
+        var next = slides[current];
+
+        playMedia(next);                          // start before fade-in
+        prev.classList.remove('is-active');
+        next.classList.add('is-active');
+        updateHeroCopy(next);
+
+        setTimeout(function () { pauseMedia(prev); }, FADE_MS);
+        scheduleNext(next);
+    }
+
+    typeRun += 1;
+    var introToken = typeRun;
+    var introOffset = 0;
+    setTimeout(function () { typeInto(introMainEl, introLines[0], 22, introToken); }, introOffset);
+    introOffset += typeDuration(introLines[0], 22) + 180;
+    setTimeout(function () { typeInto(introSubEl, introLines[1], 24, introToken); }, introOffset);
+    introOffset += typeDuration(introLines[1], 24) + 180;
+    if (introCityEl) introCityEl.classList.add('is-hidden');
+    introOffset += 1500;
+    setTimeout(startCarousel, introOffset);
+
+    // Save resources when tab not visible
+    document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+            clearTimer();
+            pauseMedia(slides[current]);
+        } else if (introDone) {
+            playMedia(slides[current]);
+            scheduleNext(slides[current]);
+        }
+    });
+})();
+</script>
+@endpush

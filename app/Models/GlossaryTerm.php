@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class GlossaryTerm extends Model
 {
     protected $fillable = [
-        'slug', 'termo', 'transliteracao', 'lingua', 'categoria',
+        'slug', 'letra', 'termo', 'transliteracao', 'lingua', 'categoria',
         'significado', 'descricao', 'etimologia', 'exemplo_uso',
         'citacao_classica', 'citacao_autor',
         'imagem', 'ordem', 'destaque', 'ativo',
@@ -41,8 +41,15 @@ class GlossaryTerm extends Model
     public function imagemUrl(): ?string
     {
         return $this->imagem
-            ? (str_starts_with($this->imagem, 'http') ? $this->imagem : \Illuminate\Support\Facades\Storage::url($this->imagem))
+            ? (str_starts_with($this->imagem, 'http') ? $this->imagem : route('media.serve', ['path' => $this->imagem], false))
             : null;
+    }
+
+    public function letterKey(): string
+    {
+        $key = trim((string) ($this->letra ?: $this->termo));
+
+        return $key !== '' ? strtoupper($key) : '#';
     }
 
     public static function linguaLabel(string $code): string

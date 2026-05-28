@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\HeroSlide;
+use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,12 +19,13 @@ class HeroSlidesController extends Controller
     public function store(Request $request)
     {
         $data = $this->validated($request);
+        [$locale, $defaultLocale] = $this->slideLocales();
 
         $payload = [
             'ordem'    => (HeroSlide::max('ordem') ?? -1) + 1,
             'tipo'     => $data['tipo'],
-            'titulo'   => $request->input('titulo', []),
-            'subtitulo'=> $request->input('subtitulo', []),
+            'titulo'   => $this->translatedPayload([], $locale, $defaultLocale, $data['titulo'] ?? null),
+            'subtitulo'=> $this->translatedPayload([], $locale, $defaultLocale, $data['subtitulo'] ?? null),
             'ativo'    => $request->boolean('ativo', true),
         ];
 
@@ -45,11 +47,12 @@ class HeroSlidesController extends Controller
     public function update(Request $request, HeroSlide $heroSlide)
     {
         $data = $this->validated($request, $heroSlide);
+        [$locale, $defaultLocale] = $this->slideLocales();
 
         $payload = [
             'tipo'      => $data['tipo'],
-            'titulo'    => $request->input('titulo', $heroSlide->titulo ?? []),
-            'subtitulo' => $request->input('subtitulo', $heroSlide->subtitulo ?? []),
+            'titulo'    => $this->translatedPayload($heroSlide->titulo, $locale, $defaultLocale, $data['titulo'] ?? null),
+            'subtitulo' => $this->translatedPayload($heroSlide->subtitulo, $locale, $defaultLocale, $data['subtitulo'] ?? null),
             'ativo'     => $request->boolean('ativo', true),
         ];
 
@@ -97,8 +100,30 @@ class HeroSlidesController extends Controller
             'imagem'          => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'video'           => ['nullable', 'file', 'mimes:mp4,webm,mov,m4v', 'max:51200'], // 50MB
             'poster'          => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
-            'titulo.pt_BR'    => ['required', 'string', 'max:255'],
-            'subtitulo.pt_BR' => ['nullable', 'string', 'max:500'],
+            'titulo'          => ['nullable', 'string', 'max:255'],
+            'subtitulo'       => ['nullable', 'string', 'max:500'],
         ]);
+    }
+
+    private function slideLocales(): array
+    {
+        $defaultLocale = SiteSetting::query()->value('idioma_padrao') ?: 'pt_BR';
+        $locale = app()->getLocale() ?: $defaultLocale;
+
+        return [$locale, $defaultLocale];
+    }
+
+    private function translatedPayload($existing, string $locale, string $defaultLocale, ?string $value): array
+    {
+        $payload = is_array($existing) ? $existing : [];
+        $normalized = is_string($value) ? trim($value) : '';
+
+        $payload[$locale] = $normalized;
+
+        if (!isset($payload[$defaultLocale]) || trim((string) $payload[$defaultLocale]) === '' || $locale === $defaultLocale) {
+            $payload[$defaultLocale] = $normalized;
+        }
+
+        return $payload;
     }
 }

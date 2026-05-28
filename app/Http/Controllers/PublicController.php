@@ -2,15 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AboutPage;
 use App\Models\Course;
 use App\Models\Event;
 use App\Models\GlossaryTerm;
 use App\Models\HeroSlide;
+use App\Models\Partner;
 use App\Models\Promotion;
+use App\Models\ResourceCategory;
 use App\Models\SiteSetting;
 
 class PublicController extends Controller
 {
+    private array $hiddenCourseSlugs = [
+        'espanhol',
+        'portugues',
+        'portugues-para-estrangeiros-ple',
+        'portuguese-for-foreigners-pfl',
+    ];
+
     private function settings(): SiteSetting
     {
         return SiteSetting::current();
@@ -25,7 +35,7 @@ class PublicController extends Controller
             $heroSlides = HeroSlide::where('ativo', true)->orderBy('ordem')->get();
         }
 
-        $courses = Course::where('ativo', true)->orderBy('ordem')->get();
+        $courses = $this->visibleCourses()->orderBy('ordem')->get();
         $featuredTerms = GlossaryTerm::where('ativo', true)
             ->where('destaque', true)
             ->orderBy('ordem')
@@ -93,7 +103,61 @@ class PublicController extends Controller
 
     public function about()
     {
-        return view('public.about', ['settings' => $this->settings()]);
+        return view('public.about-index', [
+            'settings' => $this->settings(),
+            'about'    => AboutPage::current(),
+            'sections' => $this->aboutSections(),
+        ]);
+    }
+
+    public function aboutSection(string $section)
+    {
+        $sections = $this->aboutSections();
+        abort_unless(isset($sections[$section]), 404);
+
+        return view('public.about-section', [
+            'settings' => $this->settings(),
+            'about'    => AboutPage::current(),
+            'sections' => $sections,
+            'current'  => $section,
+        ]);
+    }
+
+    /** Section catalog used by both the index and the per-section view. */
+    private function aboutSections(): array
+    {
+        return [
+            'who-is' => [
+                'title_field' => 'founder_title',
+                'text_field'  => 'founder_text',
+                'fallback'    => 'About Us',
+                'icon'        => 'fa-user',
+            ],
+            'the-institute' => [
+                'title_field' => 'institute_title',
+                'text_field'  => 'institute_text',
+                'fallback'    => 'The Gramma Institute of Linguistics',
+                'icon'        => 'fa-landmark',
+            ],
+            'mission' => [
+                'title_field' => 'mission_title',
+                'text_field'  => 'mission_text',
+                'fallback'    => 'Mission',
+                'icon'        => 'fa-compass',
+            ],
+            'areas-of-expertise' => [
+                'title_field' => 'expertise_title',
+                'text_field'  => null,
+                'fallback'    => 'Areas of Expertise',
+                'icon'        => 'fa-scroll',
+            ],
+            'closing-statement' => [
+                'title_field' => 'closing_title',
+                'text_field'  => 'closing_text',
+                'fallback'    => 'Closing Statement',
+                'icon'        => 'fa-quote-right',
+            ],
+        ];
     }
 
     public function founder()
@@ -103,7 +167,7 @@ class PublicController extends Controller
 
     public function courses()
     {
-        $courses = Course::where('ativo', true)->orderBy('ordem')->get();
+        $courses = $this->visibleCourses()->orderBy('ordem')->get();
         return view('public.courses', [
             'settings' => $this->settings(),
             'courses'  => $courses,
@@ -113,7 +177,7 @@ class PublicController extends Controller
     public function courseShow(Course $course)
     {
         abort_if(! $course->ativo, 404);
-        $related = Course::where('ativo', true)
+        $related = $this->visibleCourses()
             ->where('id', '!=', $course->id)
             ->orderBy('ordem')
             ->limit(3)
@@ -127,10 +191,24 @@ class PublicController extends Controller
 
     public function glossary()
     {
-        $terms = GlossaryTerm::where('ativo', true)->orderBy('ordem')->get();
+        $terms = GlossaryTerm::where('ativo', true)
+            ->whereNotNull('letra')
+            ->orderBy('ordem')
+            ->orderBy('letra')
+            ->orderBy('termo')
+            ->get();
+
+        $letters = $terms->map(fn (GlossaryTerm $term) => $term->letterKey())
+            ->unique()
+            ->values();
+
+        $groups = $terms->groupBy(fn (GlossaryTerm $term) => $term->letterKey());
+
         return view('public.glossary', [
             'settings' => $this->settings(),
             'terms'    => $terms,
+            'letters'  => $letters,
+            'groups'   => $groups,
         ]);
     }
 
@@ -158,6 +236,38 @@ class PublicController extends Controller
     public function contact()
     {
         return view('public.contact', ['settings' => $this->settings()]);
+    }
+
+    private function visibleCourses()
+    {
+        return Course::where('ativo', true)->whereNotIn('slug', $this->hiddenCourseSlugs);
+    }
+
+    public function partners()
+    {
+        return view('public.partners', [
+            'settings' => $this->settings(),
+            'partners' => Partner::where('ativo', true)->orderBy('ordem')->orderBy('id')->get(),
+        ]);
+    }
+
+    public function resources()
+    {
+        return view('public.resources-index', [
+            'settings'   => $this->settings(),
+            'categories' => ResourceCategory::where('ativo', true)->orderBy('ordem')->orderBy('id')->get(),
+        ]);
+    }
+
+    public function resourceCategory(ResourceCategory $category)
+    {
+        abort_unless($category->ativo, 404);
+        return view('public.resources-category', [
+            'settings'   => $this->settings(),
+            'category'   => $category,
+            'links'      => $category->activeLinks()->get(),
+            'categories' => ResourceCategory::where('ativo', true)->orderBy('ordem')->orderBy('id')->get(),
+        ]);
     }
 
     public function privacy()

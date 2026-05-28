@@ -19,8 +19,13 @@ class SiteSetting extends Model
         'founder_facebook', 'founder_instagram', 'founder_linkedin',
         'founder_youtube', 'founder_twitter', 'founder_email',
         'logo', 'logo_rodape', 'favicon', 'imagem_hero', 'hero_tipo', 'hero_video',
-        'facebook', 'instagram', 'linkedin', 'youtube', 'tiktok',
+        'facebook', 'instagram', 'linkedin', 'youtube', 'tiktok', 'google_url', 'wikipedia_url',
         'idioma_padrao', 'idiomas_activos', 'texto_rodape',
+        'font_body_family', 'font_display_family', 'font_menu_family',
+        'font_course_family', 'font_footer_family',
+        'font_body_size', 'font_menu_size', 'font_course_size',
+        'font_title_size', 'font_footer_size',
+        'font_hero_intro_size', 'font_hero_slide_size',
         'meta_title', 'meta_description',
         'smtp_host', 'smtp_port', 'smtp_username', 'smtp_password',
         'smtp_encryption', 'smtp_from_address', 'smtp_from_name',
@@ -29,6 +34,13 @@ class SiteSetting extends Model
     protected $casts = [
         'idiomas_activos' => 'array',
         'whatsapp_ativo'  => 'boolean',
+        'font_body_size' => 'integer',
+        'font_menu_size' => 'integer',
+        'font_course_size' => 'integer',
+        'font_title_size' => 'integer',
+        'font_footer_size' => 'integer',
+        'font_hero_intro_size' => 'integer',
+        'font_hero_slide_size' => 'integer',
     ];
 
     /**
@@ -56,9 +68,40 @@ class SiteSetting extends Model
         return static::firstOrCreate([], [
             'nome_site'      => 'Gramma Institute',
             'titulo_site'    => 'Gramma Institute',
-            'idioma_padrao'  => 'pt_BR',
-            'idiomas_activos' => ['pt_BR', 'en', 'es', 'he', 'el', 'la'],
+            'idioma_padrao'  => 'en',
+            'idiomas_activos' => ['en', 'pt_BR', 'es'],
+            'font_body_family' => 'didot',
+            'font_display_family' => 'bodoni',
+            'font_menu_family' => 'didot',
+            'font_course_family' => 'cinzel',
+            'font_footer_family' => 'didot',
+            'font_body_size' => 18,
+            'font_menu_size' => 14,
+            'font_course_size' => 22,
+            'font_title_size' => 38,
+            'font_footer_size' => 16,
+            'font_hero_intro_size' => 70,
+            'font_hero_slide_size' => 64,
             'smtp_encryption' => 'tls',
+            'facebook' => 'https://facebook.com/grammainstitute',
+            'instagram' => 'https://instagram.com/grammainstitute',
+            'linkedin' => 'https://linkedin.com/company/grammainstitute',
+            'youtube' => 'https://youtube.com/@grammainstitute',
+            'tiktok' => 'https://tiktok.com/@grammainstitute',
+            'google_url' => 'https://www.google.com/search?q=Gramma+Institute',
+            'wikipedia_url' => 'https://en.wikipedia.org/wiki/Gramma_Institute',
         ]);
+    }
+
+    public static function typographyFontOptions(): array
+    {
+        return [
+            'didot' => 'Didot / GFS Didot',
+            'bodoni' => 'Bodoni Moda',
+            'cinzel' => 'Cinzel',
+            'cormorant' => 'Cormorant Garamond',
+            'inter' => 'Inter',
+            'noto' => 'Noto Serif',
+        ];
     }
 }

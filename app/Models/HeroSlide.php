@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class HeroSlide extends Model
 {
@@ -21,33 +22,64 @@ class HeroSlide extends Model
 
     public function mediaUrl(): ?string
     {
-        if ($this->isVideo()) {
-            return \Illuminate\Support\Facades\Storage::url($this->video);
-        }
-        if ($this->imagem) {
-            return \Illuminate\Support\Facades\Storage::url($this->imagem);
-        }
+        if ($this->isVideo() && $this->video) return route('media.serve', ['path' => $this->video], false);
+        if ($this->imagem)                    return route('media.serve', ['path' => $this->imagem], false);
         return null;
     }
 
     public function posterUrl(): ?string
     {
-        if (!empty($this->poster))  return \Illuminate\Support\Facades\Storage::url($this->poster);
-        if (!empty($this->imagem))  return \Illuminate\Support\Facades\Storage::url($this->imagem);
+        if (!empty($this->poster))  return route('media.serve', ['path' => $this->poster], false);
+        if (!empty($this->imagem))  return route('media.serve', ['path' => $this->imagem], false);
         return null;
+    }
+
+    public function mediaMimeType(): string
+    {
+        $path = (string) $this->video;
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+        return match ($extension) {
+            'webm' => 'video/webm',
+            'mov' => 'video/quicktime',
+            'm4v' => 'video/x-m4v',
+            default => 'video/mp4',
+        };
     }
 
     public function getTitulo(string $locale = null): string
     {
-        $locale = $locale ?? app()->getLocale();
-        $data = $this->titulo ?? [];
-        return $data[$locale] ?? $data['pt_BR'] ?? '';
+        return $this->translatedValue('titulo', $locale);
     }
 
     public function getSubtitulo(string $locale = null): string
     {
+        return $this->translatedValue('subtitulo', $locale);
+    }
+
+    private function translatedValue(string $field, ?string $locale = null): string
+    {
         $locale = $locale ?? app()->getLocale();
-        $data = $this->subtitulo ?? [];
-        return $data[$locale] ?? $data['pt_BR'] ?? '';
+        $defaultLocale = SiteSetting::query()->value('idioma_padrao') ?: 'pt_BR';
+        $data = $this->{$field} ?? [];
+
+        if (!is_array($data) || $data === []) {
+            return '';
+        }
+
+        foreach ([$locale, $defaultLocale, 'pt_BR', 'en'] as $candidate) {
+            $value = Arr::get($data, $candidate);
+            if (is_string($value) && trim($value) !== '') {
+                return $value;
+            }
+        }
+
+        foreach ($data as $value) {
+            if (is_string($value) && trim($value) !== '') {
+                return $value;
+            }
+        }
+
+        return '';
     }
 }

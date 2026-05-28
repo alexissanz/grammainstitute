@@ -13,16 +13,16 @@
         text-align: center;
     }
     .cl-hero h1 {
-        font-family: 'Cinzel', serif;
+        font-family: var(--font-site-display);
         font-weight: 500;
-        font-size: clamp(2.2rem, 5vw, 4rem);
+        font-size: clamp(2.2rem, 5vw, var(--font-size-title));
         line-height: 1.08;
         letter-spacing: .025em;
         color: var(--ivory);
         margin-bottom: 1rem;
     }
     .cl-hero .lede {
-        font-family: 'Cormorant Garamond', serif;
+        font-family: var(--font-site-body);
         font-style: italic;
         font-size: clamp(1.2rem, 2.2vw, 1.6rem);
         color: rgba(250,246,236,.86);
@@ -30,113 +30,118 @@
         margin: 0 auto;
     }
 
-    .cl-grid { background: var(--ivory); padding: 6rem 0; }
+    .cl-grid { background: #fff; padding: 6rem 0; }
 
     .cl-card {
         position: relative;
-        background: #fff;
+        background: #000;
         height: 100%;
         overflow: hidden;
         text-decoration: none;
-        color: var(--ink);
-        display: flex; flex-direction: column;
-        transition: transform .3s, box-shadow .3s;
-        border-top: 3px solid var(--accent, var(--bronze));
-    }
-    .cl-card:hover { transform: translateY(-6px); box-shadow: 0 18px 50px rgba(26,22,18,.12); color: var(--ink); }
-    .cl-card .cover {
-        height: 220px;
-        background-size: cover; background-position: center;
-        position: relative;
-    }
-    .cl-card .cover::after {
-        content: '';
-        position: absolute; inset: 0;
-        background: linear-gradient(180deg, rgba(26,22,18,0) 50%, rgba(26,22,18,.7) 100%);
-    }
-    .cl-card .glyph {
-        position: absolute;
-        bottom: 1.2rem; left: 1.5rem;
-        font-family: 'Cinzel', serif;
-        font-size: 3rem;
-        font-weight: 700;
         color: var(--ivory);
-        line-height: 1;
-        z-index: 2;
-        text-shadow: 0 2px 12px rgba(0,0,0,.4);
+        display: flex; flex-direction: column;
+        transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+        border-top: 3px solid #000;
+        border-inline: 1px solid rgba(0,0,0,.16);
+        border-bottom: 1px solid rgba(0,0,0,.16);
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(255,255,255,.14);
+        isolation: isolate;
+        border-radius: 28px;
+        min-height: 380px;
     }
+    .cl-card:hover {
+        transform: translateY(-12px) scale(1.015);
+        box-shadow: 0 28px 64px rgba(26,22,18,.16);
+        color: var(--ivory);
+        border-color: rgba(0,0,0,.28);
+    }
+    .cl-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(180deg, rgba(0,0,0,.1) 0%, rgba(0,0,0,.84) 100%),
+            var(--card-image);
+        background-size: cover;
+        background-position: center;
+        filter: grayscale(100%);
+        transform: scale(1.02);
+        transition: transform .4s ease;
+        pointer-events: none;
+    }
+    .cl-card:hover::before { transform: scale(1.08); }
+    .cl-card .glyph {
+        font-family: 'Cinzel', serif;
+        font-size: 3.2rem;
+        font-weight: 700;
+        color: #fff;
+        line-height: 1;
+        margin-bottom: 1rem;
+        transition: transform .35s ease;
+    }
+    .cl-card:hover .glyph { transform: translateY(-4px) scale(1.06); }
     .cl-card .body {
+        position: relative;
+        z-index: 1;
         padding: 2rem 1.8rem 2rem;
         display: flex; flex-direction: column;
         flex-grow: 1;
-    }
-    .cl-card .tag {
-        font-family: 'Cormorant SC', serif;
-        font-size: .72rem;
-        letter-spacing: .3em;
-        text-transform: uppercase;
-        color: var(--bronze-dark);
-        margin-bottom: .75rem;
+        pointer-events: none;
     }
     .cl-card h3 {
-        font-family: 'Cinzel', serif;
+        font-family: var(--font-site-course);
         font-weight: 500;
-        font-size: 1.35rem;
+        font-size: clamp(1.1rem, 2.4vw, var(--font-size-course));
         letter-spacing: .04em;
         text-transform: uppercase;
-        color: var(--ink);
+        color: #fff;
         margin-bottom: .5rem;
         line-height: 1.25;
     }
     .cl-card .sub {
-        font-family: 'Cormorant Garamond', serif;
+        font-family: var(--font-site-body);
         font-style: italic;
         font-size: 1.05rem;
-        color: var(--stone);
+        color: rgba(255,255,255,.78);
         margin-bottom: 1.2rem;
     }
     .cl-card .desc {
-        font-family: 'Cormorant Garamond', serif;
+        font-family: var(--font-site-body);
         font-size: 1.08rem;
         line-height: 1.65;
-        color: var(--ink-soft);
+        color: rgba(255,255,255,.84);
         flex-grow: 1;
         margin-bottom: 1.5rem;
     }
-    .cl-card .meta-row {
-        display: flex;
-        gap: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--line);
-        margin-bottom: 1.2rem;
-        font-family: 'Cormorant SC', serif;
-        font-size: .72rem;
-        letter-spacing: .2em;
-        text-transform: uppercase;
-        color: var(--stone);
-    }
-    .cl-card .meta-row > div { flex: 1; }
-    .cl-card .meta-row strong { color: var(--ink); font-family: 'Cinzel', serif; font-weight: 500; display: block; margin-top: 2px; }
-    .cl-card .more {
-        font-family: 'Cormorant SC', serif;
-        font-size: .75rem;
-        letter-spacing: .3em;
-        text-transform: uppercase;
-        color: var(--accent, var(--bronze-dark));
-        display: inline-flex;
-        align-items: center;
-        gap: .5rem;
-        margin-top: auto;
-        transition: gap .25s;
-    }
-    .cl-card:hover .more { gap: .85rem; }
-
     @media (max-width: 767px) {
         .cl-hero { padding: 4rem 0 3rem; }
         .cl-grid { padding: 3rem 0 4rem; }
-        .cl-card .cover { height: 180px; }
-        .cl-card .body { padding: 1.5rem 1.25rem; }
-        .cl-card h3 { font-size: 1.15rem; }
+        .cl-card .body { padding: 1.6rem 1.3rem; }
+        .cl-card h3 { font-size: 1.15rem; line-height: 1.3; }
+        .cl-card .sub { font-size: 1rem; line-height: 1.45; }
+        .cl-card .desc { font-size: 1rem; line-height: 1.55; }
+        .cl-card { min-height: 360px; border-radius: 24px; }
+    }
+    @media (max-width: 575px) {
+        .cl-grid .row.g-4 {
+            row-gap: 1rem !important;
+        }
+        .cl-grid .col-md-6,
+        .cl-grid .col-lg-4 {
+            width: 100%;
+        }
+        .cl-card {
+            min-height: 340px;
+        }
+    }
+    @media (hover: none) and (pointer: coarse) {
+        .cl-card:hover,
+        .cl-card:hover::before,
+        .cl-card:hover .glyph {
+            transform: none;
+            box-shadow: none;
+        }
     }
 </style>
 @endpush
@@ -145,12 +150,11 @@
 
 <section class="cl-hero">
     <div class="container">
-        <div class="ornament light"><i class="fas fa-feather"></i></div>
         <div style="font-family:'Cormorant SC',serif; font-size:.9rem; font-weight:600; letter-spacing:.4em; color: var(--gold-light); text-transform:uppercase; margin-bottom: 1rem;">
             {{ __('site.courses_subtitle') }}
         </div>
         <h1>{{ __('site.courses_title') }}</h1>
-        <p class="lede">Cinco idiomas. Uma única tradição de ensino — a do texto, do mestre e do tempo lento.</p>
+        <p class="lede">Five languages. One teaching tradition shaped by text, mastery, and patient study.</p>
     </div>
 </section>
 
@@ -158,7 +162,7 @@
     <div class="container">
         @if($courses->isEmpty())
             <p style="text-align:center; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.2rem; color: var(--stone);">
-                Nenhum curso ainda. Adicione no painel.
+                No courses yet. Add them in the dashboard.
             </p>
         @else
             <div class="row g-4">
@@ -166,32 +170,11 @@
                     <div class="col-lg-4 col-md-6">
                         <a href="{{ route('courses.show', $course->slug) }}"
                            class="cl-card"
-                           style="--accent: {{ $course->cor_destaque }};">
-                            <div class="cover" @if($course->imagemCapaUrl()) style="background-image: url('{{ $course->imagemCapaUrl() }}');" @endif>
-                                <div class="glyph">{{ $course->glifo }}</div>
-                            </div>
+                           style="--accent: {{ $course->cor_destaque }}; --card-image: url('{{ $course->imagemCapaUrl() }}');">
                             <div class="body">
-                                <div class="tag">{{ $course->duracao_total }}</div>
+                                <div class="glyph">{{ $course->glifo }}</div>
                                 <h3>{{ $course->t('nome') }}</h3>
-                                <div class="sub">{{ $course->t('subtitulo') }}</div>
                                 <p class="desc">{{ Str::limit($course->t('descricao_curta'), 180) }}</p>
-
-                                <div class="meta-row">
-                                    @if($course->formato)
-                                        <div>
-                                            Formato
-                                            <strong>{{ Str::limit($course->formato, 22) }}</strong>
-                                        </div>
-                                    @endif
-                                    @if($course->preco)
-                                        <div>
-                                            Investimento
-                                            <strong>{{ Str::limit($course->preco, 22) }}</strong>
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <span class="more">{{ __('site.course_learn_more') }} <i class="fas fa-arrow-right"></i></span>
                             </div>
                         </a>
                     </div>

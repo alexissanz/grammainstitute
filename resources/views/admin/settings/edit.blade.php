@@ -54,6 +54,7 @@
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-whatsapp"><i class="fab fa-whatsapp" style="color:#25d366;"></i>WhatsApp</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-founder"><i class="fas fa-user-tie"></i>Fundador</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-hero"><i class="fas fa-star"></i>Hero</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-tipografia"><i class="fas fa-font"></i>Tipografia</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-idiomas"><i class="fas fa-language"></i>Idiomas</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-seo"><i class="fas fa-search"></i>SEO</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-smtp"><i class="fas fa-envelope"></i>SMTP</a></li>
@@ -152,9 +153,11 @@
                         ['linkedin', 'fab fa-linkedin', '#0a66c2', 'https://linkedin.com/company/grammainstitute'],
                         ['youtube', 'fab fa-youtube', '#ff0000', 'https://youtube.com/@grammainstitute'],
                         ['tiktok', 'fab fa-tiktok', '#010101', 'https://tiktok.com/@grammainstitute'],
+                        ['google_url', 'fab fa-google', '#4285f4', 'https://www.google.com/search?q=Gramma+Institute'],
+                        ['wikipedia_url', 'fab fa-wikipedia-w', '#111111', 'https://en.wikipedia.org/wiki/Gramma_Institute'],
                     ] as [$field, $icon, $color, $placeholder])
                     <div class="col-md-6">
-                        <label class="form-label">{{ ucfirst($field) }}</label>
+                        <label class="form-label">{{ $field === 'google_url' ? 'Google' : ($field === 'wikipedia_url' ? 'Wikipedia' : ucfirst($field)) }}</label>
                         <div class="input-group">
                             <span class="input-group-text" style="color:{{ $color }};"><i class="{{ $icon }}"></i></span>
                             <input name="{{ $field }}" type="url" class="form-control @error($field) is-invalid @enderror"
@@ -379,6 +382,95 @@
                         </div>
                     @endif
                     <p class="text-muted small mt-2">O vídeo tocará automaticamente, silencioso e em loop.</p>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="tab-tipografia">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="alert alert-dark mb-0" style="border-radius:12px;">
+                            Configure a tipografia global do site. Estas opcoes controlam fonte e tamanho da navegacao, dos cursos, do hero, dos titulos e do rodape.
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Fonte geral do site</label>
+                        <select name="font_body_family" class="form-control">
+                            @foreach($fontOptions as $key => $label)
+                                <option value="{{ $key }}" {{ old('font_body_family', $settings->font_body_family ?? 'didot') === $key ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Fonte dos titulos</label>
+                        <select name="font_display_family" class="form-control">
+                            @foreach($fontOptions as $key => $label)
+                                <option value="{{ $key }}" {{ old('font_display_family', $settings->font_display_family ?? 'bodoni') === $key ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Fonte do menu</label>
+                        <select name="font_menu_family" class="form-control">
+                            @foreach($fontOptions as $key => $label)
+                                <option value="{{ $key }}" {{ old('font_menu_family', $settings->font_menu_family ?? 'didot') === $key ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Fonte dos cursos</label>
+                        <select name="font_course_family" class="form-control">
+                            @foreach($fontOptions as $key => $label)
+                                <option value="{{ $key }}" {{ old('font_course_family', $settings->font_course_family ?? 'cinzel') === $key ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Fonte do rodape</label>
+                        <select name="font_footer_family" class="form-control">
+                            @foreach($fontOptions as $key => $label)
+                                <option value="{{ $key }}" {{ old('font_footer_family', $settings->font_footer_family ?? 'didot') === $key ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Tamanho base</label>
+                        <input name="font_body_size" type="number" min="14" max="24" class="form-control"
+                               value="{{ old('font_body_size', $settings->font_body_size ?? 18) }}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Tamanho do menu</label>
+                        <input name="font_menu_size" type="number" min="12" max="28" class="form-control"
+                               value="{{ old('font_menu_size', $settings->font_menu_size ?? 14) }}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Tamanho dos cursos</label>
+                        <input name="font_course_size" type="number" min="16" max="48" class="form-control"
+                               value="{{ old('font_course_size', $settings->font_course_size ?? 22) }}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Tamanho dos titulos</label>
+                        <input name="font_title_size" type="number" min="24" max="72" class="form-control"
+                               value="{{ old('font_title_size', $settings->font_title_size ?? 38) }}">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Tamanho do rodape</label>
+                        <input name="font_footer_size" type="number" min="12" max="24" class="form-control"
+                               value="{{ old('font_footer_size', $settings->font_footer_size ?? 16) }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Tamanho do texto inicial do hero</label>
+                        <input name="font_hero_intro_size" type="number" min="28" max="120" class="form-control"
+                               value="{{ old('font_hero_intro_size', $settings->font_hero_intro_size ?? 70) }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Tamanho do texto dos videos</label>
+                        <input name="font_hero_slide_size" type="number" min="24" max="120" class="form-control"
+                               value="{{ old('font_hero_slide_size', $settings->font_hero_slide_size ?? 64) }}">
+                    </div>
                 </div>
             </div>
 

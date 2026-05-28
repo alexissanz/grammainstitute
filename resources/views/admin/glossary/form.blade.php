@@ -1,11 +1,11 @@
 @extends('layouts.adminlte')
 
-@section('title', $term->exists ? 'Editar Verbete' : 'Novo Verbete')
-@section('page-title', $term->exists ? 'Editar Verbete — ' . $term->termo : 'Novo Verbete')
+@section('title', $term->exists ? 'Edit Glossary Letter' : 'New Glossary Letter')
+@section('page-title', $term->exists ? 'Editar Letra — ' . $term->termo : 'Nova Letra do Glossário')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('admin.glossary.index') }}">Glossário</a></li>
-    <li class="breadcrumb-item active">{{ $term->exists ? 'Editar' : 'Novo' }}</li>
+    <li class="breadcrumb-item active">{{ $term->exists ? 'Editar letra' : 'Nova letra' }}</li>
 @endsection
 
 @push('styles')
@@ -14,6 +14,7 @@
     .lang-tabs .nav-link.active { background: #1a3a5c; color: #fff; }
     .form-section { border-bottom: 1px solid #e5e7eb; padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
     .form-section h6 { font-weight: 700; color: #1a3a5c; margin-bottom: .25rem; font-size: .95rem; }
+    .form-help { color: #6b7280; font-size: .82rem; margin-bottom: 1rem; }
 </style>
 @endpush
 
@@ -25,114 +26,79 @@
 
     <div class="card" style="border-radius:12px; border:none; box-shadow:0 2px 16px rgba(0,0,0,0.08);">
         <div class="card-body p-4">
-
             <div class="form-section">
-                <h6><i class="fas fa-quote-right me-2"></i>Termo</h6>
+                <h6><i class="fas fa-font me-2"></i>Letter block</h6>
+                <p class="form-help">Escolha a letra e escreva o conteúdo completo desse bloco. No site, o visitante clica na letra e o conteúdo aparece com animação suave.</p>
                 <div class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label">Termo (no script original) <span class="text-danger">*</span></label>
-                        <input name="termo" type="text" class="form-control" required maxlength="180"
-                               value="{{ old('termo', $term->termo) }}"
-                               style="font-family: Georgia, serif; font-size: 1.3rem;"
-                               placeholder="Λόγος / אֱמֶת / Veritas">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Transliteração</label>
-                        <input name="transliteracao" type="text" class="form-control" maxlength="180"
-                               value="{{ old('transliteracao', $term->transliteracao) }}"
-                               placeholder="lógos / emet / veritas">
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">Língua <span class="text-danger">*</span></label>
-                        <select name="lingua" class="form-control" required>
-                            @foreach(['el' => 'Grego (Ἑλληνική)', 'he' => 'Hebraico (עברית)', 'la' => 'Latim', 'en' => 'Inglês', 'es' => 'Espanhol', 'pt' => 'Português'] as $code => $label)
-                                <option value="{{ $code }}" {{ old('lingua', $term->lingua) === $code ? 'selected' : '' }}>{{ $label }}</option>
+                    <div class="col-md-3">
+                        <label class="form-label">Letter</label>
+                        <select name="letra" class="form-control">
+                            @foreach($letters as $letter)
+                                <option value="{{ $letter }}" {{ old('letra', $term->letra ?: $term->termo) === $letter ? 'selected' : '' }}>{{ $letter }}</option>
                             @endforeach
                         </select>
                     </div>
+                    <div class="col-md-5">
+                        <label class="form-label">Heading</label>
+                        <input name="termo" type="text" class="form-control" value="{{ old('termo', $term->termo) }}" placeholder="A">
+                    </div>
                     <div class="col-md-2">
-                        <label class="form-label">Categoria</label>
-                        <input name="categoria" type="text" class="form-control" maxlength="100"
-                               value="{{ old('categoria', $term->categoria) }}" placeholder="Filosofia, Bíblico...">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Slug <small>(URL: /glossary/slug)</small></label>
-                        <input name="slug" type="text" class="form-control" value="{{ old('slug', $term->slug) }}">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Ordem</label>
+                        <label class="form-label">Order</label>
                         <input name="ordem" type="number" class="form-control" value="{{ old('ordem', $term->ordem) }}">
                     </div>
-                    <div class="col-md-3 d-flex align-items-end">
+                    <div class="col-md-2 d-flex align-items-end">
                         <label class="d-flex align-items-center gap-2 p-2 border rounded w-100" style="cursor:pointer;">
-                            <input type="checkbox" name="ativo" value="1" {{ old('ativo', $term->ativo) ? 'checked' : '' }}> Activo
+                            <input type="checkbox" name="ativo" value="1" {{ old('ativo', $term->ativo) ? 'checked' : '' }}> Active
                         </label>
                     </div>
-                </div>
-
-                <div class="mt-3">
-                    <label class="d-flex align-items-center gap-2 p-2 border rounded" style="cursor:pointer;">
-                        <input type="checkbox" name="destaque" value="1" {{ old('destaque', $term->destaque) ? 'checked' : '' }}>
-                        <strong>Verbete em destaque</strong>
-                        <small class="text-muted">(aparece na grade dourada na página inicial e no topo do glossário)</small>
-                    </label>
                 </div>
             </div>
 
             <div class="form-section">
-                <h6><i class="fas fa-image me-2"></i>Imagem</h6>
-                <input name="imagem" type="file" class="form-control" accept="image/*">
+                <h6><i class="fas fa-image me-2"></i>Optional image</h6>
+                <input name="imagem" type="file" class="form-control" accept=".jpg,.jpeg,.png,.webp,.gif,.bmp,.avif,.heic,.heif,.jfif,image/*">
                 @if($term->imagemUrl())
                     <img src="{{ $term->imagemUrl() }}" style="margin-top:.5rem; max-height:100px; border-radius:6px;">
                 @endif
-                <small class="text-muted d-block mt-1">Usada como fundo do cartão em destaque e no topo da página do verbete.</small>
             </div>
 
-            {{-- Conteúdo Traduzível --}}
             <div class="form-section">
-                <h6><i class="fas fa-language me-2"></i>Conteúdo (multilíngue)</h6>
+                <h6><i class="fas fa-language me-2"></i>Content</h6>
+                <p class="form-help">Para cada item: primeira linha é o termo, linhas abaixo são a descrição. Deixe uma linha em branco antes do próximo termo.</p>
 
                 @php
                     $fields = [
-                        ['key' => 'significado',      'label' => 'Significado (resumo curto)',  'type' => 'textarea', 'rows' => 3, 'required' => true],
-                        ['key' => 'descricao',        'label' => 'Descrição completa (separe parágrafos com linha em branco)', 'type' => 'textarea', 'rows' => 8],
-                        ['key' => 'etimologia',       'label' => 'Etimologia',                  'type' => 'textarea', 'rows' => 2],
-                        ['key' => 'exemplo_uso',      'label' => 'Exemplo de uso',              'type' => 'textarea', 'rows' => 2],
-                        ['key' => 'citacao_classica', 'label' => 'Citação clássica',            'type' => 'textarea', 'rows' => 2],
-                        ['key' => 'citacao_autor',    'label' => 'Autor da citação',            'type' => 'input'],
+                        ['key' => 'significado', 'label' => 'Short intro', 'rows' => 2],
+                        ['key' => 'descricao', 'label' => 'Letter content', 'rows' => 18],
                     ];
                 @endphp
 
-                @foreach($fields as $f)
+                @foreach($fields as $field)
                     <div class="mb-4">
-                        <label class="form-label">
-                            {{ $f['label'] }}
-                            @if(!empty($f['required'])) <span class="text-danger">*</span> @endif
-                        </label>
-                        <ul class="nav lang-tabs mb-2" data-field="{{ $f['key'] }}">
-                            @foreach($locales as $i => $loc)
-                                <li class="nav-item"><a href="#" class="nav-link {{ $i === 0 ? 'active' : '' }}" data-lang="{{ $loc }}">{{ strtoupper(str_replace('_','-',$loc)) }}</a></li>
+                        <label class="form-label">{{ $field['label'] }}</label>
+                        <ul class="nav lang-tabs mb-2" data-field="{{ $field['key'] }}">
+                            @foreach($locales as $i => $locale)
+                                <li class="nav-item"><a href="#" class="nav-link {{ $i === 0 ? 'active' : '' }}" data-lang="{{ $locale }}">{{ strtoupper(str_replace('_', '-', $locale)) }}</a></li>
                             @endforeach
                         </ul>
-                        @foreach($locales as $i => $loc)
-                            <div class="lang-pane" data-field="{{ $f['key'] }}" data-lang="{{ $loc }}" style="{{ $i === 0 ? '' : 'display:none;' }}">
-                                @if($f['type'] === 'input')
-                                    <input name="{{ $f['key'] }}[{{ $loc }}]" type="text" class="form-control"
-                                           value="{{ old($f['key'] . '.' . $loc, $term->{$f['key']}[$loc] ?? '') }}">
-                                @else
-                                    <textarea name="{{ $f['key'] }}[{{ $loc }}]" class="form-control" rows="{{ $f['rows'] ?? 3 }}">{{ old($f['key'] . '.' . $loc, $term->{$f['key']}[$loc] ?? '') }}</textarea>
-                                @endif
+                        @foreach($locales as $i => $locale)
+                            <div class="lang-pane" data-field="{{ $field['key'] }}" data-lang="{{ $locale }}" style="{{ $i === 0 ? '' : 'display:none;' }}">
+                                <textarea
+                                    name="{{ $field['key'] }}[{{ $locale }}]"
+                                    class="form-control"
+                                    rows="{{ $field['rows'] }}"
+                                    placeholder="AA&#10;Subject of a transitive verb...&#10;&#10;Ablative&#10;Marker indicating movement away..."
+                                >{{ old($field['key'] . '.' . $locale, $term->{$field['key']}[$locale] ?? '') }}</textarea>
                             </div>
                         @endforeach
                     </div>
                 @endforeach
             </div>
-
         </div>
 
         <div class="card-footer d-flex justify-content-between" style="background:#fafafa; border-radius: 0 0 12px 12px;">
             <a href="{{ route('admin.glossary.index') }}" class="btn btn-link text-muted"><i class="fas fa-arrow-left me-1"></i>Voltar</a>
-            <button class="btn btn-primary px-4"><i class="fas fa-save me-2"></i>Guardar Verbete</button>
+            <button class="btn btn-primary px-4"><i class="fas fa-save me-2"></i>Guardar Letra</button>
         </div>
     </div>
 </form>
@@ -149,8 +115,8 @@
                 const lang = this.dataset.lang;
                 tabs.querySelectorAll('.nav-link').forEach(x => x.classList.remove('active'));
                 this.classList.add('active');
-                document.querySelectorAll('.lang-pane[data-field="' + field + '"]').forEach(function(p) {
-                    p.style.display = p.dataset.lang === lang ? '' : 'none';
+                document.querySelectorAll('.lang-pane[data-field="' + field + '"]').forEach(function(pane) {
+                    pane.style.display = pane.dataset.lang === lang ? '' : 'none';
                 });
             });
         });

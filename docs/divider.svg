@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="40" viewBox="0 0 900 40" role="img" aria-label="filigree divider">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="rgba(168,120,65,0)"/>
+      <stop offset="0.5" stop-color="#c8a44b"/>
+      <stop offset="1" stop-color="rgba(168,120,65,0)"/>
+    </linearGradient>
+  </defs>
+  <line x1="60" y1="20" x2="420" y2="20" stroke="url(#g)" stroke-width="1"/>
+  <line x1="480" y1="20" x2="840" y2="20" stroke="url(#g)" stroke-width="1"/>
+  <g fill="none" stroke="#c8a44b" stroke-width="1.4">
+    <path d="M430 20 q10 -12 20 0 q10 12 20 0"/>
+    <circle cx="450" cy="20" r="3.2" fill="#c8a44b" stroke="none"/>
+  </g>
+</svg>

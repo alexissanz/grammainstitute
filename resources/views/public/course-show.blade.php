@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('meta-title', $course->t('meta_title') ?: $course->t('nome') . ' — ' . ($settings->nome_site ?? 'Gramma Institute'))
+@section('meta-title', $course->t('meta_title') ?: $course->t('nome') . ' - ' . ($settings->nome_site ?? 'Gramma Institute'))
 @section('meta-description', $course->t('meta_description') ?: $course->t('descricao_curta'))
 
 @push('styles')
@@ -8,171 +8,205 @@
     .c-hero {
         position: relative;
         min-height: 70vh;
-        display: flex;
-        align-items: flex-end;
         background: var(--ink);
-        color: var(--ivory);
-        padding: 6rem 0 4rem;
         overflow: hidden;
     }
     .c-hero::before {
         content: '';
         position: absolute; inset: 0;
         background-size: cover; background-position: center;
-        background-image: linear-gradient(180deg, rgba(26,22,18,.55) 0%, rgba(26,22,18,.92) 80%), var(--bg-image);
+        background-image: var(--bg-image);
         filter: contrast(1.04);
     }
-    .c-hero .container { position: relative; z-index: 1; }
-    .c-hero .back-link {
-        font-family: 'Cormorant SC', serif;
-        font-size: .8rem;
-        letter-spacing: .3em;
-        text-transform: uppercase;
-        color: var(--gold-light);
-        text-decoration: none;
-        margin-bottom: 1.5rem;
-        display: inline-block;
-    }
-    .c-hero .back-link:hover { color: var(--ivory); }
-    .c-hero .glifo {
-        font-family: 'Cinzel', serif;
-        font-size: clamp(4rem, 12vw, 8rem);
-        line-height: 1;
-        color: var(--accent-color, var(--gold-light));
-        font-weight: 700;
-        margin-bottom: 1rem;
-        display: inline-block;
-        border-bottom: 2px solid var(--accent-color, var(--gold-light));
-        padding-bottom: .3rem;
-    }
-    .c-hero h1 {
-        font-family: 'Cinzel', serif;
-        font-weight: 500;
-        font-size: clamp(2.2rem, 5vw, 4rem);
-        line-height: 1.08;
-        letter-spacing: .015em;
-        color: var(--ivory);
-        margin-bottom: 1rem;
-    }
-    .c-hero .subtitle {
-        font-family: 'Cormorant Garamond', serif;
-        font-style: italic;
-        font-size: clamp(1.2rem, 2vw, 1.6rem);
-        color: rgba(250,246,236,.86);
-        max-width: 720px;
-    }
-    .c-hero .meta-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        margin-top: 2.5rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid rgba(250,246,236,.15);
-    }
-    .c-hero .meta-item .label {
-        font-family: 'Cormorant SC', serif;
-        font-size: .7rem;
-        letter-spacing: .3em;
-        text-transform: uppercase;
-        color: rgba(250,246,236,.55);
-        margin-bottom: .25rem;
-    }
-    .c-hero .meta-item .value {
-        font-family: 'Cinzel', serif;
-        font-size: 1rem;
-        font-weight: 500;
-        letter-spacing: .08em;
-        color: var(--gold-light);
-    }
 
-    .c-section { padding: 5rem 0; }
-    .c-section.alt { background: var(--parchment); }
-    .c-section.ivory { background: var(--ivory); }
+    /* Black & white model — every course section sits on black with white text. */
+    .c-section { padding: 5rem 0; background: #000; color: #fff; }
+    .c-section.alt { background: #000; }
+    .c-section.ivory { background: #000; }
     .c-section h2 {
-        font-family: 'Cinzel', serif;
+        font-family: var(--font-site-course);
         font-weight: 500;
-        font-size: clamp(1.8rem, 3.2vw, 2.5rem);
-        color: var(--ink);
+        font-size: clamp(1.8rem, 3.2vw, var(--font-size-title));
+        color: #fff;
         letter-spacing: .015em;
         margin-bottom: 1.5rem;
     }
-    .c-section .eyebrow-c {
-        font-family: 'Cormorant SC', serif;
-        font-size: .8rem;
-        font-weight: 600;
-        letter-spacing: .32em;
-        text-transform: uppercase;
-        color: var(--bronze-dark);
-        margin-bottom: .5rem;
+    .c-section .eyebrow-c,
+    .c-section .ornament,
+    .course-contact .eyebrow-c,
+    .course-contact .ornament {
+        display: none !important;
     }
     .c-section p, .c-section li {
-        font-family: 'Cormorant Garamond', serif;
+        font-family: var(--font-site-body);
         font-size: 1.18rem;
         line-height: 1.8;
-        color: var(--ink-soft);
+        color: rgba(255,255,255,.86);
+        text-align: justify;
+        text-justify: inter-word;
     }
-
-    .pillar-text::first-letter {
-        font-family: 'Cinzel', serif;
+    .course-info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        margin: 2rem 0 2.5rem;
+    }
+    .course-short-description {
+        font-family: var(--font-site-body);
+        font-size: 1.22rem;
+        line-height: 1.8;
+        color: #fff;
+        margin-bottom: 1.5rem;
+        max-width: 920px;
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    .course-info-card {
+        background: #0d0d0d;
+        border: 1px solid rgba(255,255,255,.18);
+        padding: 1.2rem 1.25rem;
+        border-radius: 20px;
+    }
+    .course-info-card .label {
+        font-family: var(--font-site-smallcaps);
+        font-size: .72rem;
+        letter-spacing: .24em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,.6);
+        margin-bottom: .45rem;
+    }
+    .course-info-card .value {
+        font-family: var(--font-site-body);
+        font-size: 1.08rem;
+        line-height: 1.65;
+        color: #fff;
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    .course-info-card .value-lines {
+        display: grid;
+        gap: .35rem;
+    }
+    .course-info-card .value-line {
+        display: block;
+    }
+    .about-course-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.6rem;
+        align-items: start;
+        max-width: 980px;
+        margin: 0 auto;
+    }
+    .course-copy-shell {
+        max-width: 980px;
+        margin: 0 auto;
+    }
+    .course-copy-shell > p:first-of-type::first-letter {
+        font-family: var(--font-site-course);
         font-size: 3.5rem;
         float: left;
         line-height: .9;
         padding-right: .65rem;
         padding-top: .3rem;
-        color: var(--bronze-dark);
+        color: #fff;
+    }
+    [dir="rtl"] .course-copy-shell > p:first-of-type::first-letter {
+        float: right;
+        padding-right: 0;
+        padding-left: .65rem;
+    }
+    .about-course-visual {
+        position: relative;
+        min-height: 360px;
+        border-radius: 28px;
+        overflow: hidden;
+        background: #000;
+        box-shadow: 0 16px 42px rgba(0,0,0,.16);
+    }
+    .about-course-visual::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.42) 100%),
+            var(--about-image);
+        background-size: cover;
+        background-position: center;
+        filter: grayscale(100%);
+        transform: scale(1.02);
+    }
+
+    .pillar-text::first-letter {
+        font-family: var(--font-site-course);
+        font-size: 3.5rem;
+        float: left;
+        line-height: .9;
+        padding-right: .65rem;
+        padding-top: .3rem;
+        color: #fff;
     }
     [dir="rtl"] .pillar-text::first-letter { float: right; padding-right: 0; padding-left: .65rem; }
 
     .learn-list { list-style: none; padding-left: 0; }
     .learn-list li {
         padding: 1rem 1rem 1rem 2.2rem;
-        border-bottom: 1px solid var(--line);
+        border-bottom: 1px solid rgba(255,255,255,.16);
         position: relative;
     }
     .learn-list li::before {
-        content: '⌘';
+        content: '•';
         position: absolute;
         left: 0; top: 1rem;
         font-family: 'Cinzel', serif;
-        color: var(--bronze);
+        color: #fff;
         font-size: 1.1rem;
     }
     [dir="rtl"] .learn-list li { padding-left: 1rem; padding-right: 2.2rem; }
     [dir="rtl"] .learn-list li::before { left: auto; right: 0; }
 
     .level-card {
-        background: #fff;
+        background: #0d0d0d;
         padding: 2rem;
         height: 100%;
-        border-top: 3px solid var(--accent-color, var(--bronze));
-        box-shadow: 0 4px 22px rgba(26,22,18,.07);
+        border-top: 3px solid #fff;
+        box-shadow: 0 4px 22px rgba(0,0,0,.4);
+        border-radius: 24px;
     }
     .level-card .level-num {
-        font-family: 'Cinzel', serif;
+        font-family: var(--font-site-course);
         font-size: 2.5rem;
         font-weight: 700;
-        color: var(--accent-color, var(--bronze-dark));
+        color: #fff;
         line-height: 1;
         margin-bottom: .25rem;
     }
     .level-card .level-name {
-        font-family: 'Cinzel', serif;
-        font-size: 1.1rem;
+        font-family: var(--font-site-course);
+        font-size: clamp(1rem, 2vw, var(--font-size-course));
         font-weight: 500;
         letter-spacing: .1em;
         text-transform: uppercase;
-        color: var(--ink);
+        color: #fff;
         margin-bottom: 1rem;
     }
     .level-card .level-duration {
-        font-family: 'Cormorant SC', serif;
+        font-family: var(--font-site-smallcaps);
         font-size: .75rem;
         letter-spacing: .25em;
-        color: var(--stone);
+        color: rgba(255,255,255,.6);
         text-transform: uppercase;
         margin-top: 1rem;
         padding-top: 1rem;
-        border-top: 1px solid var(--line);
+        border-top: 1px solid rgba(255,255,255,.16);
+    }
+    .level-card p {
+        text-align: justify;
+        text-justify: inter-word;
+        hyphens: auto;
+        -webkit-hyphens: auto;
+        word-spacing: normal;
+        text-wrap: pretty;
     }
 
     /* Teacher card */
@@ -203,7 +237,7 @@
     }
     .teacher-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
     .teacher-block h3 {
-        font-family: 'Cinzel', serif;
+        font-family: var(--font-site-course);
         font-weight: 500;
         font-size: clamp(1.6rem, 3vw, 2.3rem);
         letter-spacing: .02em;
@@ -211,14 +245,14 @@
         margin-bottom: .5rem;
     }
     .teacher-block .teacher-title {
-        font-family: 'Cormorant Garamond', serif;
+        font-family: var(--font-site-body);
         font-style: italic;
         font-size: 1.15rem;
         color: var(--gold-light);
         margin-bottom: 1.5rem;
     }
     .teacher-block p {
-        font-family: 'Cormorant Garamond', serif;
+        font-family: var(--font-site-body);
         font-size: 1.15rem;
         line-height: 1.75;
         color: rgba(250,246,236,.82);
@@ -250,7 +284,7 @@
         gap: 1rem;
         padding: 1rem 0;
         border-bottom: 1px solid var(--line);
-        font-family: 'Cormorant Garamond', serif;
+        font-family: var(--font-site-body);
         font-size: 1.15rem;
         color: var(--ink);
     }
@@ -279,7 +313,7 @@
     }
     .related-card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(26,22,18,.1); }
     .related-card .glyph {
-        font-family: 'Cinzel', serif;
+        font-family: var(--font-site-course);
         font-size: 2rem;
         font-weight: 700;
         color: var(--bronze-dark);
@@ -287,27 +321,84 @@
         margin-bottom: 1rem;
     }
     .related-card .title {
-        font-family: 'Cinzel', serif;
-        font-size: 1rem;
+        font-family: var(--font-site-course);
+        font-size: clamp(.95rem, 1.6vw, calc(var(--font-size-course) * 0.75));
         font-weight: 500;
         letter-spacing: .1em;
         text-transform: uppercase;
         margin-bottom: .5rem;
     }
     .related-card .sub {
-        font-family: 'Cormorant Garamond', serif;
+        font-family: var(--font-site-body);
         font-style: italic;
         color: var(--stone);
         font-size: 1rem;
     }
 
     @media (max-width: 767px) {
-        .c-hero { min-height: auto; padding: 4rem 0 3rem; }
-        .c-hero .meta-row { gap: 1.2rem; }
+        .c-hero {
+            min-height: 46vh;
+            border-bottom-left-radius: 28px;
+            border-bottom-right-radius: 28px;
+        }
         .c-section { padding: 3rem 0; }
+        .c-section h2 {
+            font-size: 1.55rem;
+            line-height: 1.2;
+            text-align: center;
+            margin-bottom: 1.2rem;
+        }
+        .c-section p, .c-section li {
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+        .course-info-grid {
+            grid-template-columns: 1fr;
+            gap: .85rem;
+            margin: 1.5rem 0 2rem;
+        }
+        .course-info-card {
+            padding: 1rem 1rem;
+            border-radius: 18px;
+        }
+        .about-course-grid {
+            grid-template-columns: 1fr;
+            gap: 1.35rem;
+        }
+        .about-course-visual {
+            min-height: 280px;
+            order: -1;
+            border-radius: 22px;
+        }
+        .learn-list li {
+            padding: .95rem .95rem .95rem 1.75rem;
+        }
+        .level-card {
+            padding: 1.5rem 1.2rem;
+            border-radius: 20px;
+        }
         .pillar-text::first-letter { font-size: 2.5rem; }
+        .course-copy-shell > p:first-of-type::first-letter { font-size: 2.5rem; }
         .teacher-photo { width: 200px; height: 200px; margin-bottom: 2rem; }
         .course-contact .panel { padding: 2rem 1.5rem; }
+    }
+    @media (max-width: 575px) {
+        .c-section .col-lg-8,
+        .c-section .col-lg-10,
+        .c-section .offset-lg-1,
+        .c-section .offset-lg-2 {
+            padding-left: .35rem;
+            padding-right: .35rem;
+        }
+        .c-hero {
+            min-height: 40vh;
+            border-bottom-left-radius: 22px;
+            border-bottom-right-radius: 22px;
+        }
+        .level-card .level-name {
+            font-size: 1rem;
+            line-height: 1.3;
+        }
     }
 </style>
 @endpush
@@ -316,59 +407,68 @@
 
 @php
     $bgImg = $course->imagemFundoUrl() ?: $course->imagemCapaUrl() ?: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=2400&q=85';
+    $aboutImg = $course->imagemCapaUrl() ?: $bgImg;
+    $durationLines = collect(preg_split('/\s*;\s*/', (string) $course->duracao_total))
+        ->map(fn ($line) => trim($line))
+        ->filter()
+        ->values();
 @endphp
 
-<section class="c-hero" style="--bg-image: url('{{ $bgImg }}'); --accent-color: {{ $course->cor_destaque }};">
-    <div class="container">
-        <a href="{{ route('courses') }}" class="back-link">← {{ __('site.course_back') }}</a>
-        <div class="row">
-            <div class="col-lg-10">
-                <div class="glifo" style="color: {{ $course->cor_destaque }}; border-color: {{ $course->cor_destaque }};">{{ $course->glifo }}</div>
-                <h1>{{ $course->t('nome') }}</h1>
-                @if($course->t('subtitulo'))
-                    <p class="subtitle">{{ $course->t('subtitulo') }}</p>
-                @endif
-
-                <div class="meta-row">
-                    @if($course->duracao_total)
-                        <div class="meta-item">
-                            <div class="label">{{ __('site.course_duration') }}</div>
-                            <div class="value">{{ $course->duracao_total }}</div>
-                        </div>
-                    @endif
-                    @if($course->formato)
-                        <div class="meta-item">
-                            <div class="label">{{ __('site.course_format') }}</div>
-                            <div class="value">{{ $course->formato }}</div>
-                        </div>
-                    @endif
-                    @if($course->preco)
-                        <div class="meta-item">
-                            <div class="label">{{ __('site.course_price') }}</div>
-                            <div class="value">{{ $course->preco }}</div>
-                        </div>
-                    @endif
-                    @if($course->vagas_por_turma)
-                        <div class="meta-item">
-                            <div class="label">{{ __('site.course_size') }}</div>
-                            <div class="value">{{ $course->vagas_por_turma }} alunos</div>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<section class="c-hero" style="--bg-image: url('{{ $bgImg }}'); --accent-color: {{ $course->cor_destaque }};"></section>
 
 {{-- About --}}
 @if($course->t('descricao_longa'))
 <section class="c-section ivory">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8 offset-lg-2">
-                <div class="eyebrow-c">{{ __('site.course_about') }}</div>
-                <h2>{{ __('site.course_about') }}</h2>
-                <div class="ornament" style="margin: 1rem 0 2rem;"><i class="fas fa-feather"></i></div>
+        <div class="about-course-grid">
+            <div>
+                @if($course->t('descricao_curta'))
+                    <p class="course-short-description">{{ $course->t('descricao_curta') }}</p>
+                @endif
+                @if($course->duracao_total || $course->formato || $course->preco || $course->vagas_por_turma || $course->material_gratis || $course->certificacao_gratis)
+                    <div class="course-info-grid">
+                        @if($course->duracao_total)
+                            <div class="course-info-card">
+                                <div class="label">{{ __('site.course_duration') }}</div>
+                                <div class="value value-lines">
+                                    @foreach($durationLines as $line)
+                                        <span class="value-line">{{ $line }}</span>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                        @if($course->formato)
+                            <div class="course-info-card">
+                                <div class="label">{{ __('site.course_format') }}</div>
+                                <div class="value">{{ $course->formato }}</div>
+                            </div>
+                        @endif
+                        @if($course->preco)
+                            <div class="course-info-card">
+                                <div class="label">{{ __('site.course_price') }}</div>
+                                <div class="value">{{ $course->preco }}</div>
+                            </div>
+                        @endif
+                        @if($course->vagas_por_turma)
+                            <div class="course-info-card">
+                                <div class="label">{{ __('site.course_size') }}</div>
+                                <div class="value">{{ $course->vagas_por_turma }} students</div>
+                            </div>
+                        @endif
+                        @if($course->material_gratis)
+                            <div class="course-info-card">
+                                <div class="label">Material</div>
+                                <div class="value">{{ $course->material_gratis_texto ?: 'Free study material' }}</div>
+                            </div>
+                        @endif
+                        @if($course->certificacao_gratis)
+                            <div class="course-info-card">
+                                <div class="label">Certificate</div>
+                                <div class="value">{{ $course->certificacao_gratis_texto ?: 'Free certificate included' }}</div>
+                            </div>
+                        @endif
+                    </div>
+                @endif
                 <p class="pillar-text">{{ $course->t('descricao_longa') }}</p>
             </div>
         </div>
@@ -376,41 +476,12 @@
 </section>
 @endif
 
-{{-- History --}}
-@if($course->t('historia_lingua'))
-<section class="c-section alt">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 offset-lg-2">
-                <div class="eyebrow-c">{{ __('site.course_history') }}</div>
-                <h2>{{ __('site.course_history') }}</h2>
-                <div class="ornament" style="margin: 1rem 0 2rem;"><i class="fas fa-scroll"></i></div>
-                <p>{{ $course->t('historia_lingua') }}</p>
-            </div>
-        </div>
-    </div>
-</section>
-@endif
-
-{{-- Alphabet + For whom --}}
-@if($course->t('alfabeto_info') || $course->t('para_quem'))
+{{-- For whom --}}
+@if($course->t('para_quem'))
 <section class="c-section ivory">
     <div class="container">
-        <div class="row g-5">
-            @if($course->t('alfabeto_info'))
-                <div class="col-lg-6">
-                    <div class="eyebrow-c">{{ __('site.course_alphabet') }}</div>
-                    <h2>{{ __('site.course_alphabet') }}</h2>
-                    <p>{{ $course->t('alfabeto_info') }}</p>
-                </div>
-            @endif
-            @if($course->t('para_quem'))
-                <div class="col-lg-6">
-                    <div class="eyebrow-c">{{ __('site.course_for_whom') }}</div>
-                    <h2>{{ __('site.course_for_whom') }}</h2>
-                    <p>{{ $course->t('para_quem') }}</p>
-                </div>
-            @endif
+        <div class="course-copy-shell">
+            <p>{{ $course->t('para_quem') }}</p>
         </div>
     </div>
 </section>
@@ -420,17 +491,12 @@
 @if(count($course->tArray('o_que_aprende')))
 <section class="c-section alt">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-10 offset-lg-1">
-                <div class="eyebrow-c">{{ __('site.course_what_you_learn') }}</div>
-                <h2>{{ __('site.course_what_you_learn') }}</h2>
-                <div class="ornament" style="margin: 1rem 0 2rem;"><i class="fas fa-quote-right"></i></div>
-                <ul class="learn-list">
-                    @foreach($course->tArray('o_que_aprende') as $item)
-                        <li>{{ $item }}</li>
-                    @endforeach
-                </ul>
-            </div>
+        <div class="course-copy-shell">
+            <ul class="learn-list">
+                @foreach($course->tArray('o_que_aprende') as $item)
+                    <li>{{ $item }}</li>
+                @endforeach
+            </ul>
         </div>
     </div>
 </section>
@@ -440,156 +506,28 @@
 @if(is_array($course->niveis) && count($course->niveis))
 <section class="c-section ivory">
     <div class="container">
-        <div class="text-center mb-5">
-            <div class="eyebrow-c">{{ __('site.course_levels') }}</div>
-            <h2>{{ __('site.course_levels') }}</h2>
-            <div class="ornament"><i class="fas fa-layer-group"></i></div>
-        </div>
-        <div class="row g-4">
-            @foreach($course->niveis as $i => $nivel)
-                <div class="col-md-4">
-                    <div class="level-card" style="--accent-color: {{ $course->cor_destaque }};">
-                        <div class="level-num">{{ $i + 1 }}</div>
-                        <div class="level-name">
-                            {{ $nivel['nome'][app()->getLocale()] ?? $nivel['nome']['pt_BR'] ?? $nivel['nome']['en'] ?? '' }}
+        <div class="course-copy-shell">
+            <div class="row g-4">
+                @foreach($course->niveis as $i => $nivel)
+                    <div class="col-md-4">
+                        <div class="level-card" style="--accent-color: {{ $course->cor_destaque }};">
+                            <div class="level-num">{{ $i + 1 }}</div>
+                            <div class="level-name">
+                                {{ $nivel['nome'][app()->getLocale()] ?? $nivel['nome']['pt_BR'] ?? $nivel['nome']['en'] ?? '' }}
+                            </div>
+                            <p>{{ $nivel['descricao'][app()->getLocale()] ?? $nivel['descricao']['pt_BR'] ?? $nivel['descricao']['en'] ?? '' }}</p>
+                            @if(!empty($nivel['duracao']))
+                                <div class="level-duration"><i class="far fa-clock me-2"></i>{{ $nivel['duracao'] }}</div>
+                            @endif
                         </div>
-                        <p>{{ $nivel['descricao'][app()->getLocale()] ?? $nivel['descricao']['pt_BR'] ?? $nivel['descricao']['en'] ?? '' }}</p>
-                        @if(!empty($nivel['duracao']))
-                            <div class="level-duration"><i class="far fa-clock me-2"></i>{{ $nivel['duracao'] }}</div>
-                        @endif
                     </div>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-@endif
-
-{{-- Teacher --}}
-@if($course->professor_nome)
-<section class="teacher-block">
-    <div class="container">
-        <div class="row align-items-center g-5">
-            <div class="col-lg-4 text-center">
-                <div class="teacher-photo">
-                    @if($course->professorFotoUrl())
-                        <img src="{{ $course->professorFotoUrl() }}" alt="{{ $course->professor_nome }}">
-                    @else
-                        <div style="width:100%; height:100%; background: var(--ink-soft); border-radius:50%; display:flex; align-items:center; justify-content:center; color: var(--gold-light); font-family:'Cinzel',serif; font-size: 4rem;">
-                            {{ mb_substr($course->professor_nome, 0, 1) }}
-                        </div>
-                    @endif
-                </div>
+                @endforeach
             </div>
-            <div class="col-lg-8">
-                <div style="font-family:'Cormorant SC',serif; font-size:.8rem; letter-spacing:.32em; text-transform:uppercase; color: var(--gold-light); margin-bottom: .5rem;">
-                    {{ __('site.course_teacher') }}
-                </div>
-                <h3>{{ $course->professor_nome }}</h3>
-                @if($course->t('professor_titulos'))
-                    <p class="teacher-title">{{ $course->t('professor_titulos') }}</p>
-                @endif
-                @if($course->t('professor_bio'))
-                    <p>{{ $course->t('professor_bio') }}</p>
-                @endif
-            </div>
-        </div>
-    </div>
-</section>
-@endif
-
-{{-- Contact / Enroll --}}
-<section class="course-contact">
-    <div class="container">
-        <div class="row align-items-center g-5">
-            <div class="col-lg-6">
-                <div class="eyebrow-c">{{ __('site.course_contact_title') }}</div>
-                <h2 style="font-family:'Cinzel',serif; font-size: clamp(1.8rem,3.5vw,2.6rem); color: var(--ink); letter-spacing:.015em;">
-                    {{ __('site.course_contact_title') }}
-                </h2>
-                <div class="ornament" style="margin: 1rem 0 2rem; justify-content: flex-start;"><i class="fas fa-feather"></i></div>
-                <p style="font-family:'Cormorant Garamond',serif; font-size:1.2rem; line-height:1.7; color: var(--ink-soft);">
-                    {{ __('site.course_contact_text') }}
-                </p>
-                <div class="d-flex flex-wrap gap-3 mt-4">
-                    @if($course->whatsappLink())
-                        <a href="{{ $course->whatsappLink() }}" target="_blank" rel="noopener" class="btn-classical-dark">
-                            <i class="fab fa-whatsapp"></i> WhatsApp
-                        </a>
-                    @endif
-                    <a href="{{ route('contact') }}" class="btn-classical">{{ __('site.course_enroll') }} <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="panel">
-                    @if($course->contato_whatsapp)
-                        <div class="contact-item">
-                            <i class="fab fa-whatsapp"></i>
-                            <div>
-                                <small style="font-family:'Cormorant SC',serif; font-size:.7rem; letter-spacing:.25em; text-transform:uppercase; color:var(--stone); display:block;">WhatsApp</small>
-                                {{ $course->contato_whatsapp }}
-                            </div>
-                        </div>
-                    @endif
-                    @if($course->contato_email)
-                        <div class="contact-item">
-                            <i class="far fa-envelope"></i>
-                            <div>
-                                <small style="font-family:'Cormorant SC',serif; font-size:.7rem; letter-spacing:.25em; text-transform:uppercase; color:var(--stone); display:block;">Email</small>
-                                {{ $course->contato_email }}
-                            </div>
-                        </div>
-                    @endif
-                    @if($course->contato_telefone)
-                        <div class="contact-item">
-                            <i class="fas fa-phone-alt"></i>
-                            <div>
-                                <small style="font-family:'Cormorant SC',serif; font-size:.7rem; letter-spacing:.25em; text-transform:uppercase; color:var(--stone); display:block;">Telefone</small>
-                                {{ $course->contato_telefone }}
-                            </div>
-                        </div>
-                    @endif
-                    @if(!$course->contato_whatsapp && !$course->contato_email && !$course->contato_telefone)
-                        @if($settings->email_institucional)
-                            <div class="contact-item">
-                                <i class="far fa-envelope"></i>
-                                <div>{{ $settings->email_institucional }}</div>
-                            </div>
-                        @endif
-                        @if($settings->telefone)
-                            <div class="contact-item">
-                                <i class="fas fa-phone-alt"></i>
-                                <div>{{ $settings->telefone }}</div>
-                            </div>
-                        @endif
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-{{-- Related --}}
-@if($related->count())
-<section class="related-courses">
-    <div class="container">
-        <div class="text-center mb-5">
-            <div class="eyebrow-c">Outros caminhos</div>
-            <h2 style="font-family:'Cinzel',serif; font-size:1.8rem; color: var(--ink); letter-spacing:.015em;">Outros cursos do Gramma</h2>
-        </div>
-        <div class="row g-4">
-            @foreach($related as $r)
-                <div class="col-md-4">
-                    <a href="{{ route('courses.show', $r->slug) }}" class="related-card">
-                        <div class="glyph" style="color: {{ $r->cor_destaque }};">{{ $r->glifo }}</div>
-                        <div class="title">{{ $r->t('nome') }}</div>
-                        <div class="sub">{{ $r->t('subtitulo') }}</div>
-                    </a>
-                </div>
-            @endforeach
         </div>
     </div>
 </section>
 @endif
 
 @endsection
+
+

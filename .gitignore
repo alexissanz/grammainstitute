@@ -22,3 +22,14 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Deploy artifacts & local scratch (never commit — may contain prod data/secrets)
+/.deploy_dreamhost
+/deploy_dreamhost.tgz
+/dreamhost_data.sql
+/index.php
+/.htaccess
+.codex_*.php
+wp_*.php
+wp_*.sql
+/scripts

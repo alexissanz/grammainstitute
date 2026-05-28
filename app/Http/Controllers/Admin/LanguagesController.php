@@ -13,8 +13,6 @@ class LanguagesController extends Controller
         'pt_BR' => ['name' => 'Português (Brasil)', 'flag' => '🇧🇷', 'dir' => 'ltr', 'mm' => 'pt-BR'],
         'en'    => ['name' => 'English',             'flag' => '🇬🇧', 'dir' => 'ltr', 'mm' => 'en'],
         'es'    => ['name' => 'Español',             'flag' => '🇪🇸', 'dir' => 'ltr', 'mm' => 'es'],
-        'he'    => ['name' => 'עברית',               'flag' => '🇮🇱', 'dir' => 'rtl', 'mm' => 'he'],
-        'el'    => ['name' => 'Ελληνικά',            'flag' => '🇬🇷', 'dir' => 'ltr', 'mm' => 'el'],
     ];
 
     public function index()

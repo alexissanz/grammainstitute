@@ -22,12 +22,24 @@
 
 @section('content')
 
-<form method="post" action="{{ $course->exists ? route('admin.courses.update', $course) : route('admin.courses.store') }}" enctype="multipart/form-data">
+<form method="post" action="{{ $course->exists ? route('admin.courses.update', $course) : route('admin.courses.store') }}" enctype="multipart/form-data" novalidate>
     @csrf
     @if($course->exists) @method('PUT') @endif
 
     <div class="card" style="border-radius:12px; border:none; box-shadow:0 2px 16px rgba(0,0,0,0.08);">
         <div class="card-body p-4">
+
+            @if($errors->any())
+                <div class="alert alert-danger" style="border-radius:10px;">
+                    <strong>Nao foi possivel guardar o curso.</strong>
+                    <div style="margin-top:.35rem;">Veja abaixo o motivo do erro:</div>
+                    <ul style="margin:.65rem 0 0 1rem; padding:0;">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             {{-- Identificação --}}
             <div class="form-section">
@@ -52,7 +64,7 @@
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">Ordem</label>
-                        <input name="ordem" type="number" class="form-control" value="{{ old('ordem', $course->ordem) }}">
+                        <input name="ordem" type="text" class="form-control" value="{{ old('ordem', $course->ordem) }}">
                     </div>
                 </div>
             </div>
@@ -63,17 +75,21 @@
                 <p class="help">Imagem de capa (listagem) e imagem de fundo (página do curso).</p>
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label class="form-label">Imagem de capa <small>(JPG/PNG/WebP)</small></label>
-                        <input name="imagem_capa" type="file" class="form-control" accept="image/*">
+                        <label class="form-label">Imagem de capa <small>(JPG/JPEG/PNG/WebP/GIF/BMP/AVIF/HEIC/HEIF/JFIF ate 20MB)</small></label>
+                        <input name="imagem_capa" type="file" class="form-control" accept=".jpg,.jpeg,.png,.webp,.gif,.bmp,.avif,.heic,.heif,.jfif,image/*" data-image-preview="#preview-imagem-capa">
                         @if($course->imagemCapaUrl())
-                            <img src="{{ $course->imagemCapaUrl() }}" style="margin-top:.5rem; max-height:80px; border-radius:6px;">
+                            <img id="preview-imagem-capa" src="{{ $course->imagemCapaUrl() }}" style="margin-top:.5rem; max-height:80px; border-radius:6px;">
+                        @else
+                            <img id="preview-imagem-capa" style="margin-top:.5rem; max-height:80px; border-radius:6px; display:none;">
                         @endif
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Imagem de fundo (banner)</label>
-                        <input name="imagem_fundo" type="file" class="form-control" accept="image/*">
+                        <label class="form-label">Imagem de fundo (banner) <small>(opcional ate 20MB)</small></label>
+                        <input name="imagem_fundo" type="file" class="form-control" accept=".jpg,.jpeg,.png,.webp,.gif,.bmp,.avif,.heic,.heif,.jfif,image/*" data-image-preview="#preview-imagem-fundo">
                         @if($course->imagemFundoUrl())
-                            <img src="{{ $course->imagemFundoUrl() }}" style="margin-top:.5rem; max-height:80px; border-radius:6px;">
+                            <img id="preview-imagem-fundo" src="{{ $course->imagemFundoUrl() }}" style="margin-top:.5rem; max-height:80px; border-radius:6px;">
+                        @else
+                            <img id="preview-imagem-fundo" style="margin-top:.5rem; max-height:80px; border-radius:6px; display:none;">
                         @endif
                     </div>
                 </div>
@@ -82,11 +98,11 @@
             {{-- Conteúdo Traduzível --}}
             <div class="form-section">
                 <h6><i class="fas fa-language me-2"></i>Conteúdo (multilíngue)</h6>
-                <p class="help">Cada campo pode ter uma versão por idioma. Preencha pelo menos o PT-BR — os outros são opcionais.</p>
+                <p class="help">Só o nome do curso é obrigatório. Todos os outros textos são opcionais em qualquer idioma.</p>
 
                 @php
                     $textFields = [
-                        ['key' => 'nome',            'label' => 'Nome do curso',          'type' => 'input',    'required' => true],
+                        ['key' => 'nome',            'label' => 'Nome do curso',          'type' => 'input'],
                         ['key' => 'subtitulo',       'label' => 'Subtítulo',              'type' => 'input'],
                         ['key' => 'descricao_curta', 'label' => 'Descrição curta (listagem)', 'type' => 'textarea', 'rows' => 2],
                         ['key' => 'descricao_longa', 'label' => 'Descrição longa (sobre o curso)', 'type' => 'textarea', 'rows' => 5],
@@ -159,7 +175,29 @@
                     <div class="col-md-3"><label class="form-label">Duração total</label><input name="duracao_total" type="text" class="form-control" value="{{ old('duracao_total', $course->duracao_total) }}" placeholder="120h · 6 módulos"></div>
                     <div class="col-md-3"><label class="form-label">Formato</label><input name="formato" type="text" class="form-control" value="{{ old('formato', $course->formato) }}" placeholder="Online · Presencial"></div>
                     <div class="col-md-3"><label class="form-label">Investimento</label><input name="preco" type="text" class="form-control" value="{{ old('preco', $course->preco) }}" placeholder="R$ 290 / mês"></div>
-                    <div class="col-md-3"><label class="form-label">Vagas por turma</label><input name="vagas_por_turma" type="number" class="form-control" value="{{ old('vagas_por_turma', $course->vagas_por_turma) }}"></div>
+                    <div class="col-md-3"><label class="form-label">Vagas por turma</label><input name="vagas_por_turma" type="text" class="form-control" value="{{ old('vagas_por_turma', $course->vagas_por_turma) }}"></div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <div class="col-md-6">
+                        <label class="d-flex align-items-center gap-2 p-2 border rounded" style="cursor:pointer;">
+                            <input type="checkbox" name="material_gratis" value="1" {{ old('material_gratis', $course->material_gratis) ? 'checked' : '' }}> Material grátis
+                        </label>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="d-flex align-items-center gap-2 p-2 border rounded" style="cursor:pointer;">
+                            <input type="checkbox" name="certificacao_gratis" value="1" {{ old('certificacao_gratis', $course->certificacao_gratis) ? 'checked' : '' }}> Com direito a certificação grátis
+                        </label>
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <div class="col-md-6">
+                        <label class="form-label">Texto do quadro “material grátis”</label>
+                        <input name="material_gratis_texto" type="text" class="form-control" value="{{ old('material_gratis_texto', $course->material_gratis_texto) }}" placeholder="Free study material">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Texto do quadro “certificação”</label>
+                        <input name="certificacao_gratis_texto" type="text" class="form-control" value="{{ old('certificacao_gratis_texto', $course->certificacao_gratis_texto) }}" placeholder="Free certificate included">
+                    </div>
                 </div>
             </div>
 
@@ -172,10 +210,12 @@
                         <input name="professor_nome" type="text" class="form-control" value="{{ old('professor_nome', $course->professor_nome) }}">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Foto</label>
-                        <input name="professor_foto" type="file" class="form-control" accept="image/*">
+                        <label class="form-label">Foto <small>(JPG/JPEG/PNG/WebP/GIF/BMP/AVIF/HEIC/HEIF/JFIF ate 20MB)</small></label>
+                        <input name="professor_foto" type="file" class="form-control" accept=".jpg,.jpeg,.png,.webp,.gif,.bmp,.avif,.heic,.heif,.jfif,image/*" data-image-preview="#preview-professor-foto">
                         @if($course->professorFotoUrl())
-                            <img src="{{ $course->professorFotoUrl() }}" style="margin-top:.5rem; max-height:60px; border-radius:50%;">
+                            <img id="preview-professor-foto" src="{{ $course->professorFotoUrl() }}" style="margin-top:.5rem; max-height:60px; border-radius:50%;">
+                        @else
+                            <img id="preview-professor-foto" style="margin-top:.5rem; max-height:60px; border-radius:50%; display:none;">
                         @endif
                     </div>
                 </div>
@@ -217,7 +257,7 @@
                 <p class="help">Se ficar em branco, usamos o contacto geral do site.</p>
                 <div class="row g-3">
                     <div class="col-md-4"><label class="form-label">WhatsApp</label><input name="contato_whatsapp" type="text" class="form-control" value="{{ old('contato_whatsapp', $course->contato_whatsapp) }}"></div>
-                    <div class="col-md-4"><label class="form-label">Email</label><input name="contato_email" type="email" class="form-control" value="{{ old('contato_email', $course->contato_email) }}"></div>
+                    <div class="col-md-4"><label class="form-label">Email</label><input name="contato_email" type="text" class="form-control" value="{{ old('contato_email', $course->contato_email) }}"></div>
                     <div class="col-md-4"><label class="form-label">Telefone</label><input name="contato_telefone" type="text" class="form-control" value="{{ old('contato_telefone', $course->contato_telefone) }}"></div>
                 </div>
             </div>
@@ -253,6 +293,22 @@
 
 @push('scripts')
 <script>
+    document.querySelectorAll('input[type="file"][data-image-preview]').forEach(function(input) {
+        input.addEventListener('change', function() {
+            var target = document.querySelector(input.getAttribute('data-image-preview'));
+            var file = input.files && input.files[0];
+            if (!target) return;
+            if (!file) {
+                target.removeAttribute('src');
+                target.style.display = 'none';
+                return;
+            }
+            var url = URL.createObjectURL(file);
+            target.src = url;
+            target.style.display = '';
+        });
+    });
+
     // Language tabs
     document.querySelectorAll('.lang-tabs').forEach(function(tabs) {
         const field = tabs.dataset.field;

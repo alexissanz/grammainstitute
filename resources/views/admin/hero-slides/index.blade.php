@@ -15,9 +15,6 @@
     .slide-thumb-placeholder { width:120px; height:74px; border-radius:6px; background:#f3f4f6; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#9ca3af; font-size:1.4rem; }
     .drag-handle { cursor:grab; color:#d1d5db; font-size:1.1rem; flex-shrink:0; }
     .drag-handle:active { cursor:grabbing; }
-    .lang-tabs-mini .nav-link { font-size:.75rem; padding:.25rem .6rem; border-radius:4px; color:#6b7280; }
-    .lang-tabs-mini .nav-link.active { background:#1a3a5c; color:#fff; }
-    .lang-tabs-mini .nav-item + .nav-item { margin-left:.25rem; }
     .slide-active-badge { font-size:.72rem; padding:.2rem .65rem; border-radius:20px; font-weight:600; }
     .tipo-badge { font-size:.7rem; padding:.18rem .55rem; border-radius:20px; font-weight:600; background:#eef2ff; color:#4338ca; }
     .tipo-badge.is-video { background:#fef3c7; color:#92400e; }
@@ -41,11 +38,19 @@
 
 @section('content')
 
+<div class="alert mb-3" style="background:#eef3ff; border:1px solid #c7d7f5; border-radius:10px; color:#1a3a5c; font-size:.875rem;">
+    <i class="fas fa-info-circle me-1"></i>
+    Para que estes slides apareçam no site, vá às
+    <a href="{{ route('admin.settings.edit') }}#tab-hero" style="color:#1a3a5c; text-decoration:underline; font-weight:600;">Configurações &rsaquo; Hero</a>
+    e selecione <strong>"Carrossel de Slides"</strong>.
+    Vídeos são <strong>silenciados automaticamente</strong>. O texto exibido no site segue a <strong>língua ativa</strong>.
+</div>
+
 <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
     <div>
         <p class="text-muted mb-0" style="font-size:.875rem;">
             Cada slide aparece no carrossel da página inicial. Pode usar <strong>imagem</strong> ou <strong>vídeo</strong>.
-            <a href="{{ route('admin.settings.edit') }}#tab-hero" style="color:#2d6a9f;">Mudar tipo de Hero →</a>
+            Arraste o handle <i class="fas fa-grip-vertical"></i> para reordenar.
         </p>
     </div>
     <button class="btn btn-primary" data-toggle="modal" data-target="#slideModal" onclick="openAddModal()" style="border-radius:8px;">
@@ -68,11 +73,11 @@
 
             @if($slide->isVideo())
                 <video class="slide-thumb" muted playsinline preload="metadata"
-                       @if($slide->poster) poster="{{ Storage::url($slide->poster) }}" @endif>
-                    <source src="{{ Storage::url($slide->video) }}">
+                       @if($slide->poster) poster="{{ url('media/' . $slide->poster) }}" @endif>
+                    <source src="{{ url('media/' . $slide->video) }}">
                 </video>
             @elseif($slide->imagem)
-                <img src="{{ Storage::url($slide->imagem) }}" class="slide-thumb" alt="">
+                <img src="{{ url('media/' . $slide->imagem) }}" class="slide-thumb" alt="">
             @else
                 <div class="slide-thumb-placeholder"><i class="fas fa-image"></i></div>
             @endif
@@ -84,10 +89,10 @@
                     </span>
                 </div>
                 <div class="fw-bold" style="font-size:.92rem; color:#1a3a5c;">
-                    {{ $slide->titulo['pt_BR'] ?? 'Sem título (PT-BR)' }}
+                    {{ $slide->getTitulo() ?: 'Sem título' }}
                 </div>
                 <div class="text-muted" style="font-size:.82rem;">
-                    {{ $slide->subtitulo['pt_BR'] ?? '' }}
+                    {{ $slide->getSubtitulo() }}
                 </div>
                 <div class="mt-1 d-flex gap-1 flex-wrap">
                     @foreach(['pt_BR', 'en', 'es', 'he', 'el', 'la'] as $loc)
@@ -174,32 +179,36 @@
 
                     <hr>
 
-                    {{-- Language tabs for titulo/subtitulo --}}
-                    <label class="font-weight-bold" style="font-size:.875rem;">Título e Subtítulo por Idioma</label>
-                    <ul class="nav nav-tabs lang-tabs-mini mt-2 mb-3" id="slideLangTabs">
-                        @foreach(['pt_BR' => '🇧🇷 PT-BR *', 'en' => '🇬🇧 EN', 'es' => '🇪🇸 ES', 'he' => '🇮🇱 HE', 'el' => '🇬🇷 EL', 'la' => '🏛 LA'] as $code => $label)
-                        <li class="nav-item">
-                            <a class="nav-link {{ $loop->first ? 'active' : '' }}" data-toggle="tab" href="#slang-{{ $code }}">{{ $label }}</a>
-                        </li>
-                        @endforeach
-                    </ul>
-                    <div class="tab-content">
-                        @foreach(['pt_BR' => 'ltr', 'en' => 'ltr', 'es' => 'ltr', 'he' => 'rtl', 'el' => 'ltr', 'la' => 'ltr'] as $code => $dir)
-                        <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="slang-{{ $code }}">
-                            <div class="form-group">
-                                <label style="font-size:.82rem; color:#6b7280;">Título ({{ $code }})</label>
-                                <input type="text" name="titulo[{{ $code }}]" id="titulo_{{ $code }}"
-                                       class="form-control form-control-sm" dir="{{ $dir }}"
-                                       placeholder="{{ $code === 'pt_BR' ? 'Obrigatório' : 'Opcional — preenche automaticamente com PT-BR se vazio' }}">
-                            </div>
-                            <div class="form-group">
-                                <label style="font-size:.82rem; color:#6b7280;">Subtítulo ({{ $code }})</label>
-                                <textarea name="subtitulo[{{ $code }}]" id="subtitulo_{{ $code }}"
-                                          class="form-control form-control-sm" dir="{{ $dir }}" rows="2"
-                                          placeholder="Opcional"></textarea>
-                            </div>
-                        </div>
-                        @endforeach
+                    @php
+                        $activeLocale = app()->getLocale();
+                        $localeLabels = [
+                            'pt_BR' => 'Português',
+                            'en' => 'English',
+                            'es' => 'Español',
+                            'he' => 'Hebraico',
+                            'el' => 'Grego',
+                            'la' => 'Latim',
+                        ];
+                    @endphp
+
+                    <label class="font-weight-bold" style="font-size:.875rem;">
+                        Título e Subtítulo <small class="text-muted">(opcional — deixe vazio para slide só com mídia)</small>
+                    </label>
+                    <div class="mb-3" style="font-size:.8rem; color:#6b7280;">
+                        Idioma que está a editar agora: <strong>{{ $localeLabels[$activeLocale] ?? $activeLocale }}</strong>.
+                        O site mostra automaticamente o texto da língua ativa do visitante.
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:.82rem; color:#6b7280;">Título</label>
+                        <input type="text" name="titulo" id="titulo_atual"
+                               class="form-control form-control-sm" dir="{{ $activeLocale === 'he' ? 'rtl' : 'ltr' }}"
+                               placeholder="Opcional">
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:.82rem; color:#6b7280;">Descrição</label>
+                        <textarea name="subtitulo" id="subtitulo_atual"
+                                  class="form-control form-control-sm" dir="{{ $activeLocale === 'he' ? 'rtl' : 'ltr' }}" rows="2"
+                                  placeholder="Opcional"></textarea>
                     </div>
 
                     {{-- Active toggle --}}
@@ -272,12 +281,10 @@ function openAddModal() {
     document.getElementById('slideFormMethod').value = 'POST';
     document.getElementById('slideForm').reset();
     clearMediaPreviews();
-    ['pt_BR','en','es','he','el','la'].forEach(function(loc) {
-        var t = document.getElementById('titulo_' + loc);
-        var s = document.getElementById('subtitulo_' + loc);
-        if (t) t.value = '';
-        if (s) s.value = '';
-    });
+    var titleField = document.getElementById('titulo_atual');
+    var subtitleField = document.getElementById('subtitulo_atual');
+    if (titleField) titleField.value = '';
+    if (subtitleField) subtitleField.value = '';
     document.getElementById('slideAtivo').checked = true;
     setTipo('imagem');
 }
@@ -287,14 +294,11 @@ function openEditModal(slide) {
     document.getElementById('slideForm').action = '{{ url("admin/hero-slides") }}/' + slide.id;
     document.getElementById('slideFormMethod').value = 'POST';
 
+    var activeLocale = @json(app()->getLocale());
     var titulo = slide.titulo || {};
     var subtitulo = slide.subtitulo || {};
-    ['pt_BR','en','es','he','el','la'].forEach(function(loc) {
-        var t = document.getElementById('titulo_' + loc);
-        var s = document.getElementById('subtitulo_' + loc);
-        if (t) t.value = titulo[loc] || '';
-        if (s) s.value = subtitulo[loc] || '';
-    });
+    document.getElementById('titulo_atual').value = titulo[activeLocale] || '';
+    document.getElementById('subtitulo_atual').value = subtitulo[activeLocale] || '';
 
     document.getElementById('slideAtivo').checked = !!slide.ativo;
 

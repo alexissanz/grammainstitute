@@ -12,7 +12,9 @@ class SettingsController extends Controller
     public function edit()
     {
         $settings = SiteSetting::current();
-        return view('admin.settings.edit', compact('settings'));
+        $fontOptions = SiteSetting::typographyFontOptions();
+
+        return view('admin.settings.edit', compact('settings', 'fontOptions'));
     }
 
     public function update(SettingsRequest $request)
@@ -55,7 +57,18 @@ class SettingsController extends Controller
             $data['idiomas_activos'] = array_values($data['idiomas_activos']);
         }
 
+        if (!empty($data['idioma_padrao'])) {
+            $data['idiomas_activos'] = array_values(array_unique(array_merge(
+                $data['idiomas_activos'] ?? ($settings->idiomas_activos ?? []),
+                [$data['idioma_padrao']]
+            )));
+        }
+
         $settings->update($data);
+
+        if (!empty($data['idioma_padrao'])) {
+            session(['locale' => $data['idioma_padrao']]);
+        }
 
         return redirect()->route('admin.settings.edit')
             ->with('success', __('settings.saved'));

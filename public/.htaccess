@@ -3,7 +3,15 @@
         Options -MultiViews -Indexes
     </IfModule>
 
+    # Apache on Windows can't always stat files through a junction the way
+    # mod_rewrite's `!-f` test expects, which sends real storage URLs into
+    # Laravel and ends with a 403. Force /storage/* and /vendor/* to bypass
+    # the rewrite and be served as static files.
+    Options +FollowSymLinks
     RewriteEngine On
+
+    RewriteRule ^storage/ - [L]
+    RewriteRule ^vendor/  - [L]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .

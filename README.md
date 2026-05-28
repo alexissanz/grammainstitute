@@ -1,241 +1,299 @@
-# Gramma Institute
+<div align="center">
 
-**Sistema Laravel para Instituto Internacional de Línguas**
+<img src="docs/banner.svg" alt="Gramma Institute of Linguistics" width="100%" />
 
-Sistema web moderno, seguro e profissional para o Gramma Institute — uma instituição internacional de ensino de idiomas. Inclui site público institucional, autenticação completa, painel administrativo com AdminLTE oficial, gestão de configurações, suporte multilíngue (pt_BR, en, es, he, el) e SMTP configurável.
+<br/>
 
----
+# Gramma Institute · `/gil/`
 
-## Stack Tecnológica
+**Plataforma web institucional multilíngue para um instituto internacional de línguas**
 
-| Tecnologia | Versão |
+_Site público elegante (tipografia Didot, preto & branco) · Painel administrativo completo · Conteúdo 100% gerível · Multilíngue com tradução automática_
+
+<br/>
+
+![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8.x-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
+![AdminLTE](https://img.shields.io/badge/AdminLTE-3.2-00C0EF?style=for-the-badge)
+![License](https://img.shields.io/badge/license-Proprietary-111111?style=for-the-badge)
+
+</div>
+
+<div align="center"><img src="docs/divider.svg" alt="" width="60%" /></div>
+
+## Índice
+
+- [Visão Geral](#visão-geral)
+- [Quanto Vale um Site Como Este](#quanto-vale-um-site-como-este)
+- [Demonstração](#demonstração)
+- [Funcionalidades](#funcionalidades)
+- [Stack Tecnológica](#stack-tecnológica)
+- [Arquitectura](#arquitectura)
+- [Instalação Local](#instalação-local)
+- [Acesso de Administrador](#acesso-de-administrador)
+- [Idiomas](#idiomas)
+- [Deploy em Produção](#deploy-em-produção)
+- [Estrutura de Rotas](#estrutura-de-rotas)
+- [Autor](#autor)
+
+<div align="center"><img src="docs/divider.svg" alt="" width="60%" /></div>
+
+## Visão Geral
+
+O **Gramma Institute** é um sistema web profissional, seguro e totalmente editável, criado para uma
+instituição internacional de ensino de línguas clássicas e modernas. Junta um **site público**
+de estética editorial (tipografia Didot, layout preto & branco, vídeo hero com transições suaves)
+a um **painel administrativo** onde **cada bloco de conteúdo** — cursos, glossário, eventos,
+parceiros, recursos, página "About Us" e configurações — é gerível sem tocar em código.
+
+| | |
 |---|---|
-| Laravel | 12.x |
-| PHP | 8.2+ |
-| MySQL | 8.x |
-| AdminLTE | 3.2 (via jeroennoten/laravel-adminlte) |
-| Bootstrap | 5.3 (site público) |
-| Vite / NPM | 7.x / 11.x |
-| Font Awesome | 6.5 |
-| Google Fonts | Noto Sans, Noto Sans Hebrew |
+| **Tipo** | Site institucional + CMS sob medida |
+| **Domínio** | Educação / Linguística |
+| **Público-alvo** | Alunos, investigadores e parceiros internacionais |
+| **Idiomas** | Português 🇧🇷 · English 🇺🇸 · Español 🇪🇸 (com tradução automática) |
+| **Estado** | Em produção |
 
----
+<div align="center"><img src="docs/divider.svg" alt="" width="60%" /></div>
+
+## Quanto Vale um Site Como Este
+
+Estimativa de **valor de mercado** para construir uma plataforma equivalente, por módulo
+(valores de referência para freelancer/estúdio — 2026):
+
+| Módulo / Entrega | Esforço | 🇧🇷 BRL | 🇪🇺 EUR | 🇺🇸 USD |
+|---|---|---:|---:|---:|
+| UI/UX & Design editorial (Didot, preto & branco, responsivo) | Alto | R$ 7.000 | € 1.300 | $ 1.400 |
+| Site público (10+ páginas, hero em vídeo, animações) | Alto | R$ 9.000 | € 1.650 | $ 1.800 |
+| Painel administrativo (AdminLTE, CRUD completo) | Alto | R$ 8.000 | € 1.500 | $ 1.600 |
+| Sistema multilíngue + tradução automática | Médio | R$ 4.500 | € 850 | $ 900 |
+| Gestão de conteúdo (cursos, glossário, eventos, parceiros, recursos) | Alto | R$ 6.500 | € 1.200 | $ 1.300 |
+| Autenticação, papéis e segurança (CSRF, validação, hashing) | Médio | R$ 3.000 | € 560 | $ 600 |
+| SMTP configurável + testes de email | Baixo | R$ 1.500 | € 280 | $ 300 |
+| Deploy, hospedagem e configuração de produção | Médio | R$ 2.500 | € 460 | $ 500 |
+| **Total estimado** | | **R$ 42.000** | **€ 7.800** | **$ 8.400** |
+
+> 💡 **Modelos de comercialização**
+>
+> | Modelo | 🇧🇷 BRL | 🇪🇺 EUR | 🇺🇸 USD |
+> |---|---:|---:|---:|
+> | Projeto único (entrega chave-na-mão) | R$ 35.000 – 55.000 | € 6.500 – 10.000 | $ 7.000 – 11.000 |
+> | Licença + personalização (por cliente) | R$ 12.000 – 20.000 | € 2.200 – 3.700 | $ 2.400 – 4.000 |
+> | Manutenção mensal (SLA + evolução) | R$ 1.200 / mês | € 220 / mês | $ 240 / mês |
+> | SaaS multi-instituição (por escola/mês) | R$ 400 / mês | € 75 / mês | $ 80 / mês |
+
+<div align="center"><img src="docs/divider.svg" alt="" width="60%" /></div>
+
+## Demonstração
+
+> As imagens abaixo apontam para o repositório. Para capturas de ecrã, adicione os ficheiros em `docs/`.
+
+| Página Inicial | Detalhe de Curso (preto & branco) |
+|---|---|
+| Hero em vídeo com marca `/gil/`, grelha de cursos sensível ao toque | Layout minimalista, só conteúdo, letras brancas sobre preto |
+
+| About Us (conteúdo limpo) | Painel Administrativo |
+|---|---|
+| Sub-páginas só com conteúdo, sem títulos nem ornamentos | AdminLTE com CRUD de todo o conteúdo |
+
+<div align="center"><img src="docs/divider.svg" alt="" width="60%" /></div>
 
 ## Funcionalidades
 
-### Site Público
-- Página inicial com hero, cursos, vantagens, metodologia, testemunhos e contacto
-- Páginas: Sobre, Cursos, Metodologia, Contacto, Privacidade, Termos
-- Suporte RTL para Hebraico
-- Troca de idioma em tempo real
+### 🏛️ Site Público
+- **Hero em vídeo** com múltiplos clips, ordem gerível e transições cruzadas suaves (silencioso, com marca `/gil/`)
+- **Grelha de cursos** sensível a qualquer toque no mobile (um toque abre o curso)
+- **Detalhe de curso** em **preto & branco** — design editorial minimalista, só conteúdo
+- **About Us** como sub-páginas independentes — conteúdo limpo, sem ornamentos
+- **Glossário** de termos linguísticos com navegação por letra
+- **Eventos** (próximos e passados) e **Promoções**
+- **Parceiros** — grelha de logótipos/fotografias
+- **Resources** — mega-menu com categorias e links externos diretos
+- **WhatsApp** flutuante e troca de idioma em tempo real
 
-### Autenticação
-- Login / Logout
-- Recuperação de senha por email
-- Reset de senha
-- Sistema de roles: `admin` e `user`
+### 🛠️ Painel Administrativo (AdminLTE)
+- Dashboard com indicadores e manutenção do sistema
+- CRUD completo: **Cursos · Glossário · Eventos · Promoções · Parceiros · Recursos · Hero Slides**
+- Editor da página **About Us** (singleton) com todos os campos traduzíveis
+- **Configurações do site**: tipografia, logos, hero, redes sociais, SMTP
+- **Gestão de idiomas** + **editor de traduções** com **tradução automática**
+- Upload de media servido via rota dedicada (robusto em Windows/Linux)
 
-### Painel Administrativo (AdminLTE)
-- Dashboard com cards de informação
-- Gestão completa de configurações do site
-- Teste de email com SMTP configurável
-- Gestão de idiomas
-- Perfil do utilizador
+### 🌍 Multilíngue
+- Idiomas públicos: **pt_BR**, **en**, **es** (tradução automática via MyMemory)
+- Ficheiros em `lang/{locale}/` · middleware `SetLocale` por sessão
+- Conteúdo dinâmico traduzível (colunas JSON com fallback `locale → pt_BR → en`)
 
-### Multilíngue
-- Idiomas: **pt_BR**, **en**, **es**, **he** (RTL), **el**
-- Middleware `SetLocale` automático via sessão
-- Ficheiros de tradução em `lang/[locale]/`
-- Facilmente extensível para novos idiomas
+### 🔒 Segurança
+- CSRF em todos os formulários · middleware `auth` e `admin`
+- Form Requests com validação estrita · uploads validados
+- Senhas com Hash (bcrypt) · `.env` nunca versionado
 
-### Segurança
-- CSRF em todos os formulários
-- Middleware `auth` e `admin`
-- Form Requests com validação estrita
-- Senhas com Hash Laravel (bcrypt)
-- Uploads validados (tipo e tamanho)
-- `.env` nunca versionado
+<div align="center"><img src="docs/divider.svg" alt="" width="60%" /></div>
 
----
+## Stack Tecnológica
 
-## Requisitos
+| Camada | Tecnologia |
+|---|---|
+| Framework | Laravel 12.x |
+| Linguagem | PHP 8.2+ |
+| Base de dados | MySQL 8.x |
+| Front-end público | Bootstrap 5.3 + CSS sob medida (Didot / Bodoni Moda) |
+| Painel admin | AdminLTE 3.2 (Bootstrap 4.6) |
+| Ícones | Font Awesome 6.5 |
+| Drag & drop | SortableJS |
+| Tradução automática | MyMemory Translation API |
+| Build | Vite / NPM |
 
-- PHP >= 8.2
-- Composer >= 2.x
-- Node.js >= 18 + NPM
-- MySQL 8.x
-- MAMP / XAMPP / Servidor local
+<div align="center"><img src="docs/divider.svg" alt="" width="60%" /></div>
 
----
+## Arquitectura
+
+```
+app/
+├── Http/Controllers/
+│   ├── PublicController.php        # todas as páginas públicas
+│   ├── MediaController.php         # serve media de storage (cross-platform)
+│   └── Admin/                      # CRUD: Courses, Glossary, Events, Partners,
+│                                   #       Resources, HeroSlides, About, Settings, Languages
+├── Models/                         # SiteSetting, Course, GlossaryTerm, Event,
+│                                   # Partner, ResourceCategory, ResourceLink,
+│                                   # HeroSlide, Promotion, AboutPage (singletons + JSON i18n)
+resources/views/
+├── layouts/public.blade.php        # navbar, mega-menu, footer, hero controller
+├── layouts/adminlte.blade.php      # layout do painel
+└── public/                         # home, course-show, about-*, partners, resources, ...
+lang/{pt_BR,en,es}/                 # ficheiros de tradução
+routes/web.php                      # rotas públicas + grupo admin
+docs/                               # banner e ornamentos do README
+```
+
+<div align="center"><img src="docs/divider.svg" alt="" width="60%" /></div>
 
 ## Instalação Local
 
-### 1. Clonar o repositório
-
 ```bash
+# 1. Clonar
 git clone https://github.com/alexissanz/grammainstitute.git
 cd grammainstitute
-```
 
-### 2. Instalar dependências
-
-```bash
+# 2. Dependências
 composer install
 npm install
-```
 
-### 3. Configurar o ambiente
-
-```bash
+# 3. Ambiente
 cp .env.example .env
 php artisan key:generate
-```
 
-Edite o `.env` com os seus dados:
-
-```env
-APP_URL=http://localhost/grammainstitute/public
-
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=nome_da_base_de_dados
-DB_USERNAME=usuario_db
-DB_PASSWORD=senha_db
-```
-
-### 4. Configurar MySQL
-
-No phpMyAdmin ou linha de comando:
-
-```sql
-CREATE DATABASE `db_grammaao` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'user_dbgrammaao'@'localhost' IDENTIFIED BY 'user_dbgrammaao';
-GRANT ALL PRIVILEGES ON `db_grammaao`.* TO 'user_dbgrammaao'@'localhost';
-FLUSH PRIVILEGES;
-```
-
-### 5. Executar migrations e seeders
-
-```bash
+# 4. Base de dados (editar credenciais no .env) e seeders
 php artisan migrate --seed
-```
 
-### 6. Criar link de storage
-
-```bash
+# 5. Storage + build
 php artisan storage:link
-```
-
-### 7. Compilar assets
-
-```bash
 npm run build
 ```
 
----
+`.env` essencial:
+
+```env
+APP_URL=http://localhost/public
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=db_grammaao
+DB_USERNAME=user_dbgrammaao
+DB_PASSWORD=user_dbgrammaao
+FILESYSTEM_DISK=public
+```
+
+<div align="center"><img src="docs/divider.svg" alt="" width="60%" /></div>
 
 ## Acesso de Administrador
 
 | Campo | Valor |
 |---|---|
-| Email | admin@gmail.com |
-| Senha | 123456789 |
-| URL Login | `/login` |
-| URL Dashboard | `/dashboard` |
+| Email | `admin@gmail.com` |
+| Senha | `123456789` |
+| Login | `/login` |
+| Painel | `/dashboard` |
 
----
+<div align="center"><img src="docs/divider.svg" alt="" width="60%" /></div>
 
 ## Idiomas
 
-| Código | Idioma | Direção |
-|---|---|---|
-| `pt_BR` | Português (Brasil) | LTR |
-| `en` | English | LTR |
-| `es` | Español | LTR |
-| `he` | עברית | **RTL** |
-| `el` | Ελληνικά | LTR |
+| Código | Idioma | Direção | Estado |
+|---|---|---|---|
+| `pt_BR` | Português (Brasil) | LTR | ✅ Público |
+| `en` | English | LTR | ✅ Público |
+| `es` | Español | LTR | ✅ Público |
 
-**Trocar idioma:** `/lang/{locale}` (ex: `/lang/en`, `/lang/he`)
+**Trocar idioma:** `/lang/{locale}` (ex.: `/lang/en`, `/lang/es`)
 
----
+<div align="center"><img src="docs/divider.svg" alt="" width="60%" /></div>
 
-## SMTP
+## Deploy em Produção
 
-Configure no painel: **Dashboard → Configurações do Site → SMTP**
-
-As configurações são guardadas na base de dados e aplicadas dinamicamente.
-
-**Testar:** Dashboard → Teste de Email
-
----
-
-## Comandos Úteis
+O projeto está em produção em **DreamHost** (hospedagem partilhada). Fluxo resumido:
 
 ```bash
-# Limpar caches
-php artisan cache:clear && php artisan config:clear && php artisan view:clear
-
-# Re-executar seeders
-php artisan db:seed
-
-# Ver rotas
-php artisan route:list
-
-# Criar link de storage
-php artisan storage:link
-
-# Compilar para produção
-npm run build
-
-# Modo desenvolvimento
-npm run dev
+# 1. Build local → tarball dos ficheiros alterados
+# 2. Backup remoto antes de substituir
+# 3. Upload via pscp/scp e extração no servidor
+# 4. php artisan migrate --force
+# 5. php artisan config:clear && view:clear && cache:clear
+# 6. Smoke-test das URLs (curl -I → HTTP 200)
 ```
 
----
+O serviço de media usa a rota `/media/{path}` em vez do symlink `public/storage`,
+garantindo compatibilidade em servidores onde o symlink não é seguido.
+
+<div align="center"><img src="docs/divider.svg" alt="" width="60%" /></div>
 
 ## Estrutura de Rotas
 
-### Site Público
+### Público
 ```
-GET /              → Início
-GET /about         → Sobre
-GET /courses       → Cursos
-GET /methodology   → Metodologia
-GET /contact       → Contacto
-GET /privacy       → Privacidade
-GET /terms         → Termos
-GET /lang/{locale} → Trocar idioma
-```
-
-### Autenticação
-```
-GET  /login                → Login
-POST /login                → Processar login
-POST /logout               → Logout
-GET  /forgot-password      → Recuperar senha
-POST /forgot-password      → Enviar link
-GET  /reset-password/{tok} → Redefinir senha
+GET /                     → Início
+GET /about                → About Us (índice)
+GET /about/{section}      → About Us (sub-páginas: who-is, the-institute, mission, ...)
+GET /courses              → Cursos
+GET /courses/{slug}       → Detalhe do curso
+GET /glossary             → Glossário
+GET /events               → Eventos
+GET /partners             → Parceiros
+GET /resources            → Recursos
+GET /contact              → Contacto
+GET /lang/{locale}        → Trocar idioma
+GET /media/{path}         → Servir media
 ```
 
-### Admin (autenticado + admin)
+### Admin (`auth` + `admin`)
 ```
-GET  /dashboard            → Painel
-GET  /admin/settings       → Configurações
-PUT  /admin/settings       → Guardar
-GET  /admin/email-test     → Teste de email
-POST /admin/email-test     → Enviar email
-GET  /admin/languages      → Idiomas
+GET  /dashboard
+.../admin/settings · about · partners · resources · hero-slides
+.../admin/courses · glossary · events · promotions   (CRUD completo)
+.../admin/languages · translations/{locale} · auto-translate
 ```
 
----
+<div align="center"><img src="docs/divider.svg" alt="" width="60%" /></div>
 
 ## Autor
 
+<div align="center">
+
 **Alexandre Cristóvão**
-Email: alexandre.ccrz@gmail.com
-GitHub: [alexissanz](https://github.com/alexissanz)
+Full-Stack Developer
 
----
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Alexandre%20Cristóvão-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alexandre-crist%C3%B3v%C3%A3o-156073151/)
+[![GitHub](https://img.shields.io/badge/GitHub-alexissanz-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/alexissanz)
 
-*Gramma Institute — Instituto Internacional de Línguas*
+<br/>
+
+<img src="docs/divider.svg" alt="" width="50%" />
+
+_Gramma Institute — Instituto Internacional de Línguas_
+`/gil/`
+
+</div>

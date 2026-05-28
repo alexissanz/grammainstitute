@@ -42,20 +42,20 @@
 
     <style>
         :root {
-            /* Classical / Mediterranean palette: parchment + ink + bronze */
-            --parchment:      #f5efe1;
-            --parchment-2:    #ece2c8;
-            --ivory:          #faf6ec;
-            --ink:            #1a1612;       /* deep ink black */
-            --ink-soft:       #322a20;
-            --bronze:         #a87841;
-            --bronze-dark:    #7e5223;
-            --gold:           #c8a44b;
-            --gold-light:     #e7c873;
-            --burgundy:       #6c1f1f;
-            --olive:          #4f5b35;
-            --stone:          #8a7e66;
-            --line:           rgba(26,22,18,.12);
+            /* Monochrome palette */
+            --parchment:      #ffffff;
+            --parchment-2:    #f2f2f2;
+            --ivory:          #ffffff;
+            --ink:            #000000;
+            --ink-soft:       #1a1a1a;
+            --bronze:         #000000;
+            --bronze-dark:    #000000;
+            --gold:           #000000;
+            --gold-light:     #000000;
+            --burgundy:       #000000;
+            --olive:          #000000;
+            --stone:          #4d4d4d;
+            --line:           rgba(0,0,0,.12);
 
             /* legacy aliases (kept so admin views that import from public CSS still work) */
             --gramma-blue:    #1a1612;
@@ -82,23 +82,68 @@
             $sansStack = "'Inter',system-ui,-apple-system,'Segoe UI',sans-serif";
         @endphp
 
+        @php
+            $fontMap = [
+                'didot' => $didotStack,
+                'bodoni' => '"Bodoni Moda","Didot","GFS Didot","Cinzel",Georgia,serif',
+                'cinzel' => '"Cinzel","Bodoni Moda","Didot","GFS Didot",Georgia,serif',
+                'cormorant' => '"Cormorant Garamond","GFS Didot","Bodoni Moda","Noto Serif",Georgia,serif',
+                'inter' => $sansStack,
+                'noto' => '"Noto Serif","Cormorant Garamond",Georgia,serif',
+            ];
+
+            $bodyStack = $fontMap[$settings->font_body_family ?: 'didot'] ?? $bodyStack;
+            $displayStack = $fontMap[$settings->font_display_family ?: 'bodoni'] ?? $displayStack;
+            $menuStack = $fontMap[$settings->font_menu_family ?: 'didot'] ?? $didotStack;
+            $courseStack = $fontMap[$settings->font_course_family ?: 'cinzel'] ?? $displayStack;
+            $footerStack = $fontMap[$settings->font_footer_family ?: 'didot'] ?? $didotStack;
+
+            if ($locale === 'he' && ! str_contains($bodyStack, 'Noto Sans Hebrew')) {
+                $bodyStack = "'Noto Sans Hebrew'," . $bodyStack;
+            }
+
+            $fontBodySize = max(14, min(24, (int) ($settings->font_body_size ?: 18)));
+            $fontMenuSize = max(12, min(28, (int) ($settings->font_menu_size ?: 14)));
+            $fontCourseSize = max(16, min(48, (int) ($settings->font_course_size ?: 22)));
+            $fontTitleSize = max(24, min(72, (int) ($settings->font_title_size ?: 38)));
+            $fontFooterSize = max(12, min(24, (int) ($settings->font_footer_size ?: 16)));
+            $fontHeroIntroSize = max(28, min(120, (int) ($settings->font_hero_intro_size ?: 70)));
+            $fontHeroSlideSize = max(24, min(120, (int) ($settings->font_hero_slide_size ?: 64)));
+        @endphp
+
+        :root {
+            --font-site-body: {!! $bodyStack !!};
+            --font-site-display: {!! $displayStack !!};
+            --font-site-menu: {!! $menuStack !!};
+            --font-site-course: {!! $courseStack !!};
+            --font-site-footer: {!! $footerStack !!};
+            --font-site-smallcaps: {!! $smallCapsStack !!};
+            --font-site-sans: {!! $sansStack !!};
+            --font-size-body: {{ $fontBodySize }}px;
+            --font-size-menu: {{ $fontMenuSize }}px;
+            --font-size-course: {{ $fontCourseSize }}px;
+            --font-size-title: {{ $fontTitleSize }}px;
+            --font-size-footer: {{ $fontFooterSize }}px;
+            --font-size-hero-intro: {{ $fontHeroIntroSize }}px;
+            --font-size-hero-slide: {{ $fontHeroSlideSize }}px;
+        }
+
         html { scroll-behavior: smooth; }
         body {
-            font-family: {!! $bodyStack !!};
-            font-size: 1.125rem;
+            font-family: var(--font-site-body);
+            font-size: var(--font-size-body);
             line-height: 1.75;
             color: var(--ink);
             background: var(--ivory);
-            background-image:
-                radial-gradient(at 12% 8%,  rgba(168,120,65,.06) 0, transparent 45%),
-                radial-gradient(at 88% 92%, rgba(168,120,65,.05) 0, transparent 50%);
+            background-image: none;
             background-attachment: fixed;
+            overflow-x: hidden;
         }
 
-        h1,h2,h3,h4,h5 { font-family: {!! $displayStack !!}; color: var(--ink); letter-spacing: .02em; }
-        .display-serif { font-family: {!! $displayStack !!}; }
-        .small-caps { font-family: {!! $smallCapsStack !!}; text-transform: uppercase; letter-spacing: .22em; font-weight: 600; }
-        .sans { font-family: {!! $sansStack !!}; }
+        h1,h2,h3,h4,h5 { font-family: var(--font-site-display); color: var(--ink); letter-spacing: .02em; }
+        .display-serif { font-family: var(--font-site-display); }
+        .small-caps { font-family: var(--font-site-smallcaps); text-transform: uppercase; letter-spacing: .22em; font-weight: 600; }
+        .sans { font-family: var(--font-site-sans); }
 
         a { color: var(--bronze-dark); }
         a:hover { color: var(--burgundy); }
@@ -111,34 +156,48 @@
             font-size: .78rem;
             letter-spacing: .08em;
             padding: .45rem 0;
+            display: none !important;
         }
         .top-bar a { color: rgba(245,239,225,.78); text-decoration: none; }
         .top-bar a:hover { color: var(--gold-light); }
         .top-bar .sep { opacity: .35; margin: 0 .75rem; }
 
-        /* ====== NAVBAR ====== */
+        /* ====== NAVBAR (Pill / Floating layout) ====== */
         .gramma-navbar {
-            background: rgba(250,246,236,.96);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-bottom: 1px solid var(--line);
-            padding: 1rem 0;
+            background: transparent;
+            border-bottom: 0;
+            padding: 1.2rem 0;
             position: sticky;
             top: 0;
-            z-index: 1050;   /* above WA fab (was overlapping) */
+            z-index: 1050;
             transition: padding .25s, background .25s;
         }
-        .gramma-navbar.scrolled { padding: .55rem 0; background: rgba(250,246,236,.98); }
+        .gramma-navbar.scrolled {
+            padding: .65rem 0;
+            background: rgba(250,246,236,.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--line);
+        }
+        .gramma-navbar > .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.25rem;
+            flex-wrap: nowrap;
+        }
         .gramma-navbar .navbar-brand {
             font-family: 'Cinzel', serif;
             font-weight: 700;
-            font-size: 1.55rem;
+            font-size: 1.4rem;
             letter-spacing: .14em;
             color: var(--ink);
             text-transform: uppercase;
             display: flex;
             align-items: center;
             gap: .6rem;
+            flex-shrink: 0;
+            margin: 0;
         }
         .gramma-navbar .navbar-brand .brand-mark {
             width: 38px; height: 38px;
@@ -154,77 +213,106 @@
         .gramma-navbar .navbar-brand small {
             display:block;
             font-family: 'Cormorant SC', serif;
-            font-size: .55rem;
+            font-size: .5rem;
             font-weight: 500;
             letter-spacing: .35em;
             color: var(--stone);
             text-transform: uppercase;
             margin-top: 2px;
         }
-        .gramma-navbar .nav-link {
-            font-family: {!! $sansStack !!};
-            color: var(--ink);
-            font-size: .78rem;
-            font-weight: 500;
-            letter-spacing: .14em;
-            text-transform: uppercase;
-            padding: .5rem 1rem !important;
-            position: relative;
+
+        /* The pill that holds nav items */
+        .nav-pill {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            box-shadow: 0 6px 28px rgba(26,22,18,.07);
+            padding: .35rem .6rem;
+            display: inline-flex;
+            align-items: center;
+            gap: .15rem;
         }
-        .gramma-navbar .nav-link:hover { color: var(--bronze-dark); }
-        .gramma-navbar .nav-link.active::after,
-        .gramma-navbar .nav-link.is-current::after {
-            content: '';
-            position: absolute;
-            bottom: -2px; left: 1rem; right: 1rem;
-            height: 1.5px;
-            background: var(--bronze);
+        .gramma-navbar.scrolled .nav-pill {
+            box-shadow: 0 4px 18px rgba(26,22,18,.08);
+        }
+        .nav-pill .nav-link {
+            font-family: var(--font-site-menu);
+            color: var(--ink);
+            font-size: var(--font-size-menu);
+            font-weight: 500;
+            letter-spacing: .03em;
+            text-transform: lowercase;
+            padding: .55rem 1rem !important;
+            border-radius: 999px;
+            line-height: 1;
+            white-space: nowrap;
+            transition: background .2s, color .2s;
+            text-decoration: none;
+        }
+        .nav-pill .nav-link:hover { background: var(--parchment); color: var(--bronze-dark); }
+        .nav-pill .nav-link.is-current,
+        .nav-pill .nav-link.active {
+            background: var(--ink);
+            color: var(--ivory);
+        }
+        .nav-pill .nav-link.is-current:hover { background: var(--bronze-dark); color: var(--ivory); }
+
+        /* Outside-the-pill actions (right side) */
+        .nav-actions {
+            display: inline-flex;
+            align-items: center;
+            gap: .6rem;
+            flex-shrink: 0;
         }
         .gramma-navbar .btn-nav-cta {
             font-family: {!! $sansStack !!};
             background: var(--ink);
             color: var(--ivory);
-            border-radius: 0;
-            padding: .5rem 1.1rem;
-            font-size: .72rem;
-            font-weight: 600;
-            letter-spacing: .16em;
-            text-transform: uppercase;
+            border-radius: 999px;
+            padding: .65rem 1.4rem;
+            font-size: .78rem;
+            font-weight: 700;
+            letter-spacing: .06em;
             border: 1.5px solid var(--ink);
             transition: all .2s;
             white-space: nowrap;
             display: inline-flex;
             align-items: center;
-            gap: .4rem;
+            gap: .45rem;
             line-height: 1;
+            text-decoration: none;
+            box-shadow: 0 4px 14px rgba(26,22,18,.12);
         }
-        .gramma-navbar .btn-nav-cta:hover { background: var(--bronze-dark); border-color: var(--bronze-dark); color: var(--ivory); }
+        .gramma-navbar .btn-nav-cta:hover {
+            background: var(--bronze-dark);
+            border-color: var(--bronze-dark);
+            color: var(--ivory);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(126,82,35,.25);
+        }
 
-        /* Make sure the navbar items can shrink and never overflow on tight desktop widths */
-        .gramma-navbar .container { flex-wrap: nowrap; }
-        .gramma-navbar .navbar-collapse { min-width: 0; }
-        .gramma-navbar .navbar-nav { flex-wrap: nowrap; }
+        /* Tight desktop: shrink pill a bit */
         @media (min-width: 992px) and (max-width: 1199px) {
-            .gramma-navbar .nav-link { padding: .5rem .65rem !important; font-size: .72rem; letter-spacing: .1em; }
-            .gramma-navbar .btn-nav-cta { padding: .45rem .9rem; font-size: .68rem; letter-spacing: .12em; }
-            .lang-globe-btn { padding: .4rem .65rem; }
+            .nav-pill .nav-link { padding: .5rem .7rem !important; font-size: var(--font-size-menu); }
+            .gramma-navbar .btn-nav-cta { padding: .55rem 1.1rem; font-size: .72rem; }
+            .gramma-navbar .navbar-brand small { display: none; }
         }
-        /* ====== MOBILE NAV ACTIONS (always-visible row) ====== */
-        .nav-mobile-actions { margin-left: auto; }
+        /* ====== MOBILE NAV ACTIONS ====== */
         .mobile-globe.lang-globe-btn {
-            padding: .5rem .7rem;
+            padding: .55rem .7rem;
             min-width: 44px; min-height: 44px;
         }
         .mobile-cta {
-            padding: .5rem .9rem !important;
+            padding: .55rem .85rem !important;
             font-size: .72rem !important;
             min-height: 44px;
-            display: inline-flex !important;
-            align-items: center;
+            min-width: 44px;
+            justify-content: center;
+            text-decoration: none;
         }
         @media (max-width: 360px) {
-            .mobile-cta { padding: .5rem .65rem !important; font-size: .68rem !important; }
-            .mobile-cta i { display: none; }
+            .mobile-cta { padding: .55rem .65rem !important; font-size: .68rem !important; }
+            .mobile-cta span { display: none; }
         }
 
         /* ====== GLOBE LANGUAGE SWITCHER ====== */
@@ -446,14 +534,14 @@
             letter-spacing: .22em;
             text-transform: uppercase;
             padding: .95rem 2rem;
-            background: var(--gold);
-            color: var(--ink);
-            border: 1.5px solid var(--gold);
+            background: #ffffff;
+            color: #000000;
+            border: 1.5px solid #ffffff;
             border-radius: 0;
             text-decoration: none;
             transition: all .25s;
         }
-        .btn-classical:hover { background: transparent; color: var(--ivory); border-color: var(--ivory); }
+        .btn-classical:hover { background: transparent; color: #ffffff; border-color: #ffffff; }
         .btn-classical-outline {
             display: inline-flex;
             align-items: center;
@@ -522,9 +610,9 @@
         }
         .eyebrow.light { color: var(--gold-light); }
         .section-title-classical {
-            font-family: {!! $displayStack !!};
+            font-family: var(--font-site-display);
             font-weight: 600;
-            font-size: clamp(1.85rem, 3.2vw, 2.85rem);
+            font-size: clamp(1.85rem, 3.2vw, var(--font-size-title));
             line-height: 1.18;
             letter-spacing: .01em;
             color: var(--ink);
@@ -534,7 +622,7 @@
         .section-ink .section-title-classical { color: var(--ivory); }
 
         /* legacy aliases used by inner pages */
-        .section-title { font-family: {!! $displayStack !!}; font-weight: 600; color: var(--ink); font-size: clamp(1.6rem, 3vw, 2.4rem); }
+        .section-title { font-family: var(--font-site-display); font-weight: 600; color: var(--ink); font-size: clamp(1.6rem, 3vw, var(--font-size-title)); }
         .section-subtitle { color: var(--ink-soft); font-size: 1.1rem; }
         .divider-gold { width: 60px; height: 2px; background: var(--bronze); margin: .75rem 0 1.5rem; }
 
@@ -561,7 +649,7 @@
         /* ====== FOOTER ====== */
         .gramma-footer {
             background: var(--ink);
-            color: rgba(250,246,236,.72);
+            color: #ffffff;
             padding: 5rem 0 1.5rem;
             position: relative;
         }
@@ -576,21 +664,21 @@
         }
         .gramma-footer h5 {
             font-family: 'Cinzel', serif;
-            color: var(--gold-light);
+            color: #ffffff;
             font-size: .85rem;
             font-weight: 600;
             letter-spacing: .26em;
             text-transform: uppercase;
             margin-bottom: 1.4rem;
         }
-        .gramma-footer p { font-size: 1rem; line-height: 1.7; }
+        .gramma-footer p { font-size: 1rem; line-height: 1.7; color: #ffffff; }
         .gramma-footer a {
-            color: rgba(250,246,236,.72);
+            color: #ffffff;
             text-decoration: none;
             transition: color .2s;
             font-size: 1rem;
         }
-        .gramma-footer a:hover { color: var(--gold-light); }
+        .gramma-footer a:hover { color: #ffffff; }
         .gramma-footer ul.list-unstyled li { margin-bottom: .55rem; }
         .gramma-footer .footer-divider {
             border: 0; height: 1px;
@@ -598,11 +686,35 @@
             margin: 3rem 0 1.5rem;
         }
         .gramma-footer .footer-bottom {
-            font-family: {!! $sansStack !!};
-            font-size: .75rem;
-            letter-spacing: .14em;
-            text-transform: uppercase;
-            color: rgba(250,246,236,.45);
+            font-family: var(--font-site-footer);
+            font-size: var(--font-size-footer);
+            letter-spacing: .04em;
+            text-transform: none;
+            color: #ffffff;
+        }
+        .footer-meta-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .55rem;
+            text-align: center;
+        }
+        .gramma-footer .footer-divider + .row {
+            justify-content: center;
+            text-align: center;
+            row-gap: .65rem;
+        }
+        .gramma-footer .footer-divider + .row > [class*="col-"] {
+            flex: 0 0 100%;
+            max-width: 100%;
+            text-align: center !important;
+        }
+        .gramma-footer .footer-divider + .row > .col-md-auto.text-center.text-md-end {
+            order: 2;
+        }
+        .gramma-footer .footer-divider + .row > .col-md.footer-bottom.text-center {
+            order: 3;
         }
         .footer-brand {
             font-family: 'Cinzel', serif;
@@ -611,6 +723,21 @@
             color: var(--ivory);
             text-transform: uppercase;
             margin-bottom: 1rem;
+        }
+        .footer-brand-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .footer-brand-text {
+            color: #ffffff;
+            font-style: normal;
+            font-family: var(--font-site-footer);
+            font-size: var(--font-size-footer);
+            text-align: center;
+            margin: 0 auto;
+            max-width: 420px;
         }
         .footer-social a {
             display: inline-flex;
@@ -813,8 +940,11 @@
             .top-bar { display: none !important; }
 
             .gramma-navbar {
-                padding: .55rem 0;
-                background: rgba(250,246,236,.98);
+                padding: .65rem 0;
+                background: rgba(255,255,255,.96);
+                backdrop-filter: blur(18px);
+                -webkit-backdrop-filter: blur(18px);
+                border-bottom: 1px solid rgba(0,0,0,.08);
             }
             .gramma-navbar .navbar-brand { font-size: 1.05rem; letter-spacing: .08em; gap: .4rem; }
             .gramma-navbar .navbar-brand .brand-mark { width:32px; height:32px; font-size:.85rem; }
@@ -824,27 +954,35 @@
             /* Slide-down mobile menu becomes full panel */
             #navMain {
                 position: fixed;
-                top: 65px; left: 0; right: 0;
+                top: 72px; left: 12px; right: 12px;
                 background: var(--ivory);
-                max-height: calc(100vh - 65px);
+                max-height: calc(100vh - 88px);
                 overflow-y: auto;
-                border-top: 1px solid var(--line);
-                box-shadow: 0 10px 30px rgba(0,0,0,.08);
-                padding: 1.5rem 1.25rem 2.5rem;
+                border: 1px solid rgba(0,0,0,.08);
+                border-radius: 26px;
+                box-shadow: 0 18px 48px rgba(0,0,0,.14);
+                padding: 1.1rem 1rem 1.5rem;
                 z-index: 1051;        /* above everything else when open */
                 -webkit-overflow-scrolling: touch;
             }
+            #navMain .navbar-nav { gap: .35rem; }
             #navMain .nav-link {
-                font-size: .95rem !important;
-                padding: 1rem .25rem !important;
-                min-height: 48px;     /* iOS tap target */
+                font-size: .92rem !important;
+                padding: 1rem 1rem !important;
+                min-height: 54px;     /* iOS tap target */
                 display: flex;
                 align-items: center;
-                border-bottom: 1px solid var(--line);
+                border: 1px solid rgba(0,0,0,.06);
+                border-radius: 16px;
+                background: #fff;
                 letter-spacing: .12em;
             }
             #navMain .nav-link.is-current::after { display: none; }
-            #navMain .nav-link.is-current { color: var(--bronze-dark) !important; }
+            #navMain .nav-link.is-current {
+                color: #ffffff !important;
+                background: #000000;
+                border-color: #000000;
+            }
             #navMain .nav-link.is-current::before { content: '— '; }
             /* Hamburger button needs a proper tap area */
             .navbar-toggler {
@@ -864,7 +1002,8 @@
                 width: 100%;
                 text-align: center;
                 margin-top: 1rem;
-                padding: .9rem 1rem !important;
+                padding: 1rem 1rem !important;
+                min-height: 52px;
             }
         }
 
@@ -900,7 +1039,21 @@
             .gramma-navbar { padding-top: env(safe-area-inset-top); }
 
             /* Tighter, mobile-first containers */
-            .container { padding-left: 1.25rem; padding-right: 1.25rem; }
+            .container { padding-left: 1rem; padding-right: 1rem; }
+            #navMain {
+                left: 10px;
+                right: 10px;
+                top: 68px;
+                max-height: calc(100vh - 82px);
+                border-radius: 22px;
+                padding: .9rem .85rem 1.25rem;
+            }
+            #navMain .nav-link {
+                min-height: 52px;
+                font-size: .86rem !important;
+                padding: .95rem .95rem !important;
+                letter-spacing: .1em;
+            }
 
             /* Hero — phone-app feel */
             .hero-classical { min-height: 88vh; padding: 4rem 0 3.5rem; }
@@ -951,8 +1104,20 @@
 
             /* Footer */
             .gramma-footer { padding: 3rem 0 2rem; text-align: center; }
+            .gramma-footer .row.g-4 {
+                row-gap: 1rem !important;
+            }
+            .gramma-footer .row.g-4 > [class*="col-"] {
+                background: #050505;
+                border: 1px solid rgba(255,255,255,.08);
+                border-radius: 22px;
+                padding: 1.4rem 1.2rem;
+                margin-bottom: 0 !important;
+            }
             .gramma-footer .footer-social { justify-content: center; display: flex; }
             .gramma-footer p { font-size: 1rem; }
+            .gramma-footer ul { margin-bottom: 0; }
+            .gramma-footer li + li { margin-top: .45rem; }
 
             /* Cleaner footer brand */
             .footer-brand { justify-content: center; display: flex; }
@@ -978,11 +1143,492 @@
             .section-title-classical { font-size: 1.4rem !important; }
             .wa-fab { bottom: 14px; }
             .wa-fab.wa-right { right: 14px; }
+            .nav-pill .nav-link,
+            .footer-login-btn,
+            .footer-credit-link {
+                min-height: 48px;
+            }
+            .gramma-footer .row.g-4 > [class*="col-"] {
+                border-radius: 18px;
+                padding: 1.15rem 1rem;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .course-card:hover,
+            .cl-card:hover,
+            .lang-card:hover,
+            .review-card:hover,
+            .testimonial-card:hover {
+                transform: none !important;
+                box-shadow: inherit !important;
+            }
+        }
+
+        /* ============================================================
+           NAV DROPDOWNS — About Us (simple list) + Resources (mega)
+           ============================================================ */
+        .nav-pill .nav-dd { position: relative; display: inline-flex; }
+        .nav-pill .nav-dd-toggle {
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            font: inherit;
+            font-family: var(--font-site-menu);
+            font-size: var(--font-size-menu);
+            color: inherit;
+            text-transform: lowercase;
+        }
+        .nav-pill .nav-dd-toggle .nav-dd-chev {
+            display: inline-block !important;
+            font-style: normal;
+            font-size: .78rem;
+            line-height: 1;
+            opacity: .85;
+        }
+        .nav-pill .nav-dd-toggle.is-current,
+        .nav-pill .is-current-parent .nav-dd-toggle {
+            background: var(--ink) !important;
+            color: var(--ivory) !important;
+        }
+
+        .nav-pill .nav-dd-panel {
+            position: absolute;
+            top: calc(100% + 14px);
+            left: 50%;
+            transform: translateX(-50%) translateY(8px);
+            background: #fff;
+            border: 1px solid var(--line);
+            border-top: 2px solid var(--bronze);
+            box-shadow: 0 22px 50px rgba(26,22,18,.16);
+            min-width: 280px;
+            padding: .5rem 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .18s, transform .18s;
+            z-index: 1060;
+        }
+        .nav-pill .nav-dd.is-open .nav-dd-panel {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+        .nav-pill .nav-dd-item {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            padding: .65rem 1.1rem;
+            font-family: var(--font-site-menu);
+            font-size: var(--font-size-menu);
+            color: var(--ink);
+            text-transform: lowercase;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background .15s, color .15s;
+        }
+        .nav-pill .nav-dd-item:hover { background: var(--parchment); color: var(--bronze-dark); }
+        .nav-pill .nav-dd-item i { display: none !important; }
+        .nav-pill .nav-dd-sep { height: 1px; background: var(--line); margin: .35rem .75rem; }
+
+        /* Mega menu (Resources) — nested accordion: category headers expand inline */
+        .nav-pill .nav-dd-mega-panel {
+            min-width: 360px;
+            max-width: 90vw;
+            padding: .35rem 0;
+        }
+        .nav-pill .nav-dd-cat { border-bottom: 1px solid var(--line); }
+        .nav-pill .nav-dd-cat:last-child { border-bottom: 0; }
+        .nav-pill .nav-dd-cat-toggle {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            width: 100%;
+            padding: .8rem 1.1rem;
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+            text-align: left;
+            font-family: var(--font-site-menu);
+            font-size: var(--font-size-menu);
+            font-weight: 500;
+            color: var(--ink);
+            transition: background .15s, color .15s;
+        }
+        .nav-pill .nav-dd-cat-toggle:hover {
+            background: var(--parchment);
+            color: var(--bronze-dark);
+        }
+        .nav-pill .nav-dd-cat-ico { display: none !important; }
+        .nav-pill .nav-dd-cat-title { flex: 1; text-transform: lowercase; }
+        .nav-pill .nav-dd-cat-count {
+            font-family: 'Cormorant SC', serif;
+            font-size: .65rem;
+            letter-spacing: .2em;
+            color: var(--stone);
+            background: var(--parchment);
+            padding: .15rem .5rem;
+            border-radius: 999px;
+        }
+        .nav-pill .nav-dd-cat-chev { display: none !important; }
+
+        .nav-pill .nav-dd-cat-links {
+            display: none;
+            background: var(--parchment);
+            padding: .5rem 0 .85rem;
+            border-top: 1px solid var(--line);
+        }
+        .nav-pill .nav-dd-cat.is-cat-open .nav-dd-cat-links { display: block; }
+        .nav-pill .nav-dd-cat-link {
+            display: flex;
+            align-items: center;
+            gap: .65rem;
+            padding: .5rem 1.1rem .5rem 3.2rem;
+            font-family: var(--font-site-menu);
+            font-size: var(--font-size-menu);
+            color: var(--ink) !important;          /* dark text on cream parchment */
+            text-transform: lowercase;
+            text-decoration: none;
+            transition: background .15s, color .15s;
+        }
+        .nav-pill .nav-dd-cat-link:hover {
+            background: rgba(168,120,65,.12);
+            color: var(--bronze-dark) !important;
+        }
+        .nav-pill .nav-dd-cat-link i { display: none !important; }
+        .nav-pill .nav-dd-cat-empty {
+            display: block;
+            padding: .55rem 1.1rem .55rem 3.2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: .85rem;
+            color: var(--stone);
+        }
+
+        /* Nested mobile sub (category accordion inside Resources accordion) */
+        .nav-mobile-cat { margin: .25rem 0; }
+        .nav-mobile-cat-toggle {
+            display: flex !important;
+            align-items: center;
+            gap: .55rem;
+            width: 100%;
+            padding: .55rem .5rem;
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+            font-family: var(--font-site-menu);
+            font-size: var(--font-size-menu);
+            color: var(--ink);
+            text-transform: lowercase;
+            text-align: left;
+        }
+        .nav-mobile-cat-toggle i { display: none !important; }
+        .nav-mobile-cat-links {
+            padding: .25rem 0 .25rem 1.25rem;
+            border-left: 2px solid var(--bronze);
+            margin-left: 1rem;
+        }
+        .nav-mobile-cat-links a {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .5rem 0 .5rem .5rem;
+            font-family: var(--font-site-menu);
+            font-size: var(--font-size-menu);
+            color: var(--ink);
+            text-transform: lowercase;
+            text-decoration: none;
+        }
+        .nav-mobile-cat-links a i { display: none !important; }
+        .nav-mobile-empty {
+            display: block;
+            padding: .5rem 0 .5rem .5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: .82rem;
+            color: var(--stone);
+        }
+
+        /* Mobile accordion sub-menu (About + Resources) */
+        .nav-mobile-group { display: flex; flex-direction: column; }
+        .nav-mobile-toggle {
+            background: transparent;
+            border: 0;
+            text-align: left;
+            display: flex !important;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            cursor: pointer;
+            font-family: var(--font-site-menu);
+            font-size: var(--font-size-menu);
+            color: inherit;
+            text-transform: lowercase;
+        }
+        .nav-mobile-toggle i {
+            display: inline-block !important;
+            font-style: normal;
+            font-size: .78rem;
+            line-height: 1;
+            opacity: .85;
+        }
+        .nav-mobile-sub {
+            display: none;
+            padding: .25rem 0 .5rem .75rem;
+            border-left: 2px solid var(--bronze);
+            margin-left: .25rem;
+            margin-bottom: .5rem;
+        }
+        .nav-mobile-group.is-open .nav-mobile-sub { display: block; }
+        .nav-mobile-sub a {
+            display: block;
+            padding: .55rem 0 .55rem 1rem;
+            font-family: var(--font-site-menu);
+            font-size: var(--font-size-menu);
+            color: var(--ink);
+            text-transform: lowercase;
+            text-decoration: none;
+        }
+        .nav-mobile-sub a:hover { color: var(--bronze-dark); }
+
+        .nav-pill .nav-link,
+        .nav-pill .nav-dd-toggle,
+        .nav-pill .nav-dd-item,
+        .nav-pill .nav-dd-cat-toggle,
+        .nav-pill .nav-dd-cat-link,
+        .nav-mobile-toggle,
+        .nav-mobile-sub a,
+        .nav-mobile-cat-toggle,
+        .nav-mobile-cat-links a {
+            font-family: var(--font-site-menu) !important;
+            font-size: var(--font-size-menu) !important;
+            font-weight: 500 !important;
+            letter-spacing: .03em !important;
+            line-height: 1.1 !important;
+            text-transform: lowercase !important;
         }
 
         /* Reduced motion respect */
         @media (prefers-reduced-motion: reduce) {
             * { transition: none !important; animation: none !important; }
+        }
+
+        /* ============================================================
+           TYPOGRAPHIC LOGO — /gil/ | GRAMMA INSTITUTE
+           Pure HTML/CSS, no images, no SVG, no effects.
+           ============================================================ */
+        .gil-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            color: #000;
+            font-family: "Bodoni Moda","Didot","GFS Didot","Cormorant Garamond","Noto Serif",Georgia,serif;
+            line-height: 1;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .gil-logo:hover { color: #000; text-decoration: none; }
+
+        .gil-logo__left {
+            font-family: "Bodoni Moda","Didot","GFS Didot","Cormorant Garamond",Georgia,serif;
+            font-size: 2.6rem;
+            font-weight: 400;
+            letter-spacing: -0.005em;
+            line-height: 1;
+            text-transform: lowercase;     /* keep "gil" lowercase even inside navbar */
+        }
+        .gil-logo__left .gil-slash {
+            /* slashes inherit the same weight as the rest of /gil/ — back to normal */
+            display: inline-block;
+            padding: 0 0.02em;
+        }
+
+        .gil-logo__divider {
+            align-self: stretch;
+            width: 1px;
+            background: currentColor;
+        }
+
+        .gil-logo__right {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;          /* centre the three lines horizontally */
+            gap: 0.25rem;
+            text-align: center;
+        }
+
+        .gil-logo__main {
+            font-family: "Bodoni Moda","Didot","GFS Didot",Georgia,serif;
+            font-size: 0.92rem;
+            font-weight: 500;
+            letter-spacing: 0.34em;
+            text-transform: uppercase;
+        }
+
+        .gil-logo__mid {
+            font-family: "Bodoni Moda","Didot","GFS Didot",Georgia,serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+        }
+        .gil-logo__mid .gil-of {
+            font-style: italic;
+            font-weight: 400;
+            font-size: 0.78em;
+            letter-spacing: 0;
+            text-transform: lowercase;
+            padding-right: 0.25em;
+            font-family: "Cormorant Garamond","Bodoni Moda",Georgia,serif;
+        }
+
+        .gil-logo__bottom {
+            font-family: "Bodoni Moda","Didot","GFS Didot",Georgia,serif;
+            font-size: 0.62rem;
+            font-weight: 500;
+            letter-spacing: 0.42em;
+            text-transform: uppercase;
+        }
+
+        /* Light variant — for dark backgrounds (footer) */
+        .gil-logo--light,
+        .gil-logo--light:hover { color: #faf6ec; }
+
+        /* Compact variant — for the navbar bar */
+        .gil-logo--nav .gil-logo__left   { font-size: 2rem; }
+        .gil-logo--nav .gil-logo__main   { font-size: 0.72rem; letter-spacing: 0.3em; }
+        .gil-logo--nav .gil-logo__mid    { font-size: 0.62rem; letter-spacing: 0.18em; }
+        .gil-logo--nav .gil-logo__bottom { font-size: 0.5rem;  letter-spacing: 0.34em; }
+        .gil-logo--nav { gap: 0.7rem; }
+
+        /* Navbar on tablet/mobile — show ONLY /gil/ so the Entrar/Painel button never gets pushed off.
+           Footer logo keeps the full stacked version (handled below).                                */
+        @media (max-width: 991px) {
+            .gil-logo--nav .gil-logo__divider,
+            .gil-logo--nav .gil-logo__right { display: none; }
+            .gil-logo--nav { gap: 0; }
+            .gil-logo--nav .gil-logo__left { font-size: 1.7rem; }
+        }
+        @media (max-width: 414px) {
+            .gil-logo--nav .gil-logo__left { font-size: 1.45rem; }
+        }
+
+        /* Footer logo on small screens — stack elegantly */
+        @media (max-width: 575px) {
+            .gil-logo--light {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            .gil-logo--light .gil-logo__divider {
+                align-self: auto;
+                width: 56px;
+                height: 1px;
+            }
+            .gil-logo--light .gil-logo__right { text-align: center; align-items: center; }
+        }
+
+        /* Footer login / dashboard pill */
+        .gramma-footer .footer-login-btn,
+        .gramma-footer a.footer-login-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: .55rem;
+            font-family: {!! $didotStack !!};
+            font-size: .92rem;
+            font-weight: 500;
+            letter-spacing: .08em;
+            text-transform: lowercase;
+            color: #ffffff !important;
+            background: transparent;
+            border: 1.5px solid rgba(250,246,236,.35);
+            border-radius: 999px;
+            padding: .65rem 1.4rem;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            z-index: 1030;                 /* above the WhatsApp fab (1020) */
+            pointer-events: auto;
+            transition: background .2s, border-color .2s, color .2s;
+        }
+        .gramma-footer .footer-login-btn:hover {
+            background: #ffffff;
+            border-color: #ffffff;
+            color: #000000 !important;
+        }
+        .gramma-footer .footer-login-btn i { font-size: .9rem; }
+
+        /* Contact column — clickable rows with icon + label, aligned */
+        .footer-contact-list { margin: 0; padding: 0; }
+        .footer-contact-list li { margin-bottom: .55rem; }
+        .footer-contact-list a,
+        .footer-contact-list .footer-contact-static {
+            display: inline-flex;
+            align-items: center;
+            gap: .65rem;
+            font-size: 1rem;
+            line-height: 1.4;
+            color: rgba(250,246,236,.78);
+            text-decoration: none;
+            transition: color .2s;
+        }
+        .footer-contact-list a:hover { color: var(--gold-light); }
+        .footer-contact-list i {
+            width: 16px;
+            text-align: center;
+            font-size: .9rem;
+            flex-shrink: 0;
+        }
+
+        /* Author credit — full text is the link, with a LinkedIn icon to make
+           clickability obvious. Forced specificity over `.gramma-footer a`. */
+        .gramma-footer .footer-credit-link,
+        .gramma-footer a.footer-credit-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .45rem;
+            font-family: var(--font-site-footer);
+            font-style: normal;
+            font-size: var(--font-size-footer);
+            letter-spacing: .03em;
+            color: #ffffff !important;
+            text-decoration: none;
+            cursor: pointer;
+            padding: .15rem 0;
+            border-radius: 0;
+            position: relative;
+            z-index: 2;
+            min-height: auto;
+            pointer-events: auto;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: rgba(255,255,255,.16);
+            transition: color .2s, background .2s;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .gramma-footer .footer-credit-link .fab {
+            font-size: .95rem;
+            line-height: 1;
+        }
+        .gramma-footer .footer-credit-link:hover {
+            color: #ffffff !important;
+            background: transparent;
+        }
+        @media (max-width: 575px) {
+            .gramma-footer .footer-credit-link,
+            .gramma-footer a.footer-credit-link {
+                display: inline-flex;
+                justify-content: center;
+                width: auto;
+                margin: .25rem auto 0;
+                padding: .35rem .5rem;
+                min-height: auto;
+                white-space: nowrap;
+            }
         }
     </style>
     @stack('styles')
@@ -1021,11 +1667,7 @@
 <div class="top-bar d-none d-md-block">
     <div class="container d-flex justify-content-between align-items-center flex-wrap">
         <div>
-            @if($settings->email_institucional)
-                <a href="mailto:{{ $settings->email_institucional }}"><i class="far fa-envelope me-2"></i>{{ $settings->email_institucional }}</a>
-            @endif
             @if($settings->telefone)
-                <span class="sep">|</span>
                 <a href="tel:{{ preg_replace('/\s+/', '', $settings->telefone) }}"><i class="fas fa-phone-alt me-2"></i>{{ $settings->telefone }}</a>
             @endif
         </div>
@@ -1038,74 +1680,149 @@
 </div>
 
 {{-- NAVBAR --}}
-<nav class="gramma-navbar navbar navbar-expand-lg" id="grammaNavbar">
-    <div class="container">
-        <a class="navbar-brand" href="{{ route('home') }}">
-            @if($settings->logo)
-                <img src="{{ Storage::url($settings->logo) }}" alt="{{ $settings->nome_site ?? 'Gramma' }}" style="height:42px; width:auto;">
-            @else
-                <span class="brand-mark">Γ</span>
-                <span class="d-flex flex-column" style="line-height:1;">
-                    <span>Gramma</span>
-                    <small>Institute of Languages</small>
-                </span>
-            @endif
-        </a>
-        @php
-            $langs = [
-                'pt_BR' => ['flag' => 'br', 'name' => 'Português',  'native' => 'Português (BR)'],
-                'en'    => ['flag' => 'gb', 'name' => 'English',     'native' => 'English'],
-                'es'    => ['flag' => 'es', 'name' => 'Español',    'native' => 'Español'],
-                'he'    => ['flag' => 'il', 'name' => 'Hebrew',     'native' => 'עברית'],
-                'el'    => ['flag' => 'gr', 'name' => 'Greek',      'native' => 'Ελληνικά'],
-                'la'    => ['flag' => 'va', 'name' => 'Latin',      'native' => 'Latīna'],
-            ];
-            $currentLang = $langs[app()->getLocale()] ?? $langs['pt_BR'];
-        @endphp
+@php
+    $langs = [
+        'pt_BR' => ['flag' => 'br', 'name' => 'Portuguese', 'native' => 'Portuguese (Brazil)'],
+        'en'    => ['flag' => 'us', 'name' => 'English',     'native' => 'English'],
+        'es'    => ['flag' => 'es', 'name' => 'Spanish',    'native' => 'Spanish'],
+    ];
+    $currentLang = $langs[app()->getLocale()] ?? $langs['en'];
 
-        {{-- Always-visible actions on mobile (right side of brand, BEFORE hamburger) --}}
-        <div class="nav-mobile-actions d-flex d-lg-none align-items-center gap-2">
-            <button type="button" class="lang-globe-btn mobile-globe" id="langGlobeBtnMobile" aria-label="{{ __('site.language_select') }}" aria-expanded="false">
-                <i class="fas fa-globe lang-globe-icon"></i>
+    // About Us — 5 sub-sections
+    $aboutMenu = [
+        'who-is'             => ['founder_title',   __('site.nav_about'),                   'fa-user'],
+        'the-institute'      => ['institute_title', 'The Gramma Institute of Linguistics', 'fa-landmark'],
+        'mission'            => ['mission_title',   'Mission',                              'fa-compass'],
+        'areas-of-expertise' => ['expertise_title', 'Areas of Expertise',                   'fa-scroll'],
+        'closing-statement'  => ['closing_title',   'Closing Statement',                    'fa-quote-right'],
+    ];
+    $aboutData = \App\Models\AboutPage::current();
+
+    // Resources — categories WITH their active links (for the nested mega-menu)
+    $resourceMenu = \App\Models\ResourceCategory::where('ativo', true)
+        ->with(['activeLinks' => fn ($q) => $q->orderBy('ordem')])
+        ->orderBy('ordem')->orderBy('id')
+        ->get();
+@endphp
+<nav class="gramma-navbar" id="grammaNavbar">
+    <div class="container">
+
+        {{-- LEFT: BRAND — typographic logo (pure HTML/CSS) --}}
+        <a class="navbar-brand gil-logo gil-logo--nav" href="{{ route('home') }}" aria-label="Gramma Institute of Linguistics">
+            <span class="gil-logo__left"><span class="gil-slash">/</span>gil<span class="gil-slash">/</span></span>
+            <span class="gil-logo__divider" aria-hidden="true"></span>
+            <span class="gil-logo__right">
+                <span class="gil-logo__main">Gramma Institute</span>
+                <span class="gil-logo__mid"><span class="gil-of">of</span> Linguistics</span>
+            </span>
+        </a>
+
+        {{-- CENTER: PILL with nav links (desktop only) --}}
+        <div class="d-none d-lg-flex">
+            <div class="nav-pill">
+                <a class="nav-link {{ request()->routeIs('home') ? 'is-current' : '' }}" href="{{ route('home') }}">{{ __('site.nav_home') }}</a>
+
+                {{-- About Us dropdown --}}
+                <div class="nav-dd {{ request()->routeIs('about*') ? 'is-current-parent' : '' }}" data-dd>
+                    <button type="button" class="nav-link nav-dd-toggle {{ request()->routeIs('about*') ? 'is-current' : '' }}" data-dd-toggle aria-expanded="false">{{ __('site.nav_about') }} <span class="nav-dd-chev">▾</span></button>
+                    <div class="nav-dd-panel nav-dd-simple">
+                        <a class="nav-dd-item" href="{{ route('about') }}">{{ __('site.about_overview') }}</a>
+                        <div class="nav-dd-sep"></div>
+                        @foreach($aboutMenu as $slug => [$field, $fallback, $icon])
+                            <a class="nav-dd-item" href="{{ route('about.section', $slug) }}">{{ $aboutData->t($field) ?: $fallback }}</a>
+                        @endforeach
+                    </div>
+                </div>
+
+                {{-- Resources mega-menu (nested: category toggles → external links) --}}
+                @if($resourceMenu->isNotEmpty())
+                <div class="nav-dd nav-dd-mega {{ request()->routeIs('resources*') ? 'is-current-parent' : '' }}" data-dd>
+                    <button type="button" class="nav-link nav-dd-toggle {{ request()->routeIs('resources*') ? 'is-current' : '' }}" data-dd-toggle aria-expanded="false">{{ __('site.nav_resources') }} <span class="nav-dd-chev">▾</span></button>
+                    <div class="nav-dd-panel nav-dd-mega-panel">
+                        @foreach($resourceMenu as $cat)
+                            <div class="nav-dd-cat" data-cat>
+                                <button type="button" class="nav-dd-cat-toggle" data-cat-toggle aria-expanded="false">
+                                    <span class="nav-dd-cat-title">{{ $cat->t('title') }}</span>
+                                    <span class="nav-dd-cat-count">{{ $cat->activeLinks->count() }}</span>
+                                </button>
+                                <div class="nav-dd-cat-links">
+                                    @forelse($cat->activeLinks as $link)
+                                        <a href="{{ $link->url }}" target="_blank" rel="noopener noreferrer" class="nav-dd-cat-link"><span>{{ $link->t('title') ?: $link->url }}</span></a>
+                                    @empty
+                                        <span class="nav-dd-cat-empty">No links yet.</span>
+                                    @endforelse
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
+                <a class="nav-link {{ request()->routeIs('glossary*') ? 'is-current' : '' }}" href="{{ route('glossary.index') }}">{{ __('site.nav_glossary') }}</a>
+                <a class="nav-link {{ request()->routeIs('partners') ? 'is-current' : '' }}" href="{{ route('partners') }}">{{ __('site.nav_partners') }}</a>
+                <a class="nav-link {{ request()->routeIs('contact') ? 'is-current' : '' }}" href="{{ route('contact') }}">{{ __('site.nav_contact') }}</a>
+            </div>
+        </div>
+
+        {{-- RIGHT: actions --}}
+        <div class="nav-actions">
+            {{-- Desktop globe --}}
+            <button type="button" class="lang-globe-btn d-none d-lg-inline-flex" id="langGlobeBtn" aria-label="{{ __('site.language_select') }}" aria-expanded="false">
+                <span class="lang-globe-flag fi fi-{{ $currentLang['flag'] }}"></span>
+                <i class="fas fa-chevron-down lang-globe-chevron"></i>
+            </button>
+
+            {{-- Mobile-only: globe + hamburger --}}
+            <button type="button" class="lang-globe-btn mobile-globe d-inline-flex d-lg-none" id="langGlobeBtnMobile" aria-label="{{ __('site.language_select') }}" aria-expanded="false">
                 <span class="lang-globe-flag fi fi-{{ $currentLang['flag'] }}"></span>
             </button>
-            @auth
-                <a class="btn btn-nav-cta mobile-cta" href="{{ route('dashboard') }}">{{ __('site.nav_dashboard') }}</a>
-            @else
-                <a class="btn btn-nav-cta mobile-cta" href="{{ route('login') }}"><i class="fas fa-sign-in-alt me-1"></i>{{ __('site.nav_login') }}</a>
-            @endauth
-            <button class="navbar-toggler" type="button" id="navToggler" aria-label="Menu" aria-controls="navMain" aria-expanded="false" style="border:none;">
+            <button class="navbar-toggler d-inline-flex d-lg-none" type="button" id="navToggler" aria-label="Menu" aria-controls="navMain" aria-expanded="false" style="border:none; background:transparent;">
                 <i class="fas fa-bars" id="navTogglerIcon" style="color:var(--ink); font-size:1.3rem;"></i>
             </button>
         </div>
+    </div>
 
-        <div class="collapse navbar-collapse" id="navMain">
-            <ul class="navbar-nav ms-auto align-items-lg-center">
-                <li class="nav-item"><a class="nav-link {{ request()->routeIs('home') ? 'is-current' : '' }}" href="{{ route('home') }}">{{ __('site.nav_home') }}</a></li>
-                <li class="nav-item"><a class="nav-link {{ request()->routeIs('courses*') ? 'is-current' : '' }}" href="{{ route('courses') }}">{{ __('site.nav_courses') }}</a></li>
-                <li class="nav-item"><a class="nav-link {{ request()->routeIs('events*') ? 'is-current' : '' }}" href="{{ route('events.index') }}">{{ __('site.nav_events') }}</a></li>
-                <li class="nav-item"><a class="nav-link {{ request()->routeIs('glossary*') ? 'is-current' : '' }}" href="{{ route('glossary.index') }}">{{ __('site.nav_glossary') }}</a></li>
-                <li class="nav-item"><a class="nav-link {{ request()->routeIs('founder') ? 'is-current' : '' }}" href="{{ route('founder') }}">{{ __('site.nav_founder') }}</a></li>
-                <li class="nav-item"><a class="nav-link {{ request()->routeIs('methodology') ? 'is-current' : '' }}" href="{{ route('methodology') }}">{{ __('site.nav_methodology') }}</a></li>
-                <li class="nav-item"><a class="nav-link {{ request()->routeIs('contact') ? 'is-current' : '' }}" href="{{ route('contact') }}">{{ __('site.nav_contact') }}</a></li>
+    {{-- Mobile slide-down menu --}}
+    <div class="collapse navbar-collapse" id="navMain">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link {{ request()->routeIs('home') ? 'is-current' : '' }}" href="{{ route('home') }}">{{ __('site.nav_home') }}</a></li>
 
-                {{-- Desktop globe + login (hidden on mobile because we render them outside collapse) --}}
-                <li class="nav-item lang-pivot mx-lg-2 d-none d-lg-block">
-                    <button type="button" class="lang-globe-btn" id="langGlobeBtn" aria-label="{{ __('site.language_select') }}" aria-expanded="false">
-                        <i class="fas fa-globe lang-globe-icon"></i>
-                        <span class="lang-globe-flag fi fi-{{ $currentLang['flag'] }}"></span>
-                        <i class="fas fa-chevron-down lang-globe-chevron"></i>
-                    </button>
+            {{-- About Us (accordion) --}}
+            <li class="nav-item nav-mobile-group" data-mobile-group>
+                <button class="nav-link nav-mobile-toggle" type="button" data-mobile-toggle>{{ __('site.nav_about') }} <i>▾</i></button>
+                <div class="nav-mobile-sub">
+                    <a href="{{ route('about') }}">{{ __('site.about_overview') }}</a>
+                    @foreach($aboutMenu as $slug => [$field, $fallback, $icon])
+                        <a href="{{ route('about.section', $slug) }}">{{ $aboutData->t($field) ?: $fallback }}</a>
+                    @endforeach
+                </div>
+            </li>
+
+            {{-- Resources (3-level accordion: Resources → category → links) --}}
+            @if($resourceMenu->isNotEmpty())
+                <li class="nav-item nav-mobile-group" data-mobile-group>
+                    <button class="nav-link nav-mobile-toggle" type="button" data-mobile-toggle>{{ __('site.nav_resources') }} <i>▾</i></button>
+                    <div class="nav-mobile-sub">
+                        @foreach($resourceMenu as $cat)
+                            <div class="nav-mobile-cat" data-mobile-group>
+                                <button type="button" class="nav-mobile-cat-toggle" data-mobile-toggle><span>{{ $cat->t('title') }}</span></button>
+                                <div class="nav-mobile-cat-links nav-mobile-sub">
+                                    @forelse($cat->activeLinks as $link)
+                                        <a href="{{ $link->url }}" target="_blank" rel="noopener noreferrer">{{ $link->t('title') ?: $link->url }}</a>
+                                    @empty
+                                        <span class="nav-mobile-empty">No links yet.</span>
+                                    @endforelse
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </li>
-                <li class="nav-item ms-lg-2 d-none d-lg-block">
-                    @auth
-                        <a class="btn btn-nav-cta" href="{{ route('dashboard') }}">{{ __('site.nav_dashboard') }}</a>
-                    @else
-                        <a class="btn btn-nav-cta" href="{{ route('login') }}">{{ __('site.nav_login') }}</a>
-                    @endauth
-                </li>
-            </ul>
-        </div>
+            @endif
+
+            <li class="nav-item"><a class="nav-link {{ request()->routeIs('glossary*') ? 'is-current' : '' }}" href="{{ route('glossary.index') }}">{{ __('site.nav_glossary') }}</a></li>
+            <li class="nav-item"><a class="nav-link {{ request()->routeIs('partners') ? 'is-current' : '' }}" href="{{ route('partners') }}">{{ __('site.nav_partners') }}</a></li>
+            <li class="nav-item"><a class="nav-link {{ request()->routeIs('contact') ? 'is-current' : '' }}" href="{{ route('contact') }}">{{ __('site.nav_contact') }}</a></li>
+        </ul>
     </div>
 </nav>
 
@@ -1115,75 +1832,34 @@
 {{-- FOOTER --}}
 <footer class="gramma-footer">
     <div class="container">
-        <div class="row g-4">
-            <div class="col-lg-4 mb-3">
-                <div class="footer-brand">
-                    @if(!empty($settings->logo_rodape))
-                        <a href="{{ route('home') }}" class="d-inline-block">
-                            <img src="{{ Storage::url($settings->logo_rodape) }}"
-                                 alt="{{ $settings->nome_site ?? 'Gramma' }}"
-                                 style="height:54px; width:auto; filter: brightness(0) invert(1); opacity:.95;">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 mb-3">
+                <div class="footer-brand-block">
+                    <div class="footer-brand">
+                        <a href="{{ route('home') }}" class="gil-logo gil-logo--light" aria-label="Gramma Institute of Linguistics">
+                            <span class="gil-logo__left"><span class="gil-slash">/</span>gil<span class="gil-slash">/</span></span>
+                            <span class="gil-logo__divider" aria-hidden="true"></span>
+                            <span class="gil-logo__right">
+                                <span class="gil-logo__main">Gramma Institute</span>
+                                <span class="gil-logo__mid"><span class="gil-of">of</span> Linguistics</span>
+                            </span>
                         </a>
-                    @elseif(!empty($settings->logo))
-                        <a href="{{ route('home') }}" class="d-inline-block">
-                            <img src="{{ Storage::url($settings->logo) }}"
-                                 alt="{{ $settings->nome_site ?? 'Gramma' }}"
-                                 style="height:54px; width:auto; filter: brightness(0) invert(1); opacity:.95;">
-                        </a>
-                    @else
-                        <span style="display:inline-flex; align-items:center; gap:.7rem;">
-                            <span style="display:inline-flex; width:42px; height:42px; align-items:center; justify-content:center; border:1.5px solid var(--gold-light); border-radius:50%; font-size:1.05rem;">Γ</span>
-                            Gramma
-                        </span>
-                    @endif
+                    </div>
+                    <p class="footer-brand-text">languages - education - research</p>
                 </div>
-                <p style="color:rgba(250,246,236,.7); font-style: italic;">
-                    {{ $settings->descricao_site ?? __('site.hero_subtitle') }}
-                </p>
-                <div class="footer-social mt-3">
-                    @if($settings->facebook)  <a href="{{ $settings->facebook }}" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a> @endif
-                    @if($settings->instagram) <a href="{{ $settings->instagram }}" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a> @endif
-                    @if($settings->linkedin)  <a href="{{ $settings->linkedin }}" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a> @endif
-                    @if($settings->youtube)   <a href="{{ $settings->youtube }}" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a> @endif
-                    @if($settings->tiktok)    <a href="{{ $settings->tiktok }}" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i></a> @endif
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mb-3">
-                <h5>{{ __('site.nav_courses') }}</h5>
-                <ul class="list-unstyled">
-                    <li><a href="{{ route('courses') }}">{{ __('site.course_portuguese') }}</a></li>
-                    <li><a href="{{ route('courses') }}">{{ __('site.course_english') }}</a></li>
-                    <li><a href="{{ route('courses') }}">{{ __('site.course_spanish') }}</a></li>
-                    <li><a href="{{ route('courses') }}">{{ __('site.course_hebrew') }}</a></li>
-                    <li><a href="{{ route('courses') }}">{{ __('site.course_greek') }}</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-3 col-md-4 mb-3">
-                <h5>{{ __('site.nav_contact') }}</h5>
-                @if($settings->email_institucional)
-                    <p><i class="far fa-envelope me-2 text-gold"></i> {{ $settings->email_institucional }}</p>
-                @endif
-                @if($settings->telefone)
-                    <p><i class="fas fa-phone-alt me-2 text-gold"></i> {{ $settings->telefone }}</p>
-                @endif
-                @if($settings->cidade)
-                    <p><i class="fas fa-map-marker-alt me-2 text-gold"></i> {{ $settings->cidade }}{{ $settings->pais ? ', ' . $settings->pais : '' }}</p>
-                @endif
-            </div>
-            <div class="col-lg-2 col-md-4 mb-3">
-                <h5>Links</h5>
-                <ul class="list-unstyled">
-                    <li><a href="{{ route('about') }}">{{ __('site.nav_about') }}</a></li>
-                    <li><a href="{{ route('methodology') }}">{{ __('site.nav_methodology') }}</a></li>
-                    <li><a href="{{ route('privacy') }}">{{ __('site.footer_privacy') }}</a></li>
-                    <li><a href="{{ route('terms') }}">{{ __('site.footer_terms') }}</a></li>
-                </ul>
             </div>
         </div>
         <hr class="footer-divider">
-        <div class="row">
-            <div class="col footer-bottom text-center">
-                {{ $settings->texto_rodape ?? ('© ' . date('Y') . ' Gramma Institute · ' . __('site.footer_rights')) }}
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="footer-meta-stack">
+                    <a href="https://www.linkedin.com/in/alexandre-crist%C3%B3v%C3%A3o-156073151/"
+                       target="_blank" rel="noopener noreferrer"
+                       class="footer-credit-link">Designed &amp; coded by Alexandre Crist&oacute;v&atilde;o <i class="fab fa-linkedin"></i></a>
+                    <div class="footer-bottom">
+                        {{ $settings->texto_rodape ?? ('© ' . date('Y') . ' Gramma Institute. ' . __('site.footer_rights')) }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1208,7 +1884,7 @@
                 <div class="wa-card-title">{{ $waTitle }}</div>
                 <div class="wa-card-sub">{{ $waSub }}</div>
             </div>
-            <button type="button" class="wa-card-close" aria-label="Fechar" id="waClose">
+            <button type="button" class="wa-card-close" aria-label="Close" id="waClose">
                 <i class="fas fa-times"></i>
             </button>
         </div>
@@ -1237,16 +1913,12 @@
 <aside class="lang-panel" id="langPanel" aria-hidden="true">
     <div class="lang-panel-header">
         <div class="lang-panel-title">
-            <i class="fas fa-globe"></i>
             {{ __('site.language_select') }}
         </div>
-        <button type="button" class="lang-panel-close" id="langPanelClose" aria-label="Fechar">
+        <button type="button" class="lang-panel-close" id="langPanelClose" aria-label="Close">
             <i class="fas fa-times"></i>
         </button>
     </div>
-    <p class="lang-panel-subtitle">
-        Escolha o idioma. As suas preferências aplicam-se a todo o site.
-    </p>
     <div class="lang-panel-list">
         @foreach($langs as $code => $l)
             <a href="{{ route('locale.switch', $code) }}"
@@ -1277,6 +1949,65 @@
         if (!nav) return;
         window.addEventListener('scroll', function() {
             nav.classList.toggle('scrolled', window.scrollY > 30);
+        });
+    })();
+
+    // Desktop nav dropdowns (About + Resources mega): click to toggle, close on outside / Esc.
+    (function() {
+        var dds = document.querySelectorAll('[data-dd]');
+        if (!dds.length) return;
+
+        function closeAll(except) {
+            dds.forEach(function(d) {
+                if (d === except) return;
+                d.classList.remove('is-open');
+                var btn = d.querySelector('[data-dd-toggle]');
+                if (btn) btn.setAttribute('aria-expanded', 'false');
+            });
+        }
+
+        dds.forEach(function(d) {
+            var btn = d.querySelector('[data-dd-toggle]');
+            if (!btn) return;
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var open = d.classList.toggle('is-open');
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                closeAll(d);
+            });
+        });
+
+        // Inside the Resources mega-menu: each category header toggles its own
+        // link list (accordion). Multiple categories can stay open at once.
+        document.querySelectorAll('[data-cat-toggle]').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var cat = btn.closest('[data-cat]');
+                if (!cat) return;
+                var open = cat.classList.toggle('is-cat-open');
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('[data-dd]')) closeAll(null);
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeAll(null);
+        });
+    })();
+
+    // Mobile accordion groups (About + Resources in the slide-down menu)
+    (function() {
+        var groups = document.querySelectorAll('[data-mobile-group]');
+        groups.forEach(function(g) {
+            var btn = g.querySelector('[data-mobile-toggle]');
+            if (!btn) return;
+            btn.addEventListener('click', function() {
+                g.classList.toggle('is-open');
+            });
         });
     })();
 

@@ -4,62 +4,239 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', __('dashboard.title')) — {{ config('app.name') }}</title>
+    <title>@yield('title', __('dashboard.title')) - {{ config('app.name') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Hebrew:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/fontawesome-free/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;0,6..96,800;1,6..96,400&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cormorant+SC:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css">
     <style>
-        :root { --gramma-blue: #1a3a5c; --gramma-blue-light: #2d6a9f; --gramma-gold: #c8a951; }
+        :root {
+            /* Classical palette — matches the public site */
+            --parchment:    #f5efe1;
+            --ivory:        #faf6ec;
+            --ink:          #1a1612;
+            --ink-soft:     #322a20;
+            --bronze:       #a87841;
+            --bronze-dark:  #7e5223;
+            --gold:         #c8a44b;
+            --gold-light:   #e7c873;
+            --burgundy:     #6c1f1f;
+            --stone:        #8a7e66;
+            --line:         rgba(26,22,18,.10);
 
-        body { font-family: 'Noto Sans', sans-serif; }
+            /* Legacy aliases (kept so old admin views don't break) */
+            --gramma-blue:        #1a1612;
+            --gramma-blue-light:  #7e5223;
+            --gramma-gold:        #c8a44b;
+        }
+
+        /* === DIDOT GLOBAL — same stack as the public site === */
+        body {
+            font-family: "Didot","GFS Didot","Bodoni Moda","Cormorant Garamond","Noto Serif",Georgia,serif;
+            font-size: 15px;
+            background: var(--ivory);
+            color: var(--ink);
+        }
+        h1,h2,h3,h4,h5,h6,
+        .brand-text,
+        .nav-header,
+        .breadcrumb,
+        .card-title,
+        .card-header h6,
+        .content-header h1,
+        .small-caps {
+            font-family: "Bodoni Moda","Didot","GFS Didot","Cinzel",Georgia,serif;
+            letter-spacing: .02em;
+        }
+        /* Forms/tables keep Inter for legibility on small text */
+        .form-control,
+        .table,
+        .badge,
+        .dropdown-menu,
+        small,
+        .small,
+        button,
+        .btn { font-family: "Inter",system-ui,-apple-system,"Segoe UI",sans-serif; }
 
         /* === SIDEBAR === */
-        .main-sidebar { background: #0f2540 !important; }
-        .brand-link {
-            background: rgba(0,0,0,0.25) !important;
-            border-bottom: 1px solid rgba(255,255,255,0.08) !important;
-            padding: 1rem 1rem !important;
+        .main-sidebar {
+            background: linear-gradient(180deg, #1a1612 0%, #0d0a08 100%) !important;
         }
-        .brand-link .brand-text { font-weight: 700; color: #fff !important; letter-spacing: -.3px; }
-        .brand-link .brand-icon { font-size: 1.3rem; color: var(--gramma-gold) !important; }
+        .brand-link {
+            background: rgba(0,0,0,0.35) !important;
+            border-bottom: 1px solid rgba(231,200,115,0.18) !important;
+            padding: 1.1rem 1rem !important;
+        }
+
+        /* === TYPOGRAPHIC LOGO (/gil/ | Gramma Institute) — admin sidebar ===
+           Sized to fit comfortably inside the AdminLTE sidebar (~250px wide):
+              total content ≈ /gil/ (~42px) + gap+divider+gap (~17px) + text (~145px)
+            - sidebar collapsed → only /gil/ centered
+            - mobile slide-out  → full logo
+           ================================================================ */
+        .brand-link.gil-logo {
+            display: flex !important;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.5rem;
+            padding: 0.9rem 0.85rem !important;
+            color: var(--ivory) !important;
+            font-family: "Bodoni Moda","Didot","GFS Didot",Georgia,serif;
+            line-height: 1;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+        .brand-link.gil-logo:hover {
+            color: var(--gold-light) !important;
+            text-decoration: none;
+        }
+        .brand-link.gil-logo .gil-logo__left {
+            font-size: 1.4rem;
+            font-weight: 400;
+            letter-spacing: -.005em;
+            text-transform: lowercase;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+        .brand-link.gil-logo .gil-logo__left .gil-slash {
+            display: inline-block;
+            padding: 0 0.02em;
+        }
+        .brand-link.gil-logo .gil-logo__divider {
+            width: 1px;
+            height: 32px;
+            background: currentColor;
+            opacity: .5;
+            flex-shrink: 0;
+        }
+        .brand-link.gil-logo .gil-logo__right {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 0.2rem;
+            text-align: center;
+            min-width: 0;
+            flex: 1 1 auto;
+        }
+        .brand-link.gil-logo .gil-logo__main {
+            font-size: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .brand-link.gil-logo .gil-logo__mid {
+            font-size: 0.45rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .brand-link.gil-logo .gil-logo__mid .gil-of {
+            font-style: italic;
+            font-weight: 400;
+            font-size: 0.95em;
+            letter-spacing: 0;
+            text-transform: lowercase;
+            padding-right: 0.22em;
+            font-family: "Cormorant Garamond",Georgia,serif;
+        }
+
+        /* When sidebar is collapsed to mini (~4.6rem), only show /gil/ */
+        .sidebar-collapse .brand-link.gil-logo {
+            padding: 0.85rem 0.5rem !important;
+            gap: 0;
+            justify-content: center;
+        }
+        .sidebar-collapse .brand-link.gil-logo .gil-logo__divider,
+        .sidebar-collapse .brand-link.gil-logo .gil-logo__right { display: none !important; }
+        .sidebar-collapse .brand-link.gil-logo .gil-logo__left {
+            font-size: 1.5rem;
+        }
+        /* Mobile: sidebar slides out at ~250px — full logo shows */
+        @media (max-width: 991.98px) {
+            .brand-link.gil-logo { padding: 0.85rem 0.85rem !important; }
+        }
         .sidebar { padding-bottom: 2rem; }
         .nav-sidebar .nav-item .nav-link {
-            color: rgba(255,255,255,0.72);
+            color: rgba(245,239,225,.78);
             border-radius: 8px;
-            margin: 1px 8px;
-            transition: all .15s;
-            font-size: .875rem;
+            margin: 2px 10px;
+            transition: all .18s;
+            font-size: .85rem;
+            letter-spacing: .02em;
         }
-        .nav-sidebar .nav-item .nav-link:hover { color: #fff; background: rgba(255,255,255,0.1); }
-        .nav-sidebar .nav-item .nav-link.active { color: #fff; background: var(--gramma-blue-light); }
-        .nav-sidebar .nav-item .nav-link .nav-icon { color: rgba(255,255,255,0.5); font-size: .9rem; }
-        .nav-sidebar .nav-item .nav-link.active .nav-icon { color: rgba(255,255,255,0.9); }
+        .nav-sidebar .nav-item .nav-link:hover {
+            color: var(--gold-light);
+            background: rgba(231,200,115,.08);
+        }
+        .nav-sidebar .nav-item .nav-link.active {
+            color: var(--ink);
+            background: var(--gold-light);
+            font-weight: 600;
+        }
+        .nav-sidebar .nav-item .nav-link .nav-icon { color: rgba(245,239,225,.5); font-size: .9rem; }
+        .nav-sidebar .nav-item .nav-link.active .nav-icon { color: var(--ink); }
         .nav-header {
-            font-size: .65rem !important;
-            font-weight: 700 !important;
+            font-family: 'Cormorant SC', serif !important;
+            font-size: .72rem !important;
+            font-weight: 600 !important;
             text-transform: uppercase;
-            letter-spacing: .08em;
-            color: rgba(255,255,255,0.3) !important;
-            padding: 1rem 1rem .3rem !important;
+            letter-spacing: .28em;
+            color: var(--gold-light) !important;
+            padding: 1.4rem 1.25rem .4rem !important;
+            opacity: .72;
         }
-        .user-panel { border-bottom: 1px solid rgba(255,255,255,0.08); }
-        .user-panel .info a { color: rgba(255,255,255,0.9) !important; font-size: .875rem; font-weight: 500; }
+        .user-panel {
+            border-bottom: 1px solid rgba(231,200,115,.18);
+            padding-left: .5rem;
+        }
+        .user-panel .info a { color: var(--ivory) !important; font-size: .9rem; font-weight: 500; font-family: 'Bodoni Moda', serif; }
 
         /* === TOPBAR === */
-        .main-header { box-shadow: 0 1px 8px rgba(0,0,0,0.08); border-bottom: 1px solid #f0f0f0; }
-        .main-header .nav-link { color: #374151; font-size: .875rem; }
-        .main-header .nav-link:hover { color: var(--gramma-blue); }
+        .main-header {
+            box-shadow: 0 2px 10px rgba(26,22,18,0.06);
+            border-bottom: 1px solid var(--line);
+            background: #fff !important;
+        }
+        .main-header .nav-link { color: var(--ink-soft); font-size: .9rem; }
+        .main-header .nav-link:hover { color: var(--bronze-dark); }
 
         /* === CONTENT AREA === */
-        .content-wrapper { background: #f4f6f9; }
-        .content-header h1 { font-size: 1.35rem; font-weight: 700; color: #1a3a5c; }
-        .breadcrumb { font-size: .8rem; }
+        .content-wrapper { background: var(--ivory); }
+        .content-header { padding: 1.25rem .75rem .5rem; }
+        .content-header h1 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 1.65rem;
+            font-weight: 600;
+            color: var(--ink);
+            letter-spacing: .015em;
+        }
+        .breadcrumb { font-size: .78rem; font-family: 'Cormorant SC', serif; letter-spacing: .14em; text-transform: uppercase; }
+        .breadcrumb a { color: var(--bronze-dark); }
+        .breadcrumb-item.active { color: var(--stone); }
 
         /* === CARDS === */
-        .card-header { border-bottom: 2px solid var(--gramma-blue); }
+        .card {
+            border: 1px solid var(--line) !important;
+            border-radius: 14px !important;
+            box-shadow: 0 2px 12px rgba(26,22,18,0.05);
+            background: #fff;
+        }
+        .card-header {
+            border-bottom: 1px solid var(--line);
+            background: transparent;
+        }
+        .card-header h6, .card-title {
+            font-family: 'Bodoni Moda', serif;
+            font-weight: 600;
+            color: var(--ink);
+            letter-spacing: .02em;
+        }
 
         /* === FOOTER === */
         .main-footer { font-size: .82rem; color: #9ca3af; border-top: 1px solid #e5e7eb; }
@@ -181,18 +358,17 @@
             {{-- Globe language opener --}}
             @php
                 $adminLangs = [
-                    'pt_BR' => ['flag' => 'br', 'name' => 'Português',  'native' => 'Português (BR)'],
+                    'pt_BR' => ['flag' => 'br', 'name' => "Portugu\u{00EA}s",  'native' => "Portugu\u{00EA}s (BR)"],
                     'en'    => ['flag' => 'gb', 'name' => 'English',     'native' => 'English'],
-                    'es'    => ['flag' => 'es', 'name' => 'Español',    'native' => 'Español'],
-                    'he'    => ['flag' => 'il', 'name' => 'Hebrew',     'native' => 'עברית'],
-                    'el'    => ['flag' => 'gr', 'name' => 'Greek',      'native' => 'Ελληνικά'],
-                    'la'    => ['flag' => 'va', 'name' => 'Latin',      'native' => 'Latīna'],
+                    'es'    => ['flag' => 'es', 'name' => "Espa\u{00F1}ol",    'native' => "Espa\u{00F1}ol"],
+                    'he'    => ['flag' => 'il', 'name' => 'Hebrew',     'native' => "\u{05E2}\u{05D1}\u{05E8}\u{05D9}\u{05EA}"],
+                    'el'    => ['flag' => 'gr', 'name' => 'Greek',      'native' => "\u{0395}\u{03BB}\u{03BB}\u{03B7}\u{03BD}\u{03B9}\u{03BA}\u{03AC}"],
+                    'la'    => ['flag' => 'va', 'name' => 'Latin',      'native' => "Lat\u{012B}na"],
                 ];
                 $currentAdminLang = $adminLangs[app()->getLocale()] ?? $adminLangs['pt_BR'];
             @endphp
             <li class="nav-item">
                 <button type="button" id="adminLangBtn" class="admin-lang-globe" aria-label="Idioma">
-                    <i class="fas fa-globe"></i>
                     <span class="fi fi-{{ $currentAdminLang['flag'] }}"></span>
                     <span class="d-none d-sm-inline">{{ strtoupper(str_replace('_','-',app()->getLocale())) }}</span>
                 </button>
@@ -214,7 +390,7 @@
                 <div class="dropdown-menu dropdown-menu-right" style="border-radius:10px; box-shadow:0 4px 20px rgba(0,0,0,0.12); border:1px solid #e5e7eb;">
                     <div class="px-3 py-2 border-bottom">
                         <div style="font-size:.8rem; color:#6b7280;">{{ auth()->user()->email }}</div>
-                        <div style="font-size:.75rem; color:#9ca3af;">{{ auth()->user()->isAdmin() ? 'Administrador' : 'Utilizador' }}</div>
+                        {{ auth()->user()->isAdmin() ? 'Administrador' : 'Utilizador' }}
                     </div>
                     <a href="{{ route('profile.edit') }}" class="dropdown-item" style="font-size:.875rem;">
                         <i class="fas fa-user mr-2 text-muted"></i> {{ __('dashboard.menu_profile') }}
@@ -233,9 +409,13 @@
 
     {{-- Sidebar --}}
     <aside class="main-sidebar sidebar-dark-primary elevation-2">
-        <a href="{{ route('dashboard') }}" class="brand-link d-flex align-items-center">
-            <i class="fas fa-graduation-cap brand-icon mr-2"></i>
-            <span class="brand-text">Gramma <span style="font-weight:400; opacity:.7; font-size:.9em;">Admin</span></span>
+        <a href="{{ route('dashboard') }}" class="brand-link gil-logo" aria-label="Gramma Institute of Linguistics - Admin">
+            <span class="gil-logo__left"><span class="gil-slash">/</span>gil<span class="gil-slash">/</span></span>
+            <span class="gil-logo__divider" aria-hidden="true"></span>
+            <span class="gil-logo__right">
+                <span class="gil-logo__main">Gramma Institute</span>
+                <span class="gil-logo__mid"><span class="gil-of">of</span> Linguistics</span>
+            </span>
         </a>
         <div class="sidebar">
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
@@ -245,7 +425,7 @@
                 <div class="info ml-2">
                     <a href="{{ route('profile.edit') }}" class="d-block">{{ auth()->user()->name }}</a>
                     <small style="color:rgba(255,255,255,0.45); font-size:.72rem;">
-                        {{ auth()->user()->isAdmin() ? '★ Administrador' : 'Utilizador' }}
+                        {{ auth()->user()->isAdmin() ? 'Administrador' : 'Utilizador' }}
                     </small>
                 </div>
             </div>
@@ -264,11 +444,29 @@
 
                     @if(auth()->user()->isAdmin())
                     {{-- Content --}}
-                    <li class="nav-header">Conteúdo</li>
+                    <li class="nav-header">Conte&uacute;do</li>
                     <li class="nav-item">
                         <a href="{{ route('admin.hero-slides.index') }}" class="nav-link {{ request()->routeIs('admin.hero-slides.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-images"></i>
                             <p>Hero Slides</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.about.edit') }}" class="nav-link {{ request()->routeIs('admin.about.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-feather-pointed"></i>
+                            <p>Sobre &middot; About Us</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.partners.index') }}" class="nav-link {{ request()->routeIs('admin.partners.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-handshake"></i>
+                            <p>Parceiros &middot; Partners</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.resources.index') }}" class="nav-link {{ request()->routeIs('admin.resources.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-book-open"></i>
+                            <p>Recursos &middot; Resources</p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -280,19 +478,7 @@
                     <li class="nav-item">
                         <a href="{{ route('admin.glossary.index') }}" class="nav-link {{ request()->routeIs('admin.glossary.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-feather-alt"></i>
-                            <p>Glossário</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('admin.events.index') }}" class="nav-link {{ request()->routeIs('admin.events.*') ? 'active' : '' }}">
-                            <i class="nav-icon far fa-calendar-alt"></i>
-                            <p>Eventos</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('admin.promotions.index') }}" class="nav-link {{ request()->routeIs('admin.promotions.*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-percent"></i>
-                            <p>Promoções</p>
+                            <p>Gloss&aacute;rio</p>
                         </a>
                     </li>
 
@@ -307,7 +493,7 @@
                     <li class="nav-item">
                         <a href="{{ route('admin.languages.index') }}" class="nav-link {{ request()->routeIs('admin.languages.*') || request()->routeIs('admin.translations.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-language"></i>
-                            <p>Idiomas & Traduções</p>
+                            <p>Idiomas &amp; Tradu&ccedil;&otilde;es</p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -329,7 +515,7 @@
                     <li class="nav-item">
                         <a href="{{ route('home') }}" target="_blank" class="nav-link">
                             <i class="nav-icon fas fa-globe"></i>
-                            <p>Ver Site Público</p>
+                            <p>Ver Site P&uacute;blico</p>
                         </a>
                     </li>
 
@@ -376,7 +562,7 @@
                 @if($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" style="border-left:4px solid #dc2626;">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <strong><i class="fas fa-exclamation-triangle mr-1"></i> Erros de validação:</strong>
+                        <strong><i class="fas fa-exclamation-triangle mr-1"></i> Erros de valida&ccedil;&atilde;o:</strong>
                         <ul class="mb-0 mt-1">
                             @foreach($errors->all() as $error)
                                 <li style="font-size:.875rem;">{{ $error }}</li>
@@ -394,7 +580,7 @@
     <div class="admin-lang-backdrop" id="adminLangBackdrop"></div>
     <aside class="admin-lang-panel" id="adminLangPanel">
         <div class="admin-lang-panel-header">
-            <h6><i class="fas fa-globe me-2"></i>Idioma</h6>
+            <h6>Idioma</h6>
             <button type="button" class="admin-lang-panel-close" id="adminLangClose">
                 <i class="fas fa-times"></i>
             </button>
@@ -426,9 +612,8 @@
 
 </div>
 
-<script src="{{ asset('vendor/adminlte/plugins/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('vendor/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('vendor/adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
 <script>
 /* =============================================================
@@ -520,3 +705,4 @@
 @stack('scripts')
 </body>
 </html>
+
