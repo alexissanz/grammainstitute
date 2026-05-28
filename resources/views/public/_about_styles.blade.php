@@ -2,11 +2,8 @@
 <style>
     .about-hero {
         position: relative;
-        background:
-            linear-gradient(135deg, rgba(26,22,18,.82) 0%, rgba(26,22,18,.58) 55%, rgba(26,22,18,.88) 100%),
-            radial-gradient(circle at 18% 30%, rgba(168,120,65,.32), transparent 55%),
-            #1a1612;
-        color: var(--ivory);
+        background: #000;
+        color: #ffffff;
         padding: 6rem 0 4.5rem;
         overflow: hidden;
     }
@@ -16,7 +13,7 @@
         top: -2.5rem; right: -3rem;
         font-family: 'Bodoni Moda','Didot',serif;
         font-size: clamp(8rem, 18vw, 18rem);
-        color: rgba(231,200,115,.06);
+        color: rgba(255,255,255,.05);
         font-weight: 700;
         pointer-events: none;
         line-height: 1;
@@ -27,7 +24,7 @@
         font-size: .82rem;
         letter-spacing: .42em;
         text-transform: uppercase;
-        color: var(--gold-light);
+        color: #ffffff;
         margin-bottom: 1rem;
     }
     .about-hero h1 {
@@ -49,7 +46,7 @@
         color: #ffffff !important;     /* always white over the brown/ink hero */
         max-width: 720px;
     }
-    .about-hero .about-eyebrow { color: var(--gold-light) !important; }
+    .about-hero .about-eyebrow { color: #ffffff !important; }
     .about-hero h1 { color: #ffffff !important; }
 
     .about-body { background: var(--ivory); padding: 5rem 0 6rem; position: relative; }
@@ -59,7 +56,7 @@
         bottom: 2rem; left: -1.5rem;
         font-family: 'Bodoni Moda','Didot',serif;
         font-size: clamp(7rem, 14vw, 14rem);
-        color: rgba(168,120,65,.05);
+        color: rgba(0,0,0,.05);
         font-weight: 700;
         pointer-events: none;
     }
@@ -88,7 +85,7 @@
     .about-nav a.is-current {
         color: var(--ink);
         border-left-color: var(--bronze);
-        background: rgba(168,120,65,.06);
+        background: rgba(0,0,0,.06);
     }
 
     .about-content h2 {
@@ -173,25 +170,26 @@
     }
     .expertise-item {
         display: flex; align-items: baseline; gap: .85rem;
-        padding: .85rem 1rem;
-        background: #fff;
-        border: 1px solid var(--line);
-        border-left: 3px solid var(--bronze);
+        padding: .95rem 1.1rem;
+        background: #000;
+        border: 1px solid #000;
+        border-left: 3px solid #fff;
         font-family: 'Bodoni Moda','Didot',serif;
         font-size: 1.05rem;
-        color: var(--ink);
-        transition: border-color .25s, transform .25s, box-shadow .25s;
+        color: #fff;
+        text-transform: lowercase;
+        transition: transform .25s, box-shadow .25s;
     }
+    .expertise-item span { color: #fff; }
     .expertise-item:hover {
-        border-left-color: var(--gold);
         transform: translateX(3px);
-        box-shadow: 0 6px 18px rgba(26,22,18,.06);
+        box-shadow: 0 6px 18px rgba(0,0,0,.25);
     }
     .expertise-item .num {
         font-family: 'Cormorant SC', serif;
         font-size: .7rem;
         letter-spacing: .2em;
-        color: var(--bronze);
+        color: rgba(255,255,255,.65);
         min-width: 1.6rem;
     }
 
@@ -241,7 +239,7 @@
     }
     .about-index-card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 18px 40px rgba(26,22,18,.08);
+        box-shadow: 0 18px 40px rgba(0,0,0,.08);
         border-color: var(--bronze);
         color: var(--ink);
     }
@@ -295,7 +293,7 @@
             font-size: .62rem;
             letter-spacing: .22em;
         }
-        .about-nav a.is-current { border-color: var(--bronze); background: rgba(168,120,65,.08); }
+        .about-nav a.is-current { border-color: var(--bronze); background: rgba(0,0,0,.08); }
     }
     @media (max-width: 575px) {
         .about-hero { padding: 4rem 0 3rem; }

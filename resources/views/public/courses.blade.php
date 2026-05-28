@@ -6,7 +6,7 @@
 <style>
     .cl-hero {
         background:
-            linear-gradient(135deg, rgba(26,22,18,.85) 0%, rgba(26,22,18,.7) 100%),
+            linear-gradient(135deg, rgba(0,0,0,.85) 0%, rgba(0,0,0,.7) 100%),
             url('https://images.unsplash.com/photo-1532153975070-2e9ab71f1b14?auto=format&fit=crop&w=2400&q=85') center/cover no-repeat;
         color: var(--ivory);
         padding: 7rem 0 5rem;
@@ -52,7 +52,7 @@
     }
     .cl-card:hover {
         transform: translateY(-12px) scale(1.015);
-        box-shadow: 0 28px 64px rgba(26,22,18,.16);
+        box-shadow: 0 28px 64px rgba(0,0,0,.16);
         color: var(--ivory);
         border-color: rgba(0,0,0,.28);
     }

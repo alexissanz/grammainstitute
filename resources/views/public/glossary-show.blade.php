@@ -15,7 +15,7 @@
         content: '';
         position: absolute; inset: 0;
         background-size: cover; background-position: center;
-        background-image: linear-gradient(135deg, rgba(26,22,18,.7) 0%, rgba(26,22,18,.94) 100%), var(--bg-image);
+        background-image: linear-gradient(135deg, rgba(0,0,0,.7) 0%, rgba(0,0,0,.94) 100%), var(--bg-image);
     }
     .gs-hero .container { position: relative; z-index: 1; text-align: center; }
     .gs-hero .back {
@@ -116,7 +116,7 @@
         transform: translateX(-50%);
         font-family: 'Cinzel', serif;
         font-size: 12rem;
-        color: rgba(231,200,115,.1);
+        color: rgba(255,255,255,.1);
         line-height: 1;
         font-weight: 700;
     }
@@ -152,7 +152,7 @@
         transition: transform .25s, box-shadow .25s;
         color: var(--ink);
     }
-    .gs-related .related-card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(26,22,18,.1); }
+    .gs-related .related-card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(0,0,0,.1); }
     .gs-related .related-card .termo {
         font-family: 'Cinzel', serif;
         font-size: 1.8rem;

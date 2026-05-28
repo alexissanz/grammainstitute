@@ -13,10 +13,10 @@
         display: flex;
         align-items: center;
         background:
-            linear-gradient(135deg, rgba(26,22,18,.78) 0%, rgba(26,22,18,.55) 55%, rgba(26,22,18,.85) 100%),
-            radial-gradient(circle at 30% 30%, rgba(168,120,65,.45), transparent 55%),
-            radial-gradient(circle at 75% 75%, rgba(200,164,75,.35), transparent 60%),
-            #1a1612;
+            linear-gradient(135deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.55) 55%, rgba(0,0,0,.85) 100%),
+            radial-gradient(circle at 30% 30%, rgba(0,0,0,.45), transparent 55%),
+            radial-gradient(circle at 75% 75%, rgba(0,0,0,.35), transparent 60%),
+            #000000;
         color: var(--ivory);
         overflow: hidden;
     }
@@ -25,8 +25,8 @@
         position: absolute;
         inset: 0;
         background-image:
-            radial-gradient(circle at 18% 22%, rgba(200,164,75,.18), transparent 35%),
-            radial-gradient(circle at 84% 80%, rgba(168,120,65,.18), transparent 40%);
+            radial-gradient(circle at 18% 22%, rgba(0,0,0,.18), transparent 35%),
+            radial-gradient(circle at 84% 80%, rgba(0,0,0,.18), transparent 40%);
         pointer-events: none;
     }
     .hero-classical .hero-greek {
@@ -143,7 +143,7 @@
         font-family: 'Cinzel', serif;
         font-size: clamp(8rem, 18vw, 16rem);
         font-weight: 700;
-        color: rgba(168,120,65,.05);
+        color: rgba(0,0,0,.05);
         pointer-events: none;
     }
     .manifesto .lede-quote {
@@ -266,7 +266,7 @@
     .pillar:hover {
         border-color: var(--bronze);
         transform: translateY(-4px);
-        box-shadow: 0 14px 40px rgba(26,22,18,.08);
+        box-shadow: 0 14px 40px rgba(0,0,0,.08);
     }
     .pillar .roman {
         font-family: 'Cinzel', serif;
@@ -303,7 +303,7 @@
     .manuscript-banner {
         position: relative;
         background:
-            linear-gradient(135deg, rgba(26,22,18,.88) 0%, rgba(26,22,18,.55) 100%),
+            linear-gradient(135deg, rgba(0,0,0,.88) 0%, rgba(0,0,0,.55) 100%),
             url('https://images.unsplash.com/photo-1532153975070-2e9ab71f1b14?auto=format&fit=crop&w=2400&q=85') center/cover no-repeat;
         color: var(--ivory);
         padding: 8rem 0;
@@ -336,7 +336,7 @@
         position: relative;
         height: 100%;
         border-top: 2px solid var(--bronze);
-        box-shadow: 0 4px 22px rgba(26,22,18,.06);
+        box-shadow: 0 4px 22px rgba(0,0,0,.06);
     }
     .review-card .stars { color: var(--gold); letter-spacing: .12em; margin-bottom: 1rem; }
     .review-card blockquote {
@@ -366,7 +366,7 @@
        ============================================================ */
     .cta-band {
         background:
-            linear-gradient(135deg, rgba(26,22,18,.92) 0%, rgba(26,22,18,.75) 100%),
+            linear-gradient(135deg, rgba(0,0,0,.92) 0%, rgba(0,0,0,.75) 100%),
             url('https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=2400&q=85') center/cover no-repeat;
         background-attachment: fixed;
         color: var(--ivory);
@@ -445,7 +445,7 @@
     .hero-slide__overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(135deg, rgba(26,22,18,.78) 0%, rgba(26,22,18,.55) 55%, rgba(26,22,18,.85) 100%);
+        background: linear-gradient(135deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.55) 55%, rgba(0,0,0,.85) 100%);
         z-index: 1;
     }
     .hero-slide-watermark {
@@ -1103,7 +1103,7 @@
 
 @else
 {{-- DEFAULT: classical hero with parchment/Greek vibe --}}
-<section class="hero-classical" style="background-image: linear-gradient(135deg, rgba(26,22,18,.78) 0%, rgba(26,22,18,.55) 55%, rgba(26,22,18,.85) 100%), url('{{ $heroImg }}'); background-size: cover; background-position: center;">
+<section class="hero-classical" style="background-image: linear-gradient(135deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.55) 55%, rgba(0,0,0,.85) 100%), url('{{ $heroImg }}'); background-size: cover; background-position: center;">
     <span class="hero-greek" aria-hidden="true">Γράμμα</span>
     <div class="container">
         <div class="row">

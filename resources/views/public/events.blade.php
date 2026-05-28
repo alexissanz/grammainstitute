@@ -5,7 +5,7 @@
 @push('styles')
 <style>
     .ev-hero {
-        background: linear-gradient(135deg, rgba(26,22,18,.88) 0%, rgba(26,22,18,.65) 100%), url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=2400&q=85') center/cover no-repeat;
+        background: linear-gradient(135deg, rgba(0,0,0,.88) 0%, rgba(0,0,0,.65) 100%), url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=2400&q=85') center/cover no-repeat;
         color: var(--ivory);
         padding: 7rem 0 5rem;
         text-align: center;
@@ -28,10 +28,10 @@
         color: var(--ink);
         transition: transform .25s, box-shadow .25s;
         border-left: 4px solid var(--ev-color, var(--bronze));
-        box-shadow: 0 4px 22px rgba(26,22,18,.06);
+        box-shadow: 0 4px 22px rgba(0,0,0,.06);
     }
     [dir="rtl"] .ev-card { border-left: 0; border-right: 4px solid var(--ev-color, var(--bronze)); }
-    .ev-card:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(26,22,18,.11); color: var(--ink); }
+    .ev-card:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(0,0,0,.11); color: var(--ink); }
     .ev-card .ev-date {
         background: var(--ev-color, var(--bronze));
         color: #fff;
@@ -226,7 +226,7 @@
             @foreach($past as $event)
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('events.show', $event->slug) }}" style="background:#fff; padding:1.75rem; height:100%; display:block; text-decoration:none; color:var(--ink); border-top: 2px solid {{ $event->cor_destaque }}; transition:transform .25s, box-shadow .25s;"
-                       onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 14px 40px rgba(26,22,18,.1)';"
+                       onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 14px 40px rgba(0,0,0,.1)';"
                        onmouseout="this.style.transform=''; this.style.boxShadow='';">
                         <div style="font-family:'Cormorant SC',serif; font-size:.7rem; letter-spacing:.3em; color: var(--stone); text-transform:uppercase; margin-bottom:.65rem;">
                             {{ $event->data_inicio->translatedFormat('d M Y') }}

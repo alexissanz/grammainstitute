@@ -13,11 +13,8 @@
     .resource-group-title:first-child { margin-top: 0; }
     .resources-hero {
         position: relative;
-        background:
-            linear-gradient(135deg, rgba(26,22,18,.82) 0%, rgba(26,22,18,.58) 55%, rgba(26,22,18,.88) 100%),
-            radial-gradient(circle at 20% 60%, rgba(168,120,65,.32), transparent 55%),
-            #1a1612;
-        color: var(--ivory);
+        background: #000;
+        color: #ffffff;
         padding: 5.5rem 0 4rem;
         overflow: hidden;
     }
@@ -28,7 +25,7 @@
         position: absolute;
         top: 10%; right: -1rem;
         font-size: clamp(7rem, 14vw, 14rem);
-        color: rgba(231,200,115,.06);
+        color: rgba(255,255,255,.05);
         pointer-events: none;
     }
     .resources-hero .container { position: relative; z-index: 2; }
@@ -37,7 +34,7 @@
         font-size: .82rem;
         letter-spacing: .42em;
         text-transform: uppercase;
-        color: var(--gold-light);
+        color: #ffffff;
         margin-bottom: 1rem;
     }
     .resources-hero h1,
@@ -79,7 +76,7 @@
     }
     .resource-cat-card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 18px 40px rgba(26,22,18,.08);
+        box-shadow: 0 18px 40px rgba(0,0,0,.08);
         border-color: var(--bronze);
         color: var(--ink);
     }
@@ -147,7 +144,7 @@
     .resource-side-nav a.is-current {
         color: var(--ink);
         border-left-color: var(--bronze);
-        background: rgba(168,120,65,.05);
+        background: rgba(0,0,0,.05);
     }
 
     .resource-section h2 {
@@ -188,7 +185,7 @@
     .resource-link:hover {
         border-left-color: var(--gold);
         transform: translateX(3px);
-        box-shadow: 0 8px 20px rgba(26,22,18,.06);
+        box-shadow: 0 8px 20px rgba(0,0,0,.06);
         color: var(--ink);
     }
     .resource-link .body { flex: 1; min-width: 0; }
@@ -236,7 +233,7 @@
             border-left: 0; border: 1px solid transparent; border-radius: 999px;
             padding: .4rem .8rem; font-size: .62rem; letter-spacing: .22em;
         }
-        .resource-side-nav a.is-current { border-color: var(--bronze); background: rgba(168,120,65,.08); }
+        .resource-side-nav a.is-current { border-color: var(--bronze); background: rgba(0,0,0,.08); }
     }
     @media (max-width: 575px) {
         .resources-hero { padding: 4rem 0 3rem; }

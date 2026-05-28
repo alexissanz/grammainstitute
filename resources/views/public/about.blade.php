@@ -12,9 +12,9 @@
     .about-hero {
         position: relative;
         background:
-            linear-gradient(135deg, rgba(26,22,18,.82) 0%, rgba(26,22,18,.55) 55%, rgba(26,22,18,.88) 100%),
-            radial-gradient(circle at 18% 30%, rgba(168,120,65,.32), transparent 55%),
-            #1a1612;
+            linear-gradient(135deg, rgba(0,0,0,.82) 0%, rgba(0,0,0,.55) 55%, rgba(0,0,0,.88) 100%),
+            radial-gradient(circle at 18% 30%, rgba(0,0,0,.32), transparent 55%),
+            #000000;
         color: var(--ivory);
         padding: 7rem 0 5rem;
         overflow: hidden;
@@ -25,7 +25,7 @@
         top: -2.5rem; right: -3rem;
         font-family: 'Bodoni Moda','Didot',serif;
         font-size: clamp(8rem, 18vw, 18rem);
-        color: rgba(231,200,115,.06);
+        color: rgba(255,255,255,.06);
         font-weight: 700;
         pointer-events: none;
         line-height: 1;
@@ -78,7 +78,7 @@
         bottom: 2rem; right: -1.5rem;
         font-family: 'Bodoni Moda','Didot',serif;
         font-size: clamp(7rem, 14vw, 14rem);
-        color: rgba(168,120,65,.05);
+        color: rgba(0,0,0,.05);
         font-weight: 700;
         pointer-events: none;
     }
@@ -104,7 +104,7 @@
         transition: color .2s, border-color .2s, background .2s;
     }
     .about-nav a:hover { color: var(--bronze-dark); }
-    .about-nav a.is-current { color: var(--ink); border-left-color: var(--bronze); background: rgba(168,120,65,.05); }
+    .about-nav a.is-current { color: var(--ink); border-left-color: var(--bronze); background: rgba(0,0,0,.05); }
 
     .about-section { padding: 2.5rem 0; scroll-margin-top: 100px; }
     .about-section + .about-section { border-top: 1px solid var(--line); }
@@ -165,7 +165,7 @@
     .expertise-item:hover {
         border-left-color: var(--gold);
         transform: translateX(3px);
-        box-shadow: 0 6px 18px rgba(26,22,18,.06);
+        box-shadow: 0 6px 18px rgba(0,0,0,.06);
     }
     .expertise-item .num {
         font-family: 'Cormorant SC', serif;
@@ -197,7 +197,7 @@
     @media (max-width: 991px) {
         .about-nav { position: static; border-left: 0; padding: 0 0 1.5rem; margin-bottom: 1.5rem; display:flex; flex-wrap:wrap; gap:.5rem; border-bottom:1px solid var(--line); }
         .about-nav a { padding:.4rem .8rem; border-left:0; border:1px solid transparent; border-radius:999px; font-size:.62rem; letter-spacing:.22em; }
-        .about-nav a.is-current { border-color: var(--bronze); background: rgba(168,120,65,.08); }
+        .about-nav a.is-current { border-color: var(--bronze); background: rgba(0,0,0,.08); }
     }
     @media (max-width: 575px) {
         .about-hero { padding: 4.5rem 0 3.5rem; }

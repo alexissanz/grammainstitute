@@ -52,11 +52,11 @@
     }
     .oval-portrait .frame::before {
         inset: -12px;
-        border: 1px solid rgba(231,200,115,.35);
+        border: 1px solid rgba(255,255,255,.35);
     }
     .oval-portrait .frame::after {
         inset: -24px;
-        border: 1px dashed rgba(231,200,115,.22);
+        border: 1px dashed rgba(255,255,255,.22);
     }
     .oval-portrait .photo {
         position: absolute;
@@ -76,7 +76,7 @@
         font-weight: 600;
         background: var(--ink);
         padding: .4rem .6rem;
-        border: 1px solid rgba(231,200,115,.4);
+        border: 1px solid rgba(255,255,255,.4);
         border-radius: 50%;
         width: 50px; height: 50px;
         display: flex; align-items: center; justify-content: center;
@@ -418,7 +418,7 @@ CARTA;
     </div>
 </section>
 
-<section class="cta-band" style="background: linear-gradient(135deg, rgba(26,22,18,.92) 0%, rgba(26,22,18,.75) 100%), url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=2400&q=85') center/cover no-repeat;">
+<section class="cta-band" style="background: linear-gradient(135deg, rgba(0,0,0,.92) 0%, rgba(0,0,0,.75) 100%), url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=2400&q=85') center/cover no-repeat;">
     <div class="container">
         <div class="ornament light"><i class="fas fa-feather"></i></div>
         <h2 style="font-family:'Cinzel',serif; font-weight:500; font-size: clamp(2rem,4.5vw,3.4rem); letter-spacing:.04em; line-height:1.18; color:var(--ivory); margin-bottom:1.5rem;">

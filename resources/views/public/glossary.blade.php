@@ -4,7 +4,7 @@
 
 @push('styles')
 <style>
-    .gl-shell { background: linear-gradient(180deg, #f8f4ed 0%, #ede4d7 100%); color: #111; min-height: 100vh; }
+    .gl-shell { background: linear-gradient(180deg, ffffff 0%, #ede4d7 100%); color: #111; min-height: 100vh; }
     .gl-hero { padding: 6rem 0 3rem; text-align: center; }
     .gl-hero h1 {
         font-family: var(--font-site-course);

@@ -12,8 +12,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     {{-- Bypass ngrok-free browser warning on each request via XHR-style header --}}
     <meta name="ngrok-skip-browser-warning" content="true">
-    <meta name="theme-color" content="#1a1612" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#1a1612" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>@yield('meta-title', $settings->meta_title ?? config('app.name'))</title>
@@ -51,19 +51,19 @@
             --bronze:         #000000;
             --bronze-dark:    #000000;
             --gold:           #000000;
-            --gold-light:     #000000;
+            --gold-light:     #ffffff;   /* bright accent — only ever used on dark surfaces */
             --burgundy:       #000000;
             --olive:          #000000;
             --stone:          #4d4d4d;
             --line:           rgba(0,0,0,.12);
 
-            /* legacy aliases (kept so admin views that import from public CSS still work) */
-            --gramma-blue:    #1a1612;
-            --gramma-blue-2:  #322a20;
-            --gramma-blue-3:  #4f5b35;
-            --gramma-gold:    #c8a44b;
-            --gramma-light:   #f5efe1;
-            --gramma-text:    #1a1612;
+            /* legacy aliases (kept so older views that import from public CSS still work) */
+            --gramma-blue:    #000000;
+            --gramma-blue-2:  #1a1a1a;
+            --gramma-blue-3:  #333333;
+            --gramma-gold:    #ffffff;
+            --gramma-light:   #ffffff;
+            --gramma-text:    #000000;
         }
 
         @php
@@ -174,7 +174,7 @@
         }
         .gramma-navbar.scrolled {
             padding: .65rem 0;
-            background: rgba(250,246,236,.92);
+            background: rgba(255,255,255,.92);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--line);
@@ -226,14 +226,14 @@
             background: #fff;
             border: 1px solid var(--line);
             border-radius: 999px;
-            box-shadow: 0 6px 28px rgba(26,22,18,.07);
+            box-shadow: 0 6px 28px rgba(0,0,0,.07);
             padding: .35rem .6rem;
             display: inline-flex;
             align-items: center;
             gap: .15rem;
         }
         .gramma-navbar.scrolled .nav-pill {
-            box-shadow: 0 4px 18px rgba(26,22,18,.08);
+            box-shadow: 0 4px 18px rgba(0,0,0,.08);
         }
         .nav-pill .nav-link {
             font-family: var(--font-site-menu);
@@ -281,14 +281,14 @@
             gap: .45rem;
             line-height: 1;
             text-decoration: none;
-            box-shadow: 0 4px 14px rgba(26,22,18,.12);
+            box-shadow: 0 4px 14px rgba(0,0,0,.12);
         }
         .gramma-navbar .btn-nav-cta:hover {
             background: var(--bronze-dark);
             border-color: var(--bronze-dark);
             color: var(--ivory);
             transform: translateY(-1px);
-            box-shadow: 0 8px 20px rgba(126,82,35,.25);
+            box-shadow: 0 8px 20px rgba(0,0,0,.25);
         }
 
         /* Tight desktop: shrink pill a bit */
@@ -332,7 +332,7 @@
             color: var(--ink);
             cursor: pointer;
             transition: all .2s;
-            -webkit-tap-highlight-color: rgba(168,120,65,.18);
+            -webkit-tap-highlight-color: rgba(0,0,0,.18);
             touch-action: manipulation;     /* avoid double-tap zoom on iOS */
             position: relative;
             z-index: 2;
@@ -359,7 +359,7 @@
         .lang-panel-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(26,22,18,.45);
+            background: rgba(0,0,0,.45);
             backdrop-filter: blur(2px);
             -webkit-backdrop-filter: blur(2px);
             z-index: 1090;
@@ -404,7 +404,7 @@
         .lang-panel-title i { font-size: 1.05rem; opacity: .9; }
         .lang-panel-close {
             background: transparent;
-            border: 1px solid rgba(250,246,236,.3);
+            border: 1px solid rgba(255,255,255,.3);
             color: var(--ivory);
             width: 36px; height: 36px;
             border-radius: 50%;
@@ -440,9 +440,9 @@
             border-left: 3px solid transparent;
         }
         [dir="rtl"] .lang-panel-item { border-left: 0; border-right: 3px solid transparent; }
-        .lang-panel-item:hover { background: rgba(168,120,65,.08); color: var(--ink); }
+        .lang-panel-item:hover { background: rgba(0,0,0,.08); color: var(--ink); }
         .lang-panel-item.is-active {
-            background: rgba(168,120,65,.12);
+            background: rgba(0,0,0,.12);
             border-left-color: var(--bronze);
         }
         [dir="rtl"] .lang-panel-item.is-active { border-right-color: var(--bronze); }
@@ -514,7 +514,7 @@
                 position: absolute;
                 top: 8px; left: 50%; transform: translateX(-50%);
                 width: 48px; height: 4px;
-                background: rgba(26,22,18,.18);
+                background: rgba(0,0,0,.18);
                 border-radius: 4px;
             }
             .lang-panel-header { padding-top: 1.75rem; border-radius: 20px 20px 0 0; }
@@ -554,7 +554,7 @@
             padding: .95rem 2rem;
             background: transparent;
             color: var(--ivory);
-            border: 1.5px solid rgba(250,246,236,.6);
+            border: 1.5px solid rgba(255,255,255,.6);
             border-radius: 0;
             text-decoration: none;
             transition: all .25s;
@@ -637,14 +637,14 @@
         .section-ink::before {
             content: '';
             position: absolute; inset: 0;
-            background-image: radial-gradient(circle at 20% 20%, rgba(200,164,75,.08), transparent 50%),
-                              radial-gradient(circle at 80% 80%, rgba(168,120,65,.07), transparent 55%);
+            background-image: radial-gradient(circle at 20% 20%, rgba(0,0,0,.08), transparent 50%),
+                              radial-gradient(circle at 80% 80%, rgba(0,0,0,.07), transparent 55%);
             pointer-events: none;
         }
         .section-ink > .container { position: relative; z-index: 1; }
         .section-dark { background: var(--ink); color: var(--ivory); }
         .section-dark .section-title { color: var(--ivory); }
-        .section-dark .section-subtitle { color: rgba(250,246,236,.75); }
+        .section-dark .section-subtitle { color: rgba(255,255,255,.75); }
 
         /* ====== FOOTER ====== */
         .gramma-footer {
@@ -682,7 +682,7 @@
         .gramma-footer ul.list-unstyled li { margin-bottom: .55rem; }
         .gramma-footer .footer-divider {
             border: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(250,246,236,.18), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
             margin: 3rem 0 1.5rem;
         }
         .gramma-footer .footer-bottom {
@@ -743,7 +743,7 @@
             display: inline-flex;
             align-items: center; justify-content: center;
             width: 38px; height: 38px;
-            border: 1px solid rgba(250,246,236,.25);
+            border: 1px solid rgba(255,255,255,.25);
             border-radius: 50%;
             margin-right: .5rem;
             transition: all .25s;
@@ -914,13 +914,13 @@
 
         /* legacy admin/auth view aliases */
         .hero-title { font-family: {!! $displayStack !!}; font-weight: 700; color: var(--ivory); }
-        .hero-subtitle { color: rgba(250,246,236,.85); }
+        .hero-subtitle { color: rgba(255,255,255,.85); }
         .btn-hero-primary { background: var(--gold); color: var(--ink); padding: .9rem 2rem; font-weight: 600; text-decoration: none; display: inline-block; letter-spacing: .12em; text-transform: uppercase; font-size: .8rem; font-family: 'Inter',sans-serif; }
         .btn-hero-outline { background: transparent; color: var(--ivory); border: 1.5px solid var(--ivory); padding: .9rem 2rem; font-weight: 600; text-decoration: none; display: inline-block; letter-spacing: .12em; text-transform: uppercase; font-size: .8rem; font-family: 'Inter',sans-serif; margin-left: .5rem; }
         .advantage-icon { width: 64px; height: 64px; background: var(--ink); color: var(--gold); border-radius: 50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin-bottom:1rem; }
-        .course-card { border:none; border-radius:0; box-shadow:0 4px 24px rgba(26,22,18,.08); transition: transform .25s, box-shadow .25s; overflow:hidden; }
-        .course-card:hover { transform: translateY(-4px); box-shadow:0 14px 40px rgba(26,22,18,.18); }
-        .testimonial-card { background:#fff; border-radius:0; box-shadow:0 4px 22px rgba(26,22,18,.07); padding:2.5rem 2rem; position:relative; border-top: 2px solid var(--bronze); }
+        .course-card { border:none; border-radius:0; box-shadow:0 4px 24px rgba(0,0,0,.08); transition: transform .25s, box-shadow .25s; overflow:hidden; }
+        .course-card:hover { transform: translateY(-4px); box-shadow:0 14px 40px rgba(0,0,0,.18); }
+        .testimonial-card { background:#fff; border-radius:0; box-shadow:0 4px 22px rgba(0,0,0,.07); padding:2.5rem 2rem; position:relative; border-top: 2px solid var(--bronze); }
         .testimonial-card::before { content:'\201C'; font-family: 'Cormorant Garamond', serif; font-size:5rem; color: var(--bronze); line-height:1; position:absolute; top:0; left:1.5rem; opacity:.7; }
 
         [dir="rtl"] .hero-section .btn-hero-primary { margin-right: 0; margin-left: .75rem; }
@@ -1027,7 +1027,7 @@
 
         /* Tap targets */
         @media (hover: none) {
-            a, button { -webkit-tap-highlight-color: rgba(168,120,65,.15); }
+            a, button { -webkit-tap-highlight-color: rgba(0,0,0,.15); }
         }
 
         /* ============================================================
@@ -1203,7 +1203,7 @@
             background: #fff;
             border: 1px solid var(--line);
             border-top: 2px solid var(--bronze);
-            box-shadow: 0 22px 50px rgba(26,22,18,.16);
+            box-shadow: 0 22px 50px rgba(0,0,0,.16);
             min-width: 280px;
             padding: .5rem 0;
             opacity: 0;
@@ -1294,7 +1294,7 @@
             transition: background .15s, color .15s;
         }
         .nav-pill .nav-dd-cat-link:hover {
-            background: rgba(168,120,65,.12);
+            background: rgba(0,0,0,.12);
             color: var(--bronze-dark) !important;
         }
         .nav-pill .nav-dd-cat-link i { display: none !important; }
@@ -1517,7 +1517,7 @@
 
         /* Light variant — for dark backgrounds (footer) */
         .gil-logo--light,
-        .gil-logo--light:hover { color: #faf6ec; }
+        .gil-logo--light:hover { color: #ffffff; }
 
         /* Compact variant — for the navbar bar */
         .gil-logo--nav .gil-logo__left   { font-size: 2rem; }
@@ -1566,7 +1566,7 @@
             text-transform: lowercase;
             color: #ffffff !important;
             background: transparent;
-            border: 1.5px solid rgba(250,246,236,.35);
+            border: 1.5px solid rgba(255,255,255,.35);
             border-radius: 999px;
             padding: .65rem 1.4rem;
             text-decoration: none;
@@ -1593,7 +1593,7 @@
             gap: .65rem;
             font-size: 1rem;
             line-height: 1.4;
-            color: rgba(250,246,236,.78);
+            color: rgba(255,255,255,.78);
             text-decoration: none;
             transition: color .2s;
         }
@@ -1748,8 +1748,6 @@
                 <div class="nav-dd {{ request()->routeIs('about*') ? 'is-current-parent' : '' }}" data-dd>
                     <button type="button" class="nav-link nav-dd-toggle {{ request()->routeIs('about*') ? 'is-current' : '' }}" data-dd-toggle aria-expanded="false">{{ __('site.nav_about') }} <span class="nav-dd-chev">▾</span></button>
                     <div class="nav-dd-panel nav-dd-simple">
-                        <a class="nav-dd-item" href="{{ route('about') }}">{{ __('site.about_overview') }}</a>
-                        <div class="nav-dd-sep"></div>
                         @foreach($aboutMenu as $slug => [$field, $fallback, $icon])
                             <a class="nav-dd-item" href="{{ route('about.section', $slug) }}">{{ $aboutData->t($field) ?: $fallback }}</a>
                         @endforeach
@@ -1817,7 +1815,6 @@
             <li class="nav-item nav-mobile-group" data-mobile-group>
                 <button class="nav-link nav-mobile-toggle" type="button" data-mobile-toggle>{{ __('site.nav_about') }} <i>▾</i></button>
                 <div class="nav-mobile-sub">
-                    <a href="{{ route('about') }}">{{ __('site.about_overview') }}</a>
                     @foreach($aboutMenu as $slug => [$field, $fallback, $icon])
                         <a href="{{ route('about.section', $slug) }}">{{ $aboutData->t($field) ?: $fallback }}</a>
                     @endforeach

@@ -6,7 +6,7 @@
 <style>
     .partners-hero {
         position: relative;
-        background: linear-gradient(180deg, #f6f2ea 0%, #ece4d8 100%);
+        background: linear-gradient(180deg, ffffff 0%, ffffff 100%);
         color: #111;
         padding: 5.5rem 0 3.5rem;
         overflow: hidden;
@@ -38,7 +38,7 @@
         line-height: 1.8;
     }
 
-    .partners-body { background: linear-gradient(180deg, #f8f4ed 0%, #efe6da 100%); padding: 6.5rem 0 6rem; }
+    .partners-body { background: #ffffff; padding: 6.5rem 0 6rem; }
     .partners-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -67,7 +67,7 @@
         overflow: hidden;
         background: #fff;
         border: 1px solid var(--line);
-        box-shadow: 0 4px 14px rgba(26,22,18,.06);
+        box-shadow: 0 4px 14px rgba(0,0,0,.06);
     }
     .partner-photo img { width: 100%; height: 100%; object-fit: cover; }
     .partner-photo-placeholder {

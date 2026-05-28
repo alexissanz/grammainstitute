@@ -17,7 +17,7 @@
     .es-hero::before {
         content: ''; position: absolute; inset: 0;
         background-size: cover; background-position: center;
-        background-image: linear-gradient(180deg, rgba(26,22,18,.45) 0%, rgba(26,22,18,.95) 80%), var(--bg);
+        background-image: linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.95) 80%), var(--bg);
     }
     .es-hero .container { position: relative; z-index: 1; }
     .es-hero .back {
@@ -34,7 +34,7 @@
         color: var(--gold-light);
     }
     .es-tag.free { background: rgba(74,222,128,.15); border-color: #4ade80; color: #a7f3d0; }
-    .es-tag.paid { background: rgba(231,200,115,.18); border-color: var(--gold-light); color: var(--gold-light); }
+    .es-tag.paid { background: rgba(255,255,255,.18); border-color: var(--gold-light); color: var(--gold-light); }
     .es-hero h1 {
         font-family: 'Cinzel', serif; font-weight: 500;
         font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.08;
@@ -346,7 +346,7 @@
             @foreach($upcoming as $e)
                 <div class="col-md-4">
                     <a href="{{ route('events.show', $e->slug) }}" style="background:#fff; padding:1.75rem; height:100%; display:block; text-decoration:none; color:var(--ink); border-top: 2px solid {{ $e->cor_destaque }}; transition:transform .25s, box-shadow .25s;"
-                       onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 14px 40px rgba(26,22,18,.1)';"
+                       onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 14px 40px rgba(0,0,0,.1)';"
                        onmouseout="this.style.transform=''; this.style.boxShadow='';">
                         <div style="font-family:'Cormorant SC',serif; font-size:.7rem; letter-spacing:.3em; color: var(--stone); text-transform:uppercase; margin-bottom:.65rem;">
                             {{ $e->data_inicio->translatedFormat('d M · H:i') }}

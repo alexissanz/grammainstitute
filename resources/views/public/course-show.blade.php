@@ -224,7 +224,7 @@
         top: 50%; right: -10%;
         transform: translateY(-50%);
         width: 600px; height: 600px;
-        background: radial-gradient(circle, rgba(200,164,75,.08), transparent 60%);
+        background: radial-gradient(circle, rgba(0,0,0,.08), transparent 60%);
         pointer-events: none;
     }
     .teacher-block .container { position: relative; z-index: 1; }
@@ -312,7 +312,7 @@
         transition: transform .25s, box-shadow .25s;
         color: var(--ink);
     }
-    .related-card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(26,22,18,.1); }
+    .related-card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(0,0,0,.1); }
     .related-card .glyph {
         font-family: var(--font-site-course);
         font-size: 2rem;
