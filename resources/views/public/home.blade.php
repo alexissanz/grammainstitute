@@ -191,11 +191,6 @@
         cursor: pointer;
         transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
     }
-    .lang-card:hover {
-        transform: translateY(-12px) scale(1.015);
-        box-shadow: 0 28px 64px rgba(0,0,0,.3);
-        border-color: rgba(255,255,255,.32);
-    }
     .lang-card::after {
         content: '';
         position: absolute;
@@ -205,7 +200,16 @@
         transition: opacity .35s ease;
         pointer-events: none;
     }
-    .lang-card:hover::after { opacity: 1; }
+    /* Hover lift ONLY on real mouse devices — never on touch (avoids the
+       "first tap = hover, second tap = open" problem on phones). */
+    @media (hover: hover) and (pointer: fine) {
+        .lang-card:hover {
+            transform: translateY(-12px) scale(1.015);
+            box-shadow: 0 28px 64px rgba(0,0,0,.3);
+            border-color: rgba(255,255,255,.32);
+        }
+        .lang-card:hover::after { opacity: 1; }
+    }
     /* /gil/ watermark on every course card */
     .lang-card::before {
         content: '/gil/';
@@ -1343,6 +1347,41 @@
             playMedia(slides[current]);
             scheduleNext(slides[current]);
         }
+    });
+})();
+</script>
+@endpush
+
+@push('scripts')
+<script>
+// Course cards: a single tap ANYWHERE on the card opens the course on mobile.
+// touchend fires immediately (no 300ms / hover-emulation double-tap), and we
+// guard against scroll so a swipe doesn't navigate by accident.
+(function () {
+    var cards = document.querySelectorAll('.lang-card');
+    cards.forEach(function (card) {
+        var link = card.querySelector('a.lang-card-link, a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href) return;
+
+        var startX = 0, startY = 0, moved = false;
+        card.addEventListener('touchstart', function (e) {
+            moved = false;
+            if (e.touches && e.touches[0]) { startX = e.touches[0].clientX; startY = e.touches[0].clientY; }
+        }, { passive: true });
+        card.addEventListener('touchmove', function (e) {
+            if (e.touches && e.touches[0]) {
+                if (Math.abs(e.touches[0].clientX - startX) > 10 || Math.abs(e.touches[0].clientY - startY) > 10) {
+                    moved = true;
+                }
+            }
+        }, { passive: true });
+        card.addEventListener('touchend', function (e) {
+            if (moved) return;            // it was a scroll/swipe
+            e.preventDefault();           // stop the delayed synthetic click
+            window.location.href = href;
+        }, { passive: false });
     });
 })();
 </script>
