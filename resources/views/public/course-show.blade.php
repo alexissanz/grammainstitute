@@ -19,15 +19,15 @@
         filter: contrast(1.04);
     }
 
-    /* Black & white model — every course section sits on black with white text. */
-    .c-section { padding: 5rem 0; background: #000; color: #fff; }
-    .c-section.alt { background: #000; }
-    .c-section.ivory { background: #000; }
+    /* Black & white model — white content background, black details/text. */
+    .c-section { padding: 5rem 0; background: #fff; color: #111; }
+    .c-section.alt { background: #fff; }
+    .c-section.ivory { background: #fff; }
     .c-section h2 {
         font-family: var(--font-site-course);
         font-weight: 500;
         font-size: clamp(1.8rem, 3.2vw, var(--font-size-title));
-        color: #fff;
+        color: #111;
         letter-spacing: .015em;
         margin-bottom: 1.5rem;
     }
@@ -41,7 +41,7 @@
         font-family: var(--font-site-body);
         font-size: 1.18rem;
         line-height: 1.8;
-        color: rgba(255,255,255,.86);
+        color: rgba(0,0,0,.82);
         text-align: justify;
         text-justify: inter-word;
     }
@@ -55,15 +55,15 @@
         font-family: var(--font-site-body);
         font-size: 1.22rem;
         line-height: 1.8;
-        color: #fff;
+        color: #111;
         margin-bottom: 1.5rem;
         max-width: 920px;
         text-align: justify;
         text-justify: inter-word;
     }
     .course-info-card {
-        background: #0d0d0d;
-        border: 1px solid rgba(255,255,255,.18);
+        background: #fff;
+        border: 1px solid rgba(0,0,0,.18);
         padding: 1.2rem 1.25rem;
         border-radius: 20px;
     }
@@ -72,14 +72,14 @@
         font-size: .72rem;
         letter-spacing: .24em;
         text-transform: uppercase;
-        color: rgba(255,255,255,.6);
+        color: rgba(0,0,0,.55);
         margin-bottom: .45rem;
     }
     .course-info-card .value {
         font-family: var(--font-site-body);
         font-size: 1.08rem;
         line-height: 1.65;
-        color: #fff;
+        color: #111;
         text-align: justify;
         text-justify: inter-word;
     }
@@ -109,7 +109,7 @@
         line-height: .9;
         padding-right: .65rem;
         padding-top: .3rem;
-        color: #fff;
+        color: #111;
     }
     [dir="rtl"] .course-copy-shell > p:first-of-type::first-letter {
         float: right;
@@ -144,14 +144,14 @@
         line-height: .9;
         padding-right: .65rem;
         padding-top: .3rem;
-        color: #fff;
+        color: #111;
     }
     [dir="rtl"] .pillar-text::first-letter { float: right; padding-right: 0; padding-left: .65rem; }
 
     .learn-list { list-style: none; padding-left: 0; }
     .learn-list li {
         padding: 1rem 1rem 1rem 2.2rem;
-        border-bottom: 1px solid rgba(255,255,255,.16);
+        border-bottom: 1px solid rgba(0,0,0,.14);
         position: relative;
     }
     .learn-list li::before {
@@ -159,25 +159,26 @@
         position: absolute;
         left: 0; top: 1rem;
         font-family: 'Cinzel', serif;
-        color: #fff;
+        color: #111;
         font-size: 1.1rem;
     }
     [dir="rtl"] .learn-list li { padding-left: 1rem; padding-right: 2.2rem; }
     [dir="rtl"] .learn-list li::before { left: auto; right: 0; }
 
     .level-card {
-        background: #0d0d0d;
+        background: #fff;
         padding: 2rem;
         height: 100%;
-        border-top: 3px solid #fff;
-        box-shadow: 0 4px 22px rgba(0,0,0,.4);
+        border: 1px solid rgba(0,0,0,.12);
+        border-top: 3px solid #111;
+        box-shadow: 0 4px 22px rgba(0,0,0,.06);
         border-radius: 24px;
     }
     .level-card .level-num {
         font-family: var(--font-site-course);
         font-size: 2.5rem;
         font-weight: 700;
-        color: #fff;
+        color: #111;
         line-height: 1;
         margin-bottom: .25rem;
     }
@@ -187,18 +188,18 @@
         font-weight: 500;
         letter-spacing: .1em;
         text-transform: uppercase;
-        color: #fff;
+        color: #111;
         margin-bottom: 1rem;
     }
     .level-card .level-duration {
         font-family: var(--font-site-smallcaps);
         font-size: .75rem;
         letter-spacing: .25em;
-        color: rgba(255,255,255,.6);
+        color: rgba(0,0,0,.55);
         text-transform: uppercase;
         margin-top: 1rem;
         padding-top: 1rem;
-        border-top: 1px solid rgba(255,255,255,.16);
+        border-top: 1px solid rgba(0,0,0,.14);
     }
     .level-card p {
         text-align: justify;
