@@ -51,7 +51,7 @@
     </div>
 @endif
 
-<form method="post" action="{{ route('admin.about.update') }}">
+<form method="post" action="{{ route('admin.about.update') }}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -80,6 +80,22 @@
     <div class="about-card">
         <h5><i class="fas fa-user me-2" style="color:#a87841;"></i>Quem é Alvaro Cunha?</h5>
         <p class="helper">Bio do fundador. Use parágrafos separados por linha em branco.</p>
+
+        {{-- Portrait / foto --}}
+        <div class="d-flex align-items-center mb-3" style="gap:1rem; flex-wrap:wrap;">
+            <div style="width:96px; height:96px; border-radius:12px; overflow:hidden; background:#f3f4f6; border:1px solid #e5e7eb; flex-shrink:0;">
+                @if($about->foto)
+                    <img src="{{ $about->fotoUrl() }}" alt="Foto" style="width:100%; height:100%; object-fit:cover; filter:grayscale(100%);">
+                @else
+                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#9ca3af;"><i class="fas fa-user fa-2x"></i></div>
+                @endif
+            </div>
+            <div>
+                <label class="pane-label">Foto (retrato de Alvaro Cunha)</label>
+                <input type="file" name="foto" accept="image/png,image/jpeg,image/webp" class="form-control">
+                <small class="text-muted">JPG/PNG/WebP, máx. 6MB. É exibida em "Who is" (a preto e branco).</small>
+            </div>
+        </div>
 
         @include('admin.about._lang_tabs', ['name' => 'founder'])
         <div class="tab-content">

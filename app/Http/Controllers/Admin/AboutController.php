@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AboutPage;
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AboutController extends Controller
 {
@@ -34,6 +35,7 @@ class AboutController extends Controller
             'quote_text'       => ['array'],
             'quote_text.*'     => ['nullable', 'string', 'max:1000'],
             'quote_author'     => ['nullable', 'string', 'max:160'],
+            'foto'             => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:6144'],
             'founder_title'    => ['array'],
             'founder_title.*'  => ['nullable', 'string', 'max:255'],
             'founder_text'     => ['array'],
@@ -64,9 +66,19 @@ class AboutController extends Controller
             ->all();
 
         $about = AboutPage::current();
+
+        // Who-is portrait upload
+        if ($request->hasFile('foto')) {
+            if ($about->foto) {
+                Storage::disk('public')->delete($about->foto);
+            }
+            $about->foto = $request->file('foto')->store('about', 'public');
+        }
+
         $about->update([
             'quote_text'      => $data['quote_text']      ?? [],
             'quote_author'    => $data['quote_author']    ?? null,
+            'foto'            => $about->foto,
             'founder_title'   => $data['founder_title']   ?? [],
             'founder_text'    => $data['founder_text']    ?? [],
             'institute_title' => $data['institute_title'] ?? [],

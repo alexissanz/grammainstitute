@@ -169,8 +169,7 @@
         background: #fff;
         padding: 2rem;
         height: 100%;
-        border: 1px solid rgba(0,0,0,.12);
-        border-top: 3px solid #111;
+        border: 1px solid rgba(0,0,0,.10);
         box-shadow: 0 4px 22px rgba(0,0,0,.06);
         border-radius: 24px;
     }

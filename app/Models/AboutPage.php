@@ -9,7 +9,7 @@ class AboutPage extends Model
     protected $table = 'about_page';
 
     protected $fillable = [
-        'quote_text', 'quote_author',
+        'quote_text', 'quote_author', 'foto',
         'founder_title', 'founder_text',
         'institute_title', 'institute_text',
         'mission_title', 'mission_text',
@@ -35,6 +35,12 @@ class AboutPage extends Model
     public static function current(): self
     {
         return static::query()->firstOrCreate([]);
+    }
+
+    /** Public URL for the "Who is" portrait, served via the /media route. */
+    public function fotoUrl(): ?string
+    {
+        return $this->foto ? url('media/' . $this->foto) : null;
     }
 
     /** Localised getter — tries the current locale, falls back to pt_BR / en. */

@@ -22,6 +22,37 @@
         .about-solo { background: var(--ivory); padding: 5rem 0 6rem; position: relative; }
         .about-solo > .container { position: relative; z-index: 1; }
         @media (max-width: 575px) { .about-solo { padding: 3.5rem 0 4rem; } }
+
+        /* "Who is" portrait — editorial, black & white, text wraps around it. */
+        .who-portrait {
+            float: right;
+            width: clamp(190px, 34%, 320px);
+            margin: .3rem 0 1.4rem 2.2rem;
+            shape-outside: inset(0 round 18px);
+        }
+        .who-portrait img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 18px;
+            filter: grayscale(100%) contrast(1.04);
+            border: 1px solid rgba(0,0,0,.12);
+            box-shadow: 0 22px 48px rgba(0,0,0,.20);
+        }
+        .who-portrait figcaption {
+            margin-top: .65rem;
+            text-align: center;
+            font-family: 'Cormorant SC', serif;
+            font-size: .72rem;
+            letter-spacing: .24em;
+            text-transform: uppercase;
+            color: var(--ink);
+        }
+        [dir="rtl"] .who-portrait { float: left; margin: .3rem 2.2rem 1.4rem 0; }
+        @media (max-width: 640px) {
+            .who-portrait { float: none; width: min(220px, 62%); margin: 0 auto 1.75rem; }
+        }
     </style>
 @endpush
 
@@ -44,6 +75,14 @@
                         </div>
                     @endif
                 @else
+                    @if($current === 'who-is' && $about->fotoUrl())
+                        <figure class="who-portrait">
+                            <img src="{{ $about->fotoUrl() }}" alt="{{ $sectionTitle }}">
+                            @if($about->quote_author)
+                                <figcaption>{{ $about->quote_author }}</figcaption>
+                            @endif
+                        </figure>
+                    @endif
                     @if($meta['text_field'])
                         @foreach(preg_split("/\r\n\r\n|\n\n/", trim((string) $about->t($meta['text_field']))) as $para)
                             @if(trim($para) !== '')
