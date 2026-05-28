@@ -241,6 +241,18 @@
         touch-action: manipulation;
         -webkit-tap-highlight-color: rgba(255,255,255,.14);
     }
+    /* Full-card clickable overlay — covers the WHOLE card, above all content. */
+    .lang-card-link {
+        position: absolute;
+        inset: 0;
+        z-index: 6;
+        display: block;
+        font-size: 0;
+        text-indent: -9999px;
+        cursor: pointer;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(255,255,255,.18);
+    }
     .lang-card .name {
         font-family: var(--font-site-course);
         font-size: clamp(1.2rem, 2.6vw, var(--font-size-course));
@@ -1127,14 +1139,14 @@
         <div class="row g-4">
             @foreach($coursesForHero as $idx => $course)
             <div class="col-lg-4 col-md-6">
-                <a href="{{ route('courses.show', $course->slug) }}" class="home-course-link" style="text-decoration: none;">
-                    <div class="lang-card">
-                        <div class="content">
-                            <div class="name">{{ $course->t('nome') }}</div>
-                        </div>
-                        </div>
-                    </a>
+                <div class="lang-card">
+                    <div class="content">
+                        <div class="name">{{ $course->t('nome') }}</div>
+                    </div>
+                    {{-- Full-card overlay link: any tap/click anywhere opens the course (PC + mobile). --}}
+                    <a href="{{ route('courses.show', $course->slug) }}" class="lang-card-link" aria-label="{{ $course->t('nome') }}"></a>
                 </div>
+            </div>
             @endforeach
         </div>
 
