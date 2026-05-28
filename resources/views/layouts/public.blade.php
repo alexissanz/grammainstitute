@@ -650,7 +650,7 @@
         .gramma-footer {
             background: var(--ink);
             color: #ffffff;
-            padding: 5rem 0 1.5rem;
+            padding: 2.75rem 0 1.25rem;
             position: relative;
         }
         .gramma-footer::before {
@@ -683,7 +683,7 @@
         .gramma-footer .footer-divider {
             border: 0; height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
-            margin: 3rem 0 1.5rem;
+            margin: 1.4rem 0 1.1rem;
         }
         .gramma-footer .footer-bottom {
             font-family: var(--font-site-footer);
@@ -1020,7 +1020,7 @@
             .wa-button { width: 56px; height: 56px; font-size: 1.7rem; }
             .wa-card { width: calc(100vw - 32px); }
 
-            .gramma-footer { padding: 3.5rem 0 1.5rem; }
+            .gramma-footer { padding: 2.25rem 0 1.25rem; }
             .gramma-footer h5 { font-size: .75rem; }
             .footer-brand { font-size: 1.3rem; }
         }
@@ -1103,7 +1103,7 @@
             .promo-topbar span { font-size: .85rem !important; }
 
             /* Footer */
-            .gramma-footer { padding: 3rem 0 2rem; text-align: center; }
+            .gramma-footer { padding: 2.25rem 0 1.25rem; text-align: center; }
             .gramma-footer .row.g-4 {
                 row-gap: 1rem !important;
             }
