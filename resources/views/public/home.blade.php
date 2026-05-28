@@ -182,6 +182,9 @@
        ============================================================ */
     .lang-offerings { background: #fff; padding: 7rem 0; }
     .lang-card {
+        display: block;
+        text-decoration: none;
+        color: #fff;
         position: relative;
         min-height: 360px;
         overflow: hidden;
@@ -189,6 +192,8 @@
         border: 1px solid rgba(255,255,255,.12);
         box-shadow: 0 16px 42px rgba(0,0,0,.22);
         cursor: pointer;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(255,255,255,.18);
         transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
     }
     .lang-card::after {
@@ -234,7 +239,7 @@
         flex-direction: column;
         align-items: flex-start;
         justify-content: flex-end;
-        pointer-events: none;
+        pointer-events: none;   /* let every tap fall through to the card link */
         text-align: left;
     }
     .home-course-link {
@@ -1000,18 +1005,13 @@
     }
 
     @media (hover: none) and (pointer: coarse) {
-        /* On touch devices, never get stuck in :hover — a single tap must navigate. */
-        .lang-card:hover {
-            transform: none;
-            box-shadow: 0 16px 42px rgba(0,0,0,.22);
-            border-color: rgba(255,255,255,.12);
-        }
-        .lang-card:hover::after { opacity: 0; }
+        /* Touch devices: NO :hover rule at all (its mere existence makes iOS
+           require a second tap). Only an instant press feedback. */
         .lang-card:active {
             transform: scale(.985);
             box-shadow: 0 10px 28px rgba(0,0,0,.28);
         }
-        .home-course-link { -webkit-tap-highlight-color: rgba(255,255,255,.18); }
+        .lang-card, .lang-card-link { -webkit-tap-highlight-color: rgba(255,255,255,.18); }
     }
 </style>
 @endpush
@@ -1143,13 +1143,12 @@
         <div class="row g-4">
             @foreach($coursesForHero as $idx => $course)
             <div class="col-lg-4 col-md-6">
-                <div class="lang-card">
+                {{-- The whole card IS the link — a single tap anywhere opens the course (PC + mobile). --}}
+                <a href="{{ route('courses.show', $course->slug) }}" class="lang-card" aria-label="{{ $course->t('nome') }}">
                     <div class="content">
                         <div class="name">{{ $course->t('nome') }}</div>
                     </div>
-                    {{-- Full-card overlay link: any tap/click anywhere opens the course (PC + mobile). --}}
-                    <a href="{{ route('courses.show', $course->slug) }}" class="lang-card-link" aria-label="{{ $course->t('nome') }}"></a>
-                </div>
+                </a>
             </div>
             @endforeach
         </div>
@@ -1360,9 +1359,8 @@
 (function () {
     var cards = document.querySelectorAll('.lang-card');
     cards.forEach(function (card) {
-        var link = card.querySelector('a.lang-card-link, a[href]');
-        if (!link) return;
-        var href = link.getAttribute('href');
+        var inner = card.matches('a[href]') ? null : card.querySelector('a[href]');
+        var href = card.getAttribute('href') || (inner ? inner.getAttribute('href') : null);
         if (!href) return;
 
         var startX = 0, startY = 0, moved = false;
