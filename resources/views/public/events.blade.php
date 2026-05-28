@@ -11,7 +11,7 @@
         text-align: center;
     }
     .ev-hero h1 { font-family: 'Cinzel', serif; font-weight: 500; font-size: clamp(2.2rem, 5vw, 4rem); letter-spacing: .025em; color: var(--ivory); margin-bottom: 1rem; }
-    .ev-hero .lede { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(1.2rem, 2.2vw, 1.6rem); color: rgba(250,246,236,.86); max-width: 720px; margin: 0 auto; }
+    .ev-hero .lede { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(1.2rem, 2.2vw, 1.6rem); color: rgba(255,255,255,.86); max-width: 720px; margin: 0 auto; }
 
     .ev-section { padding: 5rem 0; }
     .ev-section.alt { background: var(--parchment); }
@@ -74,9 +74,9 @@
         border: 1px solid var(--line);
         color: var(--ink-soft);
     }
-    .ev-card .ev-tag.free  { background: #e8f5ed; color: #1f6e3b; border-color: #b9e1c8; }
-    .ev-card .ev-tag.paid  { background: #fff6e0; color: #8a5a00; border-color: #f1d997; }
-    .ev-card .ev-tag.online{ background: #e9eef9; color: #1f3a8a; border-color: #c4d2f3; }
+    .ev-card .ev-tag.free  { background: #f2f2f2; color: #000000; border-color: #cccccc; }
+    .ev-card .ev-tag.paid  { background: #f2f2f2; color: #000000; border-color: #cccccc; }
+    .ev-card .ev-tag.online{ background: #f2f2f2; color: #000000; border-color: #cccccc; }
     .ev-card h3 {
         font-family: 'Cinzel', serif;
         font-weight: 500;
@@ -114,7 +114,7 @@
         color: var(--ink);
         letter-spacing: .03em;
     }
-    .ev-card .ev-price.free { color: #1f6e3b; }
+    .ev-card .ev-price.free { color: #000000; }
     .ev-card .ev-spots {
         font-family: 'Cormorant SC', serif;
         font-size: .68rem;

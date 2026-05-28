@@ -25,7 +25,7 @@
         font-family: var(--font-site-body);
         font-style: italic;
         font-size: clamp(1.2rem, 2.2vw, 1.6rem);
-        color: rgba(250,246,236,.86);
+        color: rgba(255,255,255,.86);
         max-width: 720px;
         margin: 0 auto;
     }

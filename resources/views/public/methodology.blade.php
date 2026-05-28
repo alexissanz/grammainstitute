@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div style="background: linear-gradient(135deg, #1a3a5c 0%, #2d6a9f 100%); padding: 5rem 0 3rem; color: #fff;">
+<div style="background: linear-gradient(135deg, #000000 0%, #000000 100%); padding: 5rem 0 3rem; color: #fff;">
     <div class="container">
         <h1 class="display-5 fw-bold mb-2">{{ __('site.methodology_title') }}</h1>
         <p class="lead opacity-75">{{ __('site.methodology_subtitle') }}</p>
@@ -15,9 +15,9 @@
     <div class="container">
         <div class="row g-4">
             @foreach([
-                ['fa-globe', 'methodology_1', '#1a3a5c'],
-                ['fa-comments', 'methodology_2', '#2d6a9f'],
-                ['fa-chart-line', 'methodology_3', '#3d8bcd'],
+                ['fa-globe', 'methodology_1', '#000000'],
+                ['fa-comments', 'methodology_2', '#000000'],
+                ['fa-chart-line', 'methodology_3', '#000000'],
             ] as [$icon, $key, $color])
             <div class="col-md-4">
                 <div class="card h-100 border-0 shadow-sm text-center p-4" style="border-radius: 16px; border-top: 4px solid {{ $color }} !important;">

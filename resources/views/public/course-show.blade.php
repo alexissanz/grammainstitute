@@ -256,7 +256,7 @@
         font-family: var(--font-site-body);
         font-size: 1.15rem;
         line-height: 1.75;
-        color: rgba(250,246,236,.82);
+        color: rgba(255,255,255,.82);
     }
 
     /* Contact CTA */

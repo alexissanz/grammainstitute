@@ -151,14 +151,14 @@
         /* ====== TOP UTILITY BAR ====== */
         .top-bar {
             background: var(--ink);
-            color: rgba(245,239,225,.78);
+            color: rgba(255,255,255,.78);
             font-family: {!! $sansStack !!};
             font-size: .78rem;
             letter-spacing: .08em;
             padding: .45rem 0;
             display: none !important;
         }
-        .top-bar a { color: rgba(245,239,225,.78); text-decoration: none; }
+        .top-bar a { color: rgba(255,255,255,.78); text-decoration: none; }
         .top-bar a:hover { color: var(--gold-light); }
         .top-bar .sep { opacity: .35; margin: 0 .75rem; }
 
@@ -818,9 +818,9 @@
         }
         .wa-card-close:hover { opacity: 1; }
         .wa-card-body {
-            background: #e5ddd5;
+            background: #f2f2f2;
             background-image:
-                linear-gradient(rgba(229,221,213,.94), rgba(229,221,213,.94)),
+                linear-gradient(rgba(255,255,255,.94), rgba(255,255,255,.94)),
                 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'><circle cx='8' cy='8' r='1.5' fill='%23a89e92' opacity='.4'/></svg>");
             padding: 1rem 1rem 1.2rem;
             min-height: 90px;

@@ -19,7 +19,7 @@
         transform: translate(-50%,-50%);
         font-family: 'Cinzel', serif;
         font-size: clamp(10rem, 28vw, 28rem);
-        color: rgba(250,246,236,.025);
+        color: rgba(255,255,255,.025);
         font-weight: 700;
         letter-spacing: .04em;
         pointer-events: none;
@@ -132,7 +132,7 @@
         font-style: italic;
         font-size: clamp(1.2rem, 2.2vw, 1.6rem);
         line-height: 1.55;
-        color: rgba(250,246,236,.92);
+        color: rgba(255,255,255,.92);
         padding-left: 1.8rem;
         border-left: 2px solid var(--gold-light);
         margin: 2rem 0;
@@ -150,8 +150,8 @@
         align-items: center;
         gap: .55rem;
         padding: .55rem 1rem;
-        border: 1px solid rgba(250,246,236,.3);
-        color: rgba(250,246,236,.85);
+        border: 1px solid rgba(255,255,255,.3);
+        color: rgba(255,255,255,.85);
         font-family: 'Inter', sans-serif;
         font-size: .72rem;
         font-weight: 500;
@@ -343,7 +343,7 @@ CARTA;
                 <blockquote class="founder-pull-quote">"{{ $quote }}"</blockquote>
 
                 @if($bio)
-                    <p style="font-family:'Cormorant Garamond', serif; font-size:1.18rem; line-height:1.75; color: rgba(250,246,236,.8);">
+                    <p style="font-family:'Cormorant Garamond', serif; font-size:1.18rem; line-height:1.75; color: rgba(255,255,255,.8);">
                         {{ $bio }}
                     </p>
                 @endif
@@ -424,7 +424,7 @@ CARTA;
         <h2 style="font-family:'Cinzel',serif; font-weight:500; font-size: clamp(2rem,4.5vw,3.4rem); letter-spacing:.04em; line-height:1.18; color:var(--ivory); margin-bottom:1.5rem;">
             Quer falar diretamente com a direção?
         </h2>
-        <p style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.25rem; color: rgba(250,246,236,.85); max-width:640px; margin:0 auto 2.5rem;">
+        <p style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.25rem; color: rgba(255,255,255,.85); max-width:640px; margin:0 auto 2.5rem;">
             Aceitamos pedidos de aconselhamento académico — gratuitos e sem compromisso.
         </p>
         <div class="d-inline-flex flex-wrap gap-3 justify-content-center">

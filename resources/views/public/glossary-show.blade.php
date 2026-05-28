@@ -55,7 +55,7 @@
         font-family: 'Cormorant Garamond', serif;
         font-size: clamp(1.15rem, 1.8vw, 1.4rem);
         line-height: 1.6;
-        color: rgba(250,246,236,.86);
+        color: rgba(255,255,255,.86);
         max-width: 720px;
         margin: 1rem auto 0;
     }
@@ -135,7 +135,7 @@
         font-size: .85rem;
         letter-spacing: .3em;
         text-transform: uppercase;
-        color: rgba(250,246,236,.7);
+        color: rgba(255,255,255,.7);
     }
 
     .gs-related {

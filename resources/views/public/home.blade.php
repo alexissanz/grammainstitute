@@ -36,7 +36,7 @@
         font-family: var(--font-site-display);
         font-size: clamp(8rem, 22vw, 22rem);
         line-height: 1;
-        color: rgba(250,246,236,.05);
+        color: rgba(255,255,255,.05);
         font-weight: 700;
         letter-spacing: .05em;
         pointer-events: none;
@@ -72,7 +72,7 @@
         font-family: var(--font-site-body);
         font-size: 1.35rem;
         line-height: 1.7;
-        color: rgba(250,246,236,.86);
+        color: rgba(255,255,255,.86);
         max-width: 620px;
         margin-bottom: 2.5rem;
     }
@@ -80,7 +80,7 @@
     .hero-langs-strip {
         margin-top: 4rem;
         padding-top: 2rem;
-        border-top: 1px solid rgba(250,246,236,.15);
+        border-top: 1px solid rgba(255,255,255,.15);
         display: flex;
         flex-wrap: wrap;
         gap: 2.5rem 3rem;
@@ -91,7 +91,7 @@
         font-weight: 500;
         font-size: .95rem;
         letter-spacing: .22em;
-        color: rgba(250,246,236,.78);
+        color: rgba(255,255,255,.78);
         text-transform: uppercase;
         display: flex;
         align-items: center;
@@ -110,8 +110,8 @@
     .promise-strip {
         background: var(--ink);
         color: var(--ivory);
-        border-top: 1px solid rgba(250,246,236,.08);
-        border-bottom: 1px solid rgba(250,246,236,.08);
+        border-top: 1px solid rgba(255,255,255,.08);
+        border-bottom: 1px solid rgba(255,255,255,.08);
         padding: 1.6rem 0;
     }
     .promise-strip .item {
@@ -123,7 +123,7 @@
         font-weight: 500;
         letter-spacing: .2em;
         text-transform: uppercase;
-        color: rgba(250,246,236,.85);
+        color: rgba(255,255,255,.85);
     }
     .promise-strip .item i { color: var(--gold-light); font-size: 1.3rem; }
 
@@ -321,7 +321,7 @@
         font-family: 'Cormorant Garamond', serif;
         font-size: 1.25rem;
         line-height: 1.7;
-        color: rgba(250,246,236,.85);
+        color: rgba(255,255,255,.85);
         max-width: 640px;
         margin-bottom: 2.5rem;
     }
@@ -386,7 +386,7 @@
         font-family: 'Cormorant Garamond', serif;
         font-size: 1.3rem;
         font-style: italic;
-        color: rgba(250,246,236,.85);
+        color: rgba(255,255,255,.85);
         max-width: 640px;
         margin: 0 auto 2.5rem;
     }
@@ -455,7 +455,7 @@
         font-family: var(--font-site-display);
         font-size: 3rem;
         font-weight: 400;
-        color: rgba(250,246,236,.55);
+        color: rgba(255,255,255,.55);
         letter-spacing: -.01em;
         z-index: 4;
         pointer-events: none;

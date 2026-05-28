@@ -33,7 +33,7 @@
         border: 1px solid var(--gold-light);
         color: var(--gold-light);
     }
-    .es-tag.free { background: rgba(74,222,128,.15); border-color: #4ade80; color: #a7f3d0; }
+    .es-tag.free { background: rgba(255,255,255,.12); border-color: #ffffff; color: #ffffff; }
     .es-tag.paid { background: rgba(255,255,255,.18); border-color: var(--gold-light); color: var(--gold-light); }
     .es-hero h1 {
         font-family: 'Cinzel', serif; font-weight: 500;
@@ -43,13 +43,13 @@
     .es-hero .subtitle {
         font-family: 'Cormorant Garamond', serif; font-style: italic;
         font-size: clamp(1.2rem, 2vw, 1.6rem);
-        color: rgba(250,246,236,.86); max-width: 720px;
+        color: rgba(255,255,255,.86); max-width: 720px;
     }
 
     /* Date / location strip */
     .es-strip {
         background: var(--ink);
-        border-top: 1px solid rgba(250,246,236,.1);
+        border-top: 1px solid rgba(255,255,255,.1);
         color: var(--ivory);
         padding: 2rem 0;
     }
@@ -66,7 +66,7 @@
     .es-strip .label {
         font-family: 'Cormorant SC', serif;
         font-size: .7rem; letter-spacing: .3em; text-transform: uppercase;
-        color: rgba(250,246,236,.55);
+        color: rgba(255,255,255,.55);
     }
     .es-strip .value {
         font-family: 'Cormorant Garamond', serif;
@@ -103,7 +103,7 @@
         line-height: 1;
         margin-bottom: .25rem;
     }
-    .es-side .price-tag.free { color: #1f6e3b; }
+    .es-side .price-tag.free { color: #000000; }
     .es-side .price-sub {
         font-family: 'Cormorant Garamond', serif;
         font-style: italic;
@@ -181,7 +181,7 @@
                 @else <i class="fas fa-map-marker-alt me-1"></i> Presencial
                 @endif
             </span>
-            <span class="es-tag" style="border-color: rgba(250,246,236,.4); color: rgba(250,246,236,.85);">
+            <span class="es-tag" style="border-color: rgba(255,255,255,.4); color: rgba(255,255,255,.85);">
                 {{ $event->statusLabel() }}
             </span>
         </div>

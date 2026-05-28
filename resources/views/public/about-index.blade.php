@@ -15,7 +15,7 @@
                 <div class="about-eyebrow">{{ __('site.nav_about') }}</div>
                 <h1>{{ __('site.about_landing_title') }}</h1>
                 @if($about->t('quote_text'))
-                    <blockquote class="about-quote" style="color:rgba(250,246,236,.92); border-left-color: var(--gold);">
+                    <blockquote class="about-quote" style="color:rgba(255,255,255,.92); border-left-color: var(--gold);">
                         “{{ $about->t('quote_text') }}”
                     </blockquote>
                     @if($about->quote_author)

@@ -55,7 +55,7 @@
         font-style: italic;
         font-size: clamp(1.3rem, 2vw, 1.75rem);
         line-height: 1.6;
-        color: rgba(250,246,236,.9);
+        color: rgba(255,255,255,.9);
         max-width: 780px;
         border-left: 2px solid var(--gold);
         padding-left: 1.6rem;
@@ -189,7 +189,7 @@
         font-style: italic;
         font-size: 1.2rem;
         line-height: 1.7;
-        color: rgba(250,246,236,.9);
+        color: rgba(255,255,255,.9);
         margin: 0;
     }
     .accent-card p::first-letter { color: var(--gold-light) !important; }

@@ -3,7 +3,7 @@
 @section('meta-title', __('site.nav_privacy') . ' — ' . config('app.name'))
 
 @section('content')
-<div style="background: linear-gradient(135deg, #1a3a5c 0%, #2d6a9f 100%); padding: 5rem 0 3rem; color: #fff;">
+<div style="background: linear-gradient(135deg, #000000 0%, #000000 100%); padding: 5rem 0 3rem; color: #fff;">
     <div class="container">
         <h1 class="display-5 fw-bold mb-2">{{ __('site.nav_privacy') }}</h1>
     </div>
