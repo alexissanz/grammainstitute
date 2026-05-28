@@ -46,7 +46,6 @@
                         <div class="expertise-grid">
                             @foreach($list as $i => $item)
                                 <div class="expertise-item">
-                                    <span class="num">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
                                     <span>{{ $item }}</span>
                                 </div>
                             @endforeach

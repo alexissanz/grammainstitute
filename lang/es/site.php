@@ -65,6 +65,7 @@ return array (
   'about_overview'       => 'Visión general',
   'nav_partners'         => 'Socios',
   'nav_resources'        => 'Recursos',
+  'nav_store'            => 'Tienda',
   'partners_page_title'  => 'Socios',
   'partners_page_lede'   => 'Las instituciones y personas que caminan junto al Gramma Institute.',
   'partners_empty'       => 'Pronto se añadirán socios.',

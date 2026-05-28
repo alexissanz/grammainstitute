@@ -144,16 +144,17 @@
     .about-quote-author::before { content: '— '; }
 
     .accent-card {
-        background: var(--ink);
-        color: #ffffff;
+        background: #ffffff;
+        color: #111;
         padding: 2.5rem 2.2rem;
-        border-top: 2px solid var(--gold);
+        border: 1px solid rgba(0,0,0,.12);
+        border-top: 3px solid #000;
         position: relative;
     }
     .accent-card h2,
     .accent-card h3,
     .accent-card p,
-    .accent-card blockquote { color: #ffffff !important; }
+    .accent-card blockquote { color: #111 !important; }
     .accent-card p {
         font-family: 'Cormorant Garamond', serif;
         font-style: italic;

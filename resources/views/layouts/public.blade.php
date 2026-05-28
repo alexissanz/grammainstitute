@@ -1785,6 +1785,9 @@
 
                 <a class="nav-link {{ request()->routeIs('glossary*') ? 'is-current' : '' }}" href="{{ route('glossary.index') }}">{{ __('site.nav_glossary') }}</a>
                 <a class="nav-link {{ request()->routeIs('partners') ? 'is-current' : '' }}" href="{{ route('partners') }}">{{ __('site.nav_partners') }}</a>
+                @if(!empty($settings->loja_url))
+                    <a class="nav-link" href="{{ $settings->loja_url }}" target="_blank" rel="noopener noreferrer">{{ __('site.nav_store') }}</a>
+                @endif
             </div>
         </div>
 
@@ -1849,6 +1852,9 @@
 
             <li class="nav-item"><a class="nav-link {{ request()->routeIs('glossary*') ? 'is-current' : '' }}" href="{{ route('glossary.index') }}">{{ __('site.nav_glossary') }}</a></li>
             <li class="nav-item"><a class="nav-link {{ request()->routeIs('partners') ? 'is-current' : '' }}" href="{{ route('partners') }}">{{ __('site.nav_partners') }}</a></li>
+            @if(!empty($settings->loja_url))
+                <li class="nav-item"><a class="nav-link" href="{{ $settings->loja_url }}" target="_blank" rel="noopener noreferrer">{{ __('site.nav_store') }}</a></li>
+            @endif
         </ul>
     </div>
 </nav>

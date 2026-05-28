@@ -62,6 +62,7 @@ class SettingsRequest extends FormRequest
             'tiktok'              => ['nullable', 'url', 'max:255'],
             'google_url'          => ['nullable', 'url', 'max:255'],
             'wikipedia_url'       => ['nullable', 'url', 'max:255'],
+            'loja_url'            => ['nullable', 'string', 'max:500'],
             'idioma_padrao'       => ['nullable', 'string', 'max:10'],
             'idiomas_activos'     => ['nullable', 'array'],
             'idiomas_activos.*'   => ['string', 'max:10'],

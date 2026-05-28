@@ -65,6 +65,7 @@ return [
     'about_overview'       => 'Visão geral',
     'nav_partners'         => 'Parceiros',
     'nav_resources'        => 'Recursos',
+    'nav_store'            => 'Loja',
     'partners_page_title'  => 'Parceiros',
     'partners_page_lede'   => 'As instituições e pessoas que caminham connosco no Gramma Institute.',
     'partners_empty'       => 'Em breve serão adicionados parceiros.',

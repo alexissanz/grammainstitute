@@ -4,7 +4,7 @@
 
 @push('styles')
 <style>
-    .contact-shell { background: linear-gradient(180deg, ffffff 0%, ffffff 100%); color: #111; padding: 5.5rem 0 6rem; }
+    .contact-shell { background: #ffffff; color: #111; padding: 5.5rem 0 6rem; }
     .contact-shell .eyebrow {
         font-family: var(--font-site-menu);
         font-size: .72rem;

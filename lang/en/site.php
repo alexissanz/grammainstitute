@@ -65,6 +65,7 @@ return array (
   'about_overview'       => 'Overview',
   'nav_partners'         => 'Partners',
   'nav_resources'        => 'Resources',
+  'nav_store'            => 'Store',
   'partners_page_title'  => 'Partners',
   'partners_page_lede'   => 'The institutions and individuals who walk alongside the Gramma Institute.',
   'partners_empty'       => 'Partners will be added soon.',

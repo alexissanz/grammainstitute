@@ -127,6 +127,15 @@
                         </div>
                     </div>
                     <div class="col-md-6">
+                        <label class="form-label">Link da Loja / Store</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-store"></i></span>
+                            <input name="loja_url" type="text" class="form-control"
+                                   value="{{ old('loja_url', $settings->loja_url) }}" placeholder="https://loja.exemplo.com">
+                        </div>
+                        <small class="text-muted">Aparece como “loja” no menu do site. Deixe vazio para esconder.</small>
+                    </div>
+                    <div class="col-md-6">
                         <label class="form-label">Endereço</label>
                         <input name="endereco" type="text" class="form-control"
                                value="{{ old('endereco', $settings->endereco) }}" placeholder="Rua das Línguas, 123">

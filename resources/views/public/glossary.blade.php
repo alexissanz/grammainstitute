@@ -4,8 +4,8 @@
 
 @push('styles')
 <style>
-    .gl-shell { background: linear-gradient(180deg, ffffff 0%, #ede4d7 100%); color: #111; min-height: 100vh; }
-    .gl-hero { padding: 6rem 0 3rem; text-align: center; }
+    .gl-shell { background: #ffffff; color: #111; min-height: 100vh; }
+    .gl-hero { padding: 2.5rem 0 .5rem; text-align: center; }
     .gl-hero h1 {
         font-family: var(--font-site-course);
         font-size: clamp(2.3rem, 5vw, 4.6rem);
@@ -181,10 +181,7 @@
 @section('content')
 <section class="gl-shell">
     <div class="gl-hero">
-        <div class="container">
-            <h1>{{ __('site.glossary_title') }}</h1>
-            <p>{{ __('site.glossary_subtitle') }}</p>
-        </div>
+        <div class="container"></div>
     </div>
 
         <div class="gl-alpha">

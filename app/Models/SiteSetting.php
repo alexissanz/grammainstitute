@@ -19,7 +19,7 @@ class SiteSetting extends Model
         'founder_facebook', 'founder_instagram', 'founder_linkedin',
         'founder_youtube', 'founder_twitter', 'founder_email',
         'logo', 'logo_rodape', 'favicon', 'imagem_hero', 'hero_tipo', 'hero_video',
-        'facebook', 'instagram', 'linkedin', 'youtube', 'tiktok', 'google_url', 'wikipedia_url',
+        'facebook', 'instagram', 'linkedin', 'youtube', 'tiktok', 'google_url', 'wikipedia_url', 'loja_url',
         'idioma_padrao', 'idiomas_activos', 'texto_rodape',
         'font_body_family', 'font_display_family', 'font_menu_family',
         'font_course_family', 'font_footer_family',

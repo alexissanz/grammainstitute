@@ -6,7 +6,7 @@
 <style>
     .partners-hero {
         position: relative;
-        background: linear-gradient(180deg, ffffff 0%, ffffff 100%);
+        background: #ffffff;
         color: #111;
         padding: 5.5rem 0 3.5rem;
         overflow: hidden;
