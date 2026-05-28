@@ -249,13 +249,13 @@
             transition: background .2s, color .2s;
             text-decoration: none;
         }
-        .nav-pill .nav-link:hover { background: var(--parchment); color: var(--bronze-dark); }
+        .nav-pill .nav-link:hover { background: #f0f0f0; color: #000; }
         .nav-pill .nav-link.is-current,
         .nav-pill .nav-link.active {
-            background: var(--ink);
-            color: var(--ivory);
+            background: #000;
+            color: #fff;
         }
-        .nav-pill .nav-link.is-current:hover { background: var(--bronze-dark); color: var(--ivory); }
+        .nav-pill .nav-link.is-current:hover { background: #000; color: #fff; }
 
         /* Outside-the-pill actions (right side) */
         .nav-actions {
@@ -955,7 +955,7 @@
             #navMain {
                 position: fixed;
                 top: 72px; left: 12px; right: 12px;
-                background: var(--ivory);
+                background: #fff;
                 max-height: calc(100vh - 88px);
                 overflow-y: auto;
                 border: 1px solid rgba(0,0,0,.08);
@@ -1419,6 +1419,7 @@
         .nav-pill .nav-dd-item,
         .nav-pill .nav-dd-cat-toggle,
         .nav-pill .nav-dd-cat-link,
+        #navMain .nav-link,
         .nav-mobile-toggle,
         .nav-mobile-sub a,
         .nav-mobile-cat-toggle,
@@ -1786,7 +1787,6 @@
 
                 <a class="nav-link {{ request()->routeIs('glossary*') ? 'is-current' : '' }}" href="{{ route('glossary.index') }}">{{ __('site.nav_glossary') }}</a>
                 <a class="nav-link {{ request()->routeIs('partners') ? 'is-current' : '' }}" href="{{ route('partners') }}">{{ __('site.nav_partners') }}</a>
-                <a class="nav-link {{ request()->routeIs('contact') ? 'is-current' : '' }}" href="{{ route('contact') }}">{{ __('site.nav_contact') }}</a>
             </div>
         </div>
 
@@ -1852,7 +1852,6 @@
 
             <li class="nav-item"><a class="nav-link {{ request()->routeIs('glossary*') ? 'is-current' : '' }}" href="{{ route('glossary.index') }}">{{ __('site.nav_glossary') }}</a></li>
             <li class="nav-item"><a class="nav-link {{ request()->routeIs('partners') ? 'is-current' : '' }}" href="{{ route('partners') }}">{{ __('site.nav_partners') }}</a></li>
-            <li class="nav-item"><a class="nav-link {{ request()->routeIs('contact') ? 'is-current' : '' }}" href="{{ route('contact') }}">{{ __('site.nav_contact') }}</a></li>
         </ul>
     </div>
 </nav>
