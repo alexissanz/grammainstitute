@@ -19,13 +19,12 @@ class HeroSlidesController extends Controller
     public function store(Request $request)
     {
         $data = $this->validated($request);
-        [$locale, $defaultLocale] = $this->slideLocales();
 
         $payload = [
             'ordem'    => (HeroSlide::max('ordem') ?? -1) + 1,
             'tipo'     => $data['tipo'],
-            'titulo'   => $this->translatedPayload([], $locale, $defaultLocale, $data['titulo'] ?? null),
-            'subtitulo'=> $this->translatedPayload([], $locale, $defaultLocale, $data['subtitulo'] ?? null),
+            'titulo'   => $this->localeMap($data['titulo'] ?? [], []),
+            'subtitulo'=> $this->localeMap($data['subtitulo'] ?? [], []),
             'ativo'    => $request->boolean('ativo', true),
         ];
 
@@ -47,12 +46,11 @@ class HeroSlidesController extends Controller
     public function update(Request $request, HeroSlide $heroSlide)
     {
         $data = $this->validated($request, $heroSlide);
-        [$locale, $defaultLocale] = $this->slideLocales();
 
         $payload = [
             'tipo'      => $data['tipo'],
-            'titulo'    => $this->translatedPayload($heroSlide->titulo, $locale, $defaultLocale, $data['titulo'] ?? null),
-            'subtitulo' => $this->translatedPayload($heroSlide->subtitulo, $locale, $defaultLocale, $data['subtitulo'] ?? null),
+            'titulo'    => $this->localeMap($data['titulo'] ?? [], $heroSlide->titulo ?? []),
+            'subtitulo' => $this->localeMap($data['subtitulo'] ?? [], $heroSlide->subtitulo ?? []),
             'ativo'     => $request->boolean('ativo', true),
         ];
 
@@ -100,30 +98,22 @@ class HeroSlidesController extends Controller
             'imagem'          => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'video'           => ['nullable', 'file', 'mimes:mp4,webm,mov,m4v', 'max:51200'], // 50MB
             'poster'          => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
-            'titulo'          => ['nullable', 'string', 'max:255'],
-            'subtitulo'       => ['nullable', 'string', 'max:500'],
+            'titulo'          => ['nullable', 'array'],
+            'titulo.*'        => ['nullable', 'string', 'max:255'],
+            'subtitulo'       => ['nullable', 'array'],
+            'subtitulo.*'     => ['nullable', 'string', 'max:500'],
         ]);
     }
 
-    private function slideLocales(): array
+    /** Merge submitted per-locale values over existing, trimming. */
+    private function localeMap($submitted, $existing = []): array
     {
-        $defaultLocale = SiteSetting::query()->value('idioma_padrao') ?: 'pt_BR';
-        $locale = app()->getLocale() ?: $defaultLocale;
-
-        return [$locale, $defaultLocale];
-    }
-
-    private function translatedPayload($existing, string $locale, string $defaultLocale, ?string $value): array
-    {
-        $payload = is_array($existing) ? $existing : [];
-        $normalized = is_string($value) ? trim($value) : '';
-
-        $payload[$locale] = $normalized;
-
-        if (!isset($payload[$defaultLocale]) || trim((string) $payload[$defaultLocale]) === '' || $locale === $defaultLocale) {
-            $payload[$defaultLocale] = $normalized;
+        $out = is_array($existing) ? $existing : [];
+        if (is_array($submitted)) {
+            foreach ($submitted as $loc => $val) {
+                $out[$loc] = is_string($val) ? trim($val) : '';
+            }
         }
-
-        return $payload;
+        return $out;
     }
 }

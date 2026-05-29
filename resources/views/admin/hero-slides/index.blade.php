@@ -179,37 +179,25 @@
 
                     <hr>
 
-                    @php
-                        $activeLocale = app()->getLocale();
-                        $localeLabels = [
-                            'pt_BR' => 'Português',
-                            'en' => 'English',
-                            'es' => 'Español',
-                            'he' => 'Hebraico',
-                            'el' => 'Grego',
-                            'la' => 'Latim',
-                        ];
-                    @endphp
+                    @php $heroLangs = ['en' => 'English', 'pt_BR' => 'Português', 'es' => 'Español']; @endphp
 
                     <label class="font-weight-bold" style="font-size:.875rem;">
-                        Título e Subtítulo <small class="text-muted">(opcional — deixe vazio para slide só com mídia)</small>
+                        Título e Subtítulo por idioma <small class="text-muted">(opcional — deixe vazio para slide só com mídia)</small>
                     </label>
-                    <div class="mb-3" style="font-size:.8rem; color:#6b7280;">
-                        Idioma que está a editar agora: <strong>{{ $localeLabels[$activeLocale] ?? $activeLocale }}</strong>.
-                        O site mostra automaticamente o texto da língua ativa do visitante.
+                    <div class="mb-2" style="font-size:.8rem; color:#6b7280;">
+                        Preencha cada idioma. O site mostra o texto da língua ativa do visitante. (Idioma padrão: <strong>English</strong>.)
                     </div>
-                    <div class="form-group">
-                        <label style="font-size:.82rem; color:#6b7280;">Título</label>
-                        <input type="text" name="titulo" id="titulo_atual"
-                               class="form-control form-control-sm" dir="{{ $activeLocale === 'he' ? 'rtl' : 'ltr' }}"
-                               placeholder="Opcional">
-                    </div>
-                    <div class="form-group">
-                        <label style="font-size:.82rem; color:#6b7280;">Descrição</label>
-                        <textarea name="subtitulo" id="subtitulo_atual"
-                                  class="form-control form-control-sm" dir="{{ $activeLocale === 'he' ? 'rtl' : 'ltr' }}" rows="2"
-                                  placeholder="Opcional"></textarea>
-                    </div>
+                    @foreach($heroLangs as $code => $label)
+                        <div class="border rounded p-2 mb-2" style="background:#fafbfc;">
+                            <div style="font-size:.72rem; font-weight:700; color:#1a3a5c; letter-spacing:.04em; margin-bottom:.35rem;">{{ $label }} <span class="text-muted">({{ $code }})</span></div>
+                            <input type="text" name="titulo[{{ $code }}]" data-hero-titulo="{{ $code }}"
+                                   class="form-control form-control-sm mb-1"
+                                   placeholder="Título ({{ $code }})">
+                            <textarea name="subtitulo[{{ $code }}]" data-hero-subtitulo="{{ $code }}"
+                                      class="form-control form-control-sm" rows="2"
+                                      placeholder="Descrição ({{ $code }})"></textarea>
+                        </div>
+                    @endforeach
 
                     {{-- Active toggle --}}
                     <div class="form-check mt-2">
@@ -281,10 +269,7 @@ function openAddModal() {
     document.getElementById('slideFormMethod').value = 'POST';
     document.getElementById('slideForm').reset();
     clearMediaPreviews();
-    var titleField = document.getElementById('titulo_atual');
-    var subtitleField = document.getElementById('subtitulo_atual');
-    if (titleField) titleField.value = '';
-    if (subtitleField) subtitleField.value = '';
+    document.querySelectorAll('[data-hero-titulo],[data-hero-subtitulo]').forEach(function(el){ el.value = ''; });
     document.getElementById('slideAtivo').checked = true;
     setTipo('imagem');
 }
@@ -294,11 +279,14 @@ function openEditModal(slide) {
     document.getElementById('slideForm').action = '{{ url("admin/hero-slides") }}/' + slide.id;
     document.getElementById('slideFormMethod').value = 'POST';
 
-    var activeLocale = @json(app()->getLocale());
     var titulo = slide.titulo || {};
     var subtitulo = slide.subtitulo || {};
-    document.getElementById('titulo_atual').value = titulo[activeLocale] || '';
-    document.getElementById('subtitulo_atual').value = subtitulo[activeLocale] || '';
+    document.querySelectorAll('[data-hero-titulo]').forEach(function(el){
+        el.value = titulo[el.getAttribute('data-hero-titulo')] || '';
+    });
+    document.querySelectorAll('[data-hero-subtitulo]').forEach(function(el){
+        el.value = subtitulo[el.getAttribute('data-hero-subtitulo')] || '';
+    });
 
     document.getElementById('slideAtivo').checked = !!slide.ativo;
 
