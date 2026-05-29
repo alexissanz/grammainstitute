@@ -109,6 +109,14 @@
             $fontFooterSize = max(12, min(24, (int) ($settings->font_footer_size ?: 16)));
             $fontHeroIntroSize = max(28, min(120, (int) ($settings->font_hero_intro_size ?: 70)));
             $fontHeroSlideSize = max(24, min(120, (int) ($settings->font_hero_slide_size ?: 64)));
+
+            // Footer customization (height + per-text sizes), all in px.
+            $footerPadTop     = max(0, min(200, (int) ($settings->footer_padding_top ?? 44)));
+            $footerPadBottom  = max(0, min(200, (int) ($settings->footer_padding_bottom ?? 20)));
+            $footerEmailSize  = max(10, min(40, (int) ($settings->footer_email_size ?? 16)));
+            $footerCreditSize = max(10, min(40, (int) ($settings->footer_credit_size ?? 16)));
+            $footerCopySize   = max(10, min(40, (int) ($settings->footer_copyright_size ?? 15)));
+            $footerTagSize    = max(8,  min(40, (int) ($settings->footer_tagline_size ?? 13)));
         @endphp
 
         :root {
@@ -126,6 +134,12 @@
             --font-size-footer: {{ $fontFooterSize }}px;
             --font-size-hero-intro: {{ $fontHeroIntroSize }}px;
             --font-size-hero-slide: {{ $fontHeroSlideSize }}px;
+            --footer-pad-top: {{ $footerPadTop }}px;
+            --footer-pad-bottom: {{ $footerPadBottom }}px;
+            --footer-email-size: {{ $footerEmailSize }}px;
+            --footer-credit-size: {{ $footerCreditSize }}px;
+            --footer-copyright-size: {{ $footerCopySize }}px;
+            --footer-tagline-size: {{ $footerTagSize }}px;
         }
 
         html { scroll-behavior: smooth; }
@@ -650,7 +664,7 @@
         .gramma-footer {
             background: var(--ink);
             color: #ffffff;
-            padding: 2.75rem 0 1.25rem;
+            padding: var(--footer-pad-top, 2.75rem) 0 var(--footer-pad-bottom, 1.25rem);
             position: relative;
         }
         .gramma-footer::before {
@@ -687,7 +701,7 @@
         }
         .gramma-footer .footer-bottom {
             font-family: var(--font-site-footer);
-            font-size: var(--font-size-footer);
+            font-size: var(--footer-copyright-size, var(--font-size-footer));
             letter-spacing: .04em;
             text-transform: none;
             color: #ffffff;
@@ -734,7 +748,7 @@
             color: #ffffff;
             font-style: normal;
             font-family: var(--font-site-footer);
-            font-size: var(--font-size-footer);
+            font-size: var(--footer-tagline-size, var(--font-size-footer));
             text-align: center;
             margin: 0 auto;
             max-width: 420px;
@@ -1020,7 +1034,7 @@
             .wa-button { width: 56px; height: 56px; font-size: 1.7rem; }
             .wa-card { width: calc(100vw - 32px); }
 
-            .gramma-footer { padding: 2.25rem 0 1.25rem; }
+            /* footer height controlled by the dashboard (var) */
             .gramma-footer h5 { font-size: .75rem; }
             .footer-brand { font-size: 1.3rem; }
         }
@@ -1103,7 +1117,7 @@
             .promo-topbar span { font-size: .85rem !important; }
 
             /* Footer */
-            .gramma-footer { padding: 2.25rem 0 1.25rem; text-align: center; }
+            .gramma-footer { text-align: center; }
             .gramma-footer .row.g-4 {
                 row-gap: 1rem !important;
             }
@@ -1613,7 +1627,7 @@
             justify-content: center;
             gap: .5rem;
             font-family: var(--font-site-footer);
-            font-size: var(--font-size-footer);
+            font-size: var(--footer-email-size, var(--font-size-footer));
             font-weight: 700;
             letter-spacing: .03em;
             color: #ffffff !important;
@@ -1632,7 +1646,7 @@
             gap: .45rem;
             font-family: var(--font-site-footer);
             font-style: normal;
-            font-size: var(--font-size-footer);
+            font-size: var(--footer-credit-size, var(--font-size-footer));
             font-weight: 400;
             letter-spacing: .03em;
             color: #ffffff !important;

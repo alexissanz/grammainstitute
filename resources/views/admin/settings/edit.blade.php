@@ -55,6 +55,7 @@
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-founder"><i class="fas fa-user-tie"></i>Fundador</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-hero"><i class="fas fa-star"></i>Hero</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-tipografia"><i class="fas fa-font"></i>Tipografia</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-rodape"><i class="fas fa-shoe-prints"></i>Rodapé</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-idiomas"><i class="fas fa-language"></i>Idiomas</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-seo"><i class="fas fa-search"></i>SEO</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-smtp"><i class="fas fa-envelope"></i>SMTP</a></li>
@@ -89,12 +90,7 @@
                         <textarea name="descricao_site" class="form-control" rows="3"
                                   placeholder="Breve descrição do instituto...">{{ old('descricao_site', $settings->descricao_site) }}</textarea>
                     </div>
-                    <div class="col-12">
-                        <label class="form-label">Texto do Rodapé</label>
-                        <input name="texto_rodape" type="text" class="form-control"
-                               value="{{ old('texto_rodape', $settings->texto_rodape) }}"
-                               placeholder="© {{ date('Y') }} Gramma Institute. Todos os direitos reservados.">
-                    </div>
+                    {{-- "Texto do Rodapé" foi movido para o separador Rodapé. --}}
                 </div>
             </div>
 
@@ -479,6 +475,58 @@
                         <label class="form-label">Tamanho do texto dos videos</label>
                         <input name="font_hero_slide_size" type="number" min="24" max="120" class="form-control"
                                value="{{ old('font_hero_slide_size', $settings->font_hero_slide_size ?? 64) }}">
+                    </div>
+                </div>
+            </div>
+
+            {{-- TAB: RODAPÉ --}}
+            <div class="tab-pane fade" id="tab-rodape">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label">Texto do rodapé (copyright)</label>
+                        <input name="texto_rodape" type="text" class="form-control"
+                               value="{{ old('texto_rodape', $settings->texto_rodape) }}"
+                               placeholder="© {{ date('Y') }} Gramma Institute. Todos os direitos reservados.">
+                        <small class="text-muted">Linha de baixo do rodapé. Deixe vazio para usar o copyright automático. <strong>Não ponha o email aqui</strong> (o email tem campo próprio em Contacto).</small>
+                    </div>
+
+                    <div class="col-12"><hr class="my-1"><strong>Altura do rodapé</strong></div>
+                    <div class="col-md-6">
+                        <label class="form-label">Espaço no topo (px)</label>
+                        <input name="footer_padding_top" type="number" min="0" max="200" class="form-control"
+                               value="{{ old('footer_padding_top', $settings->footer_padding_top ?? 44) }}">
+                        <small class="text-muted">Menor = rodapé mais baixo.</small>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Espaço em baixo (px)</label>
+                        <input name="footer_padding_bottom" type="number" min="0" max="200" class="form-control"
+                               value="{{ old('footer_padding_bottom', $settings->footer_padding_bottom ?? 20) }}">
+                    </div>
+
+                    <div class="col-12"><hr class="my-1"><strong>Tamanho de cada texto (px)</strong></div>
+                    <div class="col-md-3">
+                        <label class="form-label">Email (destaque)</label>
+                        <input name="footer_email_size" type="number" min="10" max="40" class="form-control"
+                               value="{{ old('footer_email_size', $settings->footer_email_size ?? 16) }}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Crédito (Alexandre)</label>
+                        <input name="footer_credit_size" type="number" min="10" max="40" class="form-control"
+                               value="{{ old('footer_credit_size', $settings->footer_credit_size ?? 16) }}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Copyright</label>
+                        <input name="footer_copyright_size" type="number" min="10" max="40" class="form-control"
+                               value="{{ old('footer_copyright_size', $settings->footer_copyright_size ?? 15) }}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Tagline da marca</label>
+                        <input name="footer_tagline_size" type="number" min="8" max="40" class="form-control"
+                               value="{{ old('footer_tagline_size', $settings->footer_tagline_size ?? 13) }}">
+                    </div>
+
+                    <div class="col-12">
+                        <small class="text-muted"><i class="fas fa-info-circle"></i> A <strong>fonte</strong> do rodapé está no separador <strong>Tipografia</strong>.</small>
                     </div>
                 </div>
             </div>

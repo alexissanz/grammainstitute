@@ -26,6 +26,9 @@ class SiteSetting extends Model
         'font_body_size', 'font_menu_size', 'font_course_size',
         'font_title_size', 'font_footer_size',
         'font_hero_intro_size', 'font_hero_slide_size',
+        'footer_padding_top', 'footer_padding_bottom',
+        'footer_email_size', 'footer_credit_size',
+        'footer_copyright_size', 'footer_tagline_size',
         'meta_title', 'meta_description',
         'smtp_host', 'smtp_port', 'smtp_username', 'smtp_password',
         'smtp_encryption', 'smtp_from_address', 'smtp_from_name',
@@ -41,6 +44,12 @@ class SiteSetting extends Model
         'font_footer_size' => 'integer',
         'font_hero_intro_size' => 'integer',
         'font_hero_slide_size' => 'integer',
+        'footer_padding_top' => 'integer',
+        'footer_padding_bottom' => 'integer',
+        'footer_email_size' => 'integer',
+        'footer_credit_size' => 'integer',
+        'footer_copyright_size' => 'integer',
+        'footer_tagline_size' => 'integer',
     ];
 
     /**
