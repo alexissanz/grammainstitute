@@ -59,7 +59,7 @@ class CoursesController extends Controller
             return back()
                 ->withInput()
                 ->withErrors([
-                    'save' => 'Não foi possível criar o curso agora. Verifique os campos enviados e tente novamente.',
+                    'save' => 'Não foi possível criar o curso agora. Motivo: ' . $e->getMessage(),
                 ]);
         }
     }
@@ -90,6 +90,11 @@ class CoursesController extends Controller
                 $data['slug'] = $course->slug;
             }
 
+            // Hard guarantee: slug is NOT NULL in the DB, never let it be empty.
+            if (blank($data['slug'])) {
+                $data['slug'] = $this->uniqueSlug(null, $data['nome'][$defaultLocale] ?? 'course', $course->id);
+            }
+
             $this->handleUploads($request, $data, $course);
 
             $course->update($data);
@@ -106,7 +111,7 @@ class CoursesController extends Controller
             return back()
                 ->withInput()
                 ->withErrors([
-                    'save' => 'Não foi possível guardar as alterações deste curso. Reveja os campos enviados e tente novamente.',
+                    'save' => 'Não foi possível guardar as alterações deste curso. Motivo: ' . $e->getMessage(),
                 ]);
         }
     }
