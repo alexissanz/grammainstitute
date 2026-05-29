@@ -1909,7 +1909,7 @@
                             </span>
                         </a>
                     </div>
-                    <p class="footer-brand-text">{{ $settings->footer_tagline_text ?: 'languages - education - research' }}</p>
+                    <p class="footer-brand-text">{{ $settings->footerText('footer_tagline_text') ?: 'languages - education - research' }}</p>
                 </div>
             </div>
         </div>
@@ -1922,9 +1922,9 @@
                     @endif
                     <a href="{{ $settings->footer_credit_url ?: 'https://www.linkedin.com/in/alexandre-crist%C3%B3v%C3%A3o-156073151/' }}"
                        target="_blank" rel="noopener noreferrer"
-                       class="footer-credit-link">{{ $settings->footer_credit_text ?: 'Designed & coded by Alexandre Cristóvão' }} <i class="fab fa-linkedin"></i></a>
+                       class="footer-credit-link">{{ $settings->footerText('footer_credit_text') ?: 'Designed & coded by Alexandre Cristóvão' }} <i class="fab fa-linkedin"></i></a>
                     <div class="footer-bottom">
-                        {{ $settings->texto_rodape ?? ('© ' . date('Y') . ' Gramma Institute. ' . __('site.footer_rights')) }}
+                        {{ $settings->footerText('texto_rodape') ?: ('© ' . date('Y') . ' Gramma Institute. ' . __('site.footer_rights')) }}
                     </div>
                 </div>
             </div>

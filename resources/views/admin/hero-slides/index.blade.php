@@ -184,11 +184,17 @@
                     <label class="font-weight-bold" style="font-size:.875rem;">
                         Título e Subtítulo por idioma <small class="text-muted">(opcional — deixe vazio para slide só com mídia)</small>
                     </label>
-                    <div class="mb-2" style="font-size:.8rem; color:#6b7280;">
-                        Preencha cada idioma. O site mostra o texto da língua ativa do visitante. (Idioma padrão: <strong>English</strong>.)
+                    <div class="form-group mb-2">
+                        <label style="font-size:.8rem; color:#6b7280;">Idioma a editar</label>
+                        <select id="heroLangSelect" class="form-control form-control-sm" style="max-width:220px;">
+                            @foreach($heroLangs as $code => $label)
+                                <option value="{{ $code }}">{{ $label }}</option>
+                            @endforeach
+                        </select>
+                        <small class="text-muted">Mude o idioma e as caixas mostram esse idioma. O site mostra o texto da língua do visitante (padrão: English).</small>
                     </div>
                     @foreach($heroLangs as $code => $label)
-                        <div class="border rounded p-2 mb-2" style="background:#fafbfc;">
+                        <div class="border rounded p-2 mb-2 hero-lang-pane" data-hero-pane="{{ $code }}" style="background:#fafbfc;{{ $code !== 'en' ? 'display:none;' : '' }}">
                             <div style="font-size:.72rem; font-weight:700; color:#1a3a5c; letter-spacing:.04em; margin-bottom:.35rem;">{{ $label }} <span class="text-muted">({{ $code }})</span></div>
                             <input type="text" name="titulo[{{ $code }}]" data-hero-titulo="{{ $code }}"
                                    class="form-control form-control-sm mb-1"
@@ -240,6 +246,25 @@ if (list) {
     });
 }
 
+// Hero text: language switcher — show the selected language's boxes.
+function heroLangReset() {
+    var s = document.getElementById('heroLangSelect');
+    if (s) s.value = 'en';
+    document.querySelectorAll('.hero-lang-pane').forEach(function (pane) {
+        pane.style.display = (pane.getAttribute('data-hero-pane') === 'en') ? '' : 'none';
+    });
+}
+(function () {
+    var sel = document.getElementById('heroLangSelect');
+    if (!sel) return;
+    sel.addEventListener('change', function () {
+        var lang = this.value;
+        document.querySelectorAll('.hero-lang-pane').forEach(function (pane) {
+            pane.style.display = (pane.getAttribute('data-hero-pane') === lang) ? '' : 'none';
+        });
+    });
+})();
+
 // Tipo (imagem/video) toggle
 document.querySelectorAll('.media-type-toggle .opt').forEach(function(opt) {
     opt.addEventListener('click', function() {
@@ -270,6 +295,7 @@ function openAddModal() {
     document.getElementById('slideForm').reset();
     clearMediaPreviews();
     document.querySelectorAll('[data-hero-titulo],[data-hero-subtitulo]').forEach(function(el){ el.value = ''; });
+    heroLangReset();
     document.getElementById('slideAtivo').checked = true;
     setTipo('imagem');
 }
@@ -287,6 +313,7 @@ function openEditModal(slide) {
     document.querySelectorAll('[data-hero-subtitulo]').forEach(function(el){
         el.value = subtitulo[el.getAttribute('data-hero-subtitulo')] || '';
     });
+    heroLangReset();
 
     document.getElementById('slideAtivo').checked = !!slide.ativo;
 

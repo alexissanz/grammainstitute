@@ -482,25 +482,39 @@
             {{-- TAB: RODAPÉ --}}
             <div class="tab-pane fade" id="tab-rodape">
                 <div class="row g-3">
+                    @php
+                        $footerLangs = ['en' => 'English', 'pt_BR' => 'Português', 'es' => 'Español'];
+                        $copyDefault = '© ' . date('Y') . ' Gramma Institute. ' . __('site.footer_rights');
+                    @endphp
                     <div class="col-12">
-                        <label class="form-label">Texto do rodapé (copyright)</label>
-                        <input name="texto_rodape" type="text" class="form-control"
-                               value="{{ old('texto_rodape', $settings->texto_rodape ?: '© ' . date('Y') . ' Gramma Institute. ' . __('site.footer_rights')) }}">
-                        <small class="text-muted">Linha de baixo do rodapé (copyright).</small>
+                        <label class="form-label">Idioma a editar</label>
+                        <select id="footerLangSelect" class="form-control" style="max-width:240px;">
+                            @foreach($footerLangs as $code => $label)
+                                <option value="{{ $code }}">{{ $label }}</option>
+                            @endforeach
+                        </select>
+                        <small class="text-muted">Mude o idioma e as caixas mostram esse idioma. Tudo é guardado em conjunto.</small>
                     </div>
+
+                    @foreach($footerLangs as $code => $label)
+                        <div class="col-12 footer-lang-pane" data-footer-lang="{{ $code }}" @if($code !== 'en') style="display:none;" @endif>
+                            <div class="border rounded p-2" style="background:#fafbfc;">
+                                <div style="font-size:.72rem;font-weight:700;color:#1a3a5c;letter-spacing:.04em;margin-bottom:.4rem;">{{ $label }} <span class="text-muted">({{ $code }})</span></div>
+                                <label class="form-label" style="font-size:.8rem;">Copyright</label>
+                                <input name="texto_rodape[{{ $code }}]" type="text" class="form-control form-control-sm mb-2"
+                                       value="{{ old('texto_rodape.'.$code, data_get($settings->texto_rodape, $code) ?: ($code === 'en' ? $copyDefault : '')) }}">
+                                <label class="form-label" style="font-size:.8rem;">Tagline da marca</label>
+                                <input name="footer_tagline_text[{{ $code }}]" type="text" class="form-control form-control-sm mb-2"
+                                       value="{{ old('footer_tagline_text.'.$code, data_get($settings->footer_tagline_text, $code) ?: ($code === 'en' ? 'languages - education - research' : '')) }}">
+                                <label class="form-label" style="font-size:.8rem;">Texto do crédito</label>
+                                <input name="footer_credit_text[{{ $code }}]" type="text" class="form-control form-control-sm"
+                                       value="{{ old('footer_credit_text.'.$code, data_get($settings->footer_credit_text, $code) ?: ($code === 'en' ? 'Designed & coded by Alexandre Cristóvão' : '')) }}">
+                            </div>
+                        </div>
+                    @endforeach
+
                     <div class="col-12">
-                        <label class="form-label">Tagline da marca</label>
-                        <input name="footer_tagline_text" type="text" class="form-control"
-                               value="{{ old('footer_tagline_text', $settings->footer_tagline_text ?: 'languages - education - research') }}">
-                        <small class="text-muted">Frase pequena por baixo do logótipo.</small>
-                    </div>
-                    <div class="col-md-7">
-                        <label class="form-label">Texto do crédito</label>
-                        <input name="footer_credit_text" type="text" class="form-control"
-                               value="{{ old('footer_credit_text', $settings->footer_credit_text ?: 'Designed & coded by Alexandre Cristóvão') }}">
-                    </div>
-                    <div class="col-md-5">
-                        <label class="form-label">Link do crédito (URL)</label>
+                        <label class="form-label">Link do crédito (URL) <small class="text-muted">— igual para todos os idiomas</small></label>
                         <input name="footer_credit_url" type="text" class="form-control"
                                value="{{ old('footer_credit_url', $settings->footer_credit_url ?: 'https://www.linkedin.com/in/alexandre-crist%C3%B3v%C3%A3o-156073151/') }}">
                     </div>
@@ -725,5 +739,17 @@ function selectHeroType(tipo, el) {
         if (p) p.classList.toggle('active', t === tipo);
     });
 }
+
+// Footer editor: language switcher — show the selected language's boxes.
+(function () {
+    var sel = document.getElementById('footerLangSelect');
+    if (!sel) return;
+    sel.addEventListener('change', function () {
+        var lang = this.value;
+        document.querySelectorAll('.footer-lang-pane').forEach(function (pane) {
+            pane.style.display = (pane.getAttribute('data-footer-lang') === lang) ? '' : 'none';
+        });
+    });
+})();
 </script>
 @endpush

@@ -37,6 +37,9 @@ class SiteSetting extends Model
 
     protected $casts = [
         'idiomas_activos' => 'array',
+        'texto_rodape'        => 'array',
+        'footer_tagline_text' => 'array',
+        'footer_credit_text'  => 'array',
         'whatsapp_ativo'  => 'boolean',
         'font_body_size' => 'integer',
         'font_menu_size' => 'integer',
@@ -71,6 +74,27 @@ class SiteSetting extends Model
             ?: 'Olá! Gostaria de saber mais sobre os cursos do Gramma Institute.';
 
         return 'https://wa.me/' . $digits . '?text=' . rawurlencode($msg);
+    }
+
+    /** Locale-aware footer text (texto_rodape / footer_tagline_text / footer_credit_text). */
+    public function footerText(string $field, ?string $locale = null): string
+    {
+        $locale = $locale ?: app()->getLocale();
+        $val = $this->{$field};
+        if (! is_array($val)) {
+            return (string) ($val ?? '');
+        }
+        foreach ([$locale, 'en', 'pt_BR'] as $loc) {
+            if (! empty($val[$loc])) {
+                return (string) $val[$loc];
+            }
+        }
+        foreach ($val as $v) {
+            if (trim((string) $v) !== '') {
+                return (string) $v;
+            }
+        }
+        return '';
     }
 
     public static function current(): self
