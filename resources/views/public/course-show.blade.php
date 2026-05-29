@@ -408,7 +408,7 @@
 @php
     $bgImg = $course->imagemFundoUrl() ?: $course->imagemCapaUrl() ?: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=2400&q=85';
     $aboutImg = $course->imagemCapaUrl() ?: $bgImg;
-    $durationLines = collect(preg_split('/\s*;\s*/', (string) $course->duracao_total))
+    $durationLines = collect(preg_split('/\s*;\s*/', (string) $course->t('duracao_total')))
         ->map(fn ($line) => trim($line))
         ->filter()
         ->values();
@@ -425,9 +425,9 @@
                 @if($course->t('descricao_curta'))
                     <p class="course-short-description">{{ $course->t('descricao_curta') }}</p>
                 @endif
-                @if($course->duracao_total || $course->formato || $course->preco || $course->vagas_por_turma || $course->material_gratis || $course->certificacao_gratis)
+                @if($course->t('duracao_total') || $course->t('formato') || $course->t('preco') || $course->vagas_por_turma || $course->material_gratis || $course->certificacao_gratis)
                     <div class="course-info-grid">
-                        @if($course->duracao_total)
+                        @if($course->t('duracao_total'))
                             <div class="course-info-card">
                                 <div class="label">{{ __('site.course_duration') }}</div>
                                 <div class="value value-lines">
@@ -437,16 +437,16 @@
                                 </div>
                             </div>
                         @endif
-                        @if($course->formato)
+                        @if($course->t('formato'))
                             <div class="course-info-card">
                                 <div class="label">{{ __('site.course_format') }}</div>
-                                <div class="value">{{ $course->formato }}</div>
+                                <div class="value">{{ $course->t('formato') }}</div>
                             </div>
                         @endif
-                        @if($course->preco)
+                        @if($course->t('preco'))
                             <div class="course-info-card">
                                 <div class="label">{{ __('site.course_price') }}</div>
-                                <div class="value">{{ $course->preco }}</div>
+                                <div class="value">{{ $course->t('preco') }}</div>
                             </div>
                         @endif
                         @if($course->vagas_por_turma)
@@ -458,13 +458,13 @@
                         @if($course->material_gratis)
                             <div class="course-info-card">
                                 <div class="label">Material</div>
-                                <div class="value">{{ $course->material_gratis_texto ?: 'Free study material' }}</div>
+                                <div class="value">{{ $course->t('material_gratis_texto') ?: 'Free study material' }}</div>
                             </div>
                         @endif
                         @if($course->certificacao_gratis)
                             <div class="course-info-card">
                                 <div class="label">Certificate</div>
-                                <div class="value">{{ $course->certificacao_gratis_texto ?: 'Free certificate included' }}</div>
+                                <div class="value">{{ $course->t('certificacao_gratis_texto') ?: 'Free certificate included' }}</div>
                             </div>
                         @endif
                     </div>

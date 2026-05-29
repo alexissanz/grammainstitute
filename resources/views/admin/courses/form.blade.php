@@ -171,11 +171,35 @@
             {{-- Logística --}}
             <div class="form-section">
                 <h6><i class="fas fa-calendar-alt me-2"></i>Logística</h6>
+                <p class="help">Os textos têm separadores de idioma (EN / PT-BR / ES). Preencha cada língua.</p>
+                @php
+                    $logFields = [
+                        'duracao_total' => ['label' => 'Duração total', 'ph' => '120h · 6 módulos'],
+                        'formato'       => ['label' => 'Formato', 'ph' => 'Online · Presencial'],
+                        'preco'         => ['label' => 'Investimento', 'ph' => 'R$ 290 / mês'],
+                    ];
+                @endphp
                 <div class="row g-3">
-                    <div class="col-md-3"><label class="form-label">Duração total</label><input name="duracao_total" type="text" class="form-control" value="{{ old('duracao_total', $course->duracao_total) }}" placeholder="120h · 6 módulos"></div>
-                    <div class="col-md-3"><label class="form-label">Formato</label><input name="formato" type="text" class="form-control" value="{{ old('formato', $course->formato) }}" placeholder="Online · Presencial"></div>
-                    <div class="col-md-3"><label class="form-label">Investimento</label><input name="preco" type="text" class="form-control" value="{{ old('preco', $course->preco) }}" placeholder="R$ 290 / mês"></div>
-                    <div class="col-md-3"><label class="form-label">Vagas por turma</label><input name="vagas_por_turma" type="text" class="form-control" value="{{ old('vagas_por_turma', $course->vagas_por_turma) }}"></div>
+                    @foreach($logFields as $key => $meta)
+                        <div class="col-md-6">
+                            <label class="form-label">{{ $meta['label'] }}</label>
+                            <ul class="nav lang-tabs mb-1" data-field="{{ $key }}">
+                                @foreach($locales as $i => $loc)
+                                    <li class="nav-item"><a href="#" class="nav-link {{ $i === 0 ? 'active' : '' }}" data-lang="{{ $loc }}">{{ strtoupper(str_replace('_','-',$loc)) }}</a></li>
+                                @endforeach
+                            </ul>
+                            @foreach($locales as $i => $loc)
+                                <div class="lang-pane" data-field="{{ $key }}" data-lang="{{ $loc }}" style="{{ $i === 0 ? '' : 'display:none;' }}">
+                                    <input name="{{ $key }}[{{ $loc }}]" type="text" class="form-control"
+                                           value="{{ old($key . '.' . $loc, data_get($course->{$key}, $loc)) }}" placeholder="{{ $meta['ph'] }}">
+                                </div>
+                            @endforeach
+                        </div>
+                    @endforeach
+                    <div class="col-md-6">
+                        <label class="form-label">Vagas por turma</label>
+                        <input name="vagas_por_turma" type="text" class="form-control" value="{{ old('vagas_por_turma', $course->vagas_por_turma) }}">
+                    </div>
                 </div>
                 <div class="row g-3 mt-1">
                     <div class="col-md-6">
@@ -189,15 +213,29 @@
                         </label>
                     </div>
                 </div>
+                @php
+                    $logTextos = [
+                        'material_gratis_texto'      => ['label' => 'Texto do quadro “material grátis”', 'ph' => 'Free study material'],
+                        'certificacao_gratis_texto'  => ['label' => 'Texto do quadro “certificação”', 'ph' => 'Free certificate included'],
+                    ];
+                @endphp
                 <div class="row g-3 mt-1">
-                    <div class="col-md-6">
-                        <label class="form-label">Texto do quadro “material grátis”</label>
-                        <input name="material_gratis_texto" type="text" class="form-control" value="{{ old('material_gratis_texto', $course->material_gratis_texto) }}" placeholder="Free study material">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Texto do quadro “certificação”</label>
-                        <input name="certificacao_gratis_texto" type="text" class="form-control" value="{{ old('certificacao_gratis_texto', $course->certificacao_gratis_texto) }}" placeholder="Free certificate included">
-                    </div>
+                    @foreach($logTextos as $key => $meta)
+                        <div class="col-md-6">
+                            <label class="form-label">{{ $meta['label'] }}</label>
+                            <ul class="nav lang-tabs mb-1" data-field="{{ $key }}">
+                                @foreach($locales as $i => $loc)
+                                    <li class="nav-item"><a href="#" class="nav-link {{ $i === 0 ? 'active' : '' }}" data-lang="{{ $loc }}">{{ strtoupper(str_replace('_','-',$loc)) }}</a></li>
+                                @endforeach
+                            </ul>
+                            @foreach($locales as $i => $loc)
+                                <div class="lang-pane" data-field="{{ $key }}" data-lang="{{ $loc }}" style="{{ $i === 0 ? '' : 'display:none;' }}">
+                                    <input name="{{ $key }}[{{ $loc }}]" type="text" class="form-control"
+                                           value="{{ old($key . '.' . $loc, data_get($course->{$key}, $loc)) }}" placeholder="{{ $meta['ph'] }}">
+                                </div>
+                            @endforeach
+                        </div>
+                    @endforeach
                 </div>
             </div>
 

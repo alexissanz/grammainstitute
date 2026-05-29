@@ -183,7 +183,8 @@ class CoursesController extends Controller
         // Collect JSON translation fields
         foreach (['nome', 'subtitulo', 'descricao_curta', 'descricao_longa',
                   'historia_lingua', 'alfabeto_info', 'para_quem',
-                  'professor_bio', 'professor_titulos', 'meta_title', 'meta_description'] as $field) {
+                  'professor_bio', 'professor_titulos', 'meta_title', 'meta_description',
+                  'duracao_total', 'formato', 'preco', 'material_gratis_texto', 'certificacao_gratis_texto'] as $field) {
             $validated[$field] = $this->cleanLocaleArray($request->input($field, []), $defaultLocale, $locales);
         }
 
@@ -238,11 +239,7 @@ class CoursesController extends Controller
         $data['codigo'] = $this->limitString($data['codigo'] ?? null, 20);
         $data['glifo'] = $this->limitString($data['glifo'] ?? null, 20);
         $data['cor_destaque'] = $this->limitString($data['cor_destaque'] ?? null, 10) ?: '#a87841';
-        $data['duracao_total'] = $this->limitString($data['duracao_total'] ?? null, 100);
-        $data['formato'] = $this->limitString($data['formato'] ?? null, 100);
-        $data['preco'] = $this->limitString($data['preco'] ?? null, 100);
-        $data['material_gratis_texto'] = $this->limitString($data['material_gratis_texto'] ?? null, 180);
-        $data['certificacao_gratis_texto'] = $this->limitString($data['certificacao_gratis_texto'] ?? null, 180);
+        // duracao_total / formato / preco / *_texto are now multilingual (handled in the JSON loop).
         $data['professor_nome'] = $this->limitString($data['professor_nome'] ?? null, 180);
         $data['contato_whatsapp'] = $this->limitString($data['contato_whatsapp'] ?? null, 30);
         $data['contato_email'] = $this->limitString($data['contato_email'] ?? null, 255);

@@ -339,14 +339,14 @@
                     @endif
 
                     <div class="meta-row">
-                        @if($c->formato)
-                            <span class="meta-chip"><i class="fas fa-laptop-house"></i> {{ $c->formato }}</span>
+                        @if($c->t('formato'))
+                            <span class="meta-chip"><i class="fas fa-laptop-house"></i> {{ $c->t('formato') }}</span>
                         @endif
-                        @if($c->duracao_total)
-                            <span class="meta-chip"><i class="far fa-clock"></i> {{ $c->duracao_total }}</span>
+                        @if($c->t('duracao_total'))
+                            <span class="meta-chip"><i class="far fa-clock"></i> {{ $c->t('duracao_total') }}</span>
                         @endif
-                        @if($c->preco)
-                            <span class="meta-chip"><i class="fas fa-tag"></i> {{ $c->preco }}</span>
+                        @if($c->t('preco'))
+                            <span class="meta-chip"><i class="fas fa-tag"></i> {{ $c->t('preco') }}</span>
                         @endif
                         @if($c->vagas_por_turma)
                             <span class="meta-chip"><i class="fas fa-users"></i> {{ $c->vagas_por_turma }}/turma</span>
