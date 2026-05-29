@@ -485,28 +485,24 @@
                     <div class="col-12">
                         <label class="form-label">Texto do rodapé (copyright)</label>
                         <input name="texto_rodape" type="text" class="form-control"
-                               value="{{ old('texto_rodape', $settings->texto_rodape) }}"
-                               placeholder="© {{ date('Y') }} Gramma Institute. Todos os direitos reservados.">
-                        <small class="text-muted">Linha de baixo do rodapé. Deixe vazio para usar o copyright automático.</small>
+                               value="{{ old('texto_rodape', $settings->texto_rodape ?: '© ' . date('Y') . ' Gramma Institute. ' . __('site.footer_rights')) }}">
+                        <small class="text-muted">Linha de baixo do rodapé (copyright).</small>
                     </div>
                     <div class="col-12">
                         <label class="form-label">Tagline da marca</label>
                         <input name="footer_tagline_text" type="text" class="form-control"
-                               value="{{ old('footer_tagline_text', $settings->footer_tagline_text) }}"
-                               placeholder="languages - education - research">
-                        <small class="text-muted">Frase pequena por baixo do logótipo. Vazio = "languages - education - research".</small>
+                               value="{{ old('footer_tagline_text', $settings->footer_tagline_text ?: 'languages - education - research') }}">
+                        <small class="text-muted">Frase pequena por baixo do logótipo.</small>
                     </div>
                     <div class="col-md-7">
                         <label class="form-label">Texto do crédito</label>
                         <input name="footer_credit_text" type="text" class="form-control"
-                               value="{{ old('footer_credit_text', $settings->footer_credit_text) }}"
-                               placeholder="Designed &amp; coded by Alexandre Cristóvão">
+                               value="{{ old('footer_credit_text', $settings->footer_credit_text ?: 'Designed & coded by Alexandre Cristóvão') }}">
                     </div>
                     <div class="col-md-5">
                         <label class="form-label">Link do crédito (URL)</label>
                         <input name="footer_credit_url" type="text" class="form-control"
-                               value="{{ old('footer_credit_url', $settings->footer_credit_url) }}"
-                               placeholder="https://www.linkedin.com/in/...">
+                               value="{{ old('footer_credit_url', $settings->footer_credit_url ?: 'https://www.linkedin.com/in/alexandre-crist%C3%B3v%C3%A3o-156073151/') }}">
                     </div>
                     <div class="col-12">
                         <div class="alert mb-0" style="background:#eef3ff;border:1px solid #c7d7f5;border-radius:8px;font-size:.82rem;color:#1a3a5c;">
