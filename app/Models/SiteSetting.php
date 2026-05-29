@@ -29,6 +29,7 @@ class SiteSetting extends Model
         'footer_padding_top', 'footer_padding_bottom',
         'footer_email_size', 'footer_credit_size',
         'footer_copyright_size', 'footer_tagline_size',
+        'footer_tagline_text', 'footer_credit_text', 'footer_credit_url',
         'meta_title', 'meta_description',
         'smtp_host', 'smtp_port', 'smtp_username', 'smtp_password',
         'smtp_encryption', 'smtp_from_address', 'smtp_from_name',

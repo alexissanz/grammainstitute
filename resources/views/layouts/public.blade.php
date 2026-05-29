@@ -1909,7 +1909,7 @@
                             </span>
                         </a>
                     </div>
-                    <p class="footer-brand-text">languages - education - research</p>
+                    <p class="footer-brand-text">{{ $settings->footer_tagline_text ?: 'languages - education - research' }}</p>
                 </div>
             </div>
         </div>
@@ -1920,9 +1920,9 @@
                     @if($settings->email_institucional)
                         <a href="mailto:{{ $settings->email_institucional }}" class="footer-email"><i class="fas fa-envelope"></i> {{ $settings->email_institucional }}</a>
                     @endif
-                    <a href="https://www.linkedin.com/in/alexandre-crist%C3%B3v%C3%A3o-156073151/"
+                    <a href="{{ $settings->footer_credit_url ?: 'https://www.linkedin.com/in/alexandre-crist%C3%B3v%C3%A3o-156073151/' }}"
                        target="_blank" rel="noopener noreferrer"
-                       class="footer-credit-link">Designed &amp; coded by Alexandre Crist&oacute;v&atilde;o <i class="fab fa-linkedin"></i></a>
+                       class="footer-credit-link">{{ $settings->footer_credit_text ?: 'Designed & coded by Alexandre Cristóvão' }} <i class="fab fa-linkedin"></i></a>
                     <div class="footer-bottom">
                         {{ $settings->texto_rodape ?? ('© ' . date('Y') . ' Gramma Institute. ' . __('site.footer_rights')) }}
                     </div>

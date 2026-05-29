@@ -487,7 +487,32 @@
                         <input name="texto_rodape" type="text" class="form-control"
                                value="{{ old('texto_rodape', $settings->texto_rodape) }}"
                                placeholder="© {{ date('Y') }} Gramma Institute. Todos os direitos reservados.">
-                        <small class="text-muted">Linha de baixo do rodapé. Deixe vazio para usar o copyright automático. <strong>Não ponha o email aqui</strong> (o email tem campo próprio em Contacto).</small>
+                        <small class="text-muted">Linha de baixo do rodapé. Deixe vazio para usar o copyright automático.</small>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Tagline da marca</label>
+                        <input name="footer_tagline_text" type="text" class="form-control"
+                               value="{{ old('footer_tagline_text', $settings->footer_tagline_text) }}"
+                               placeholder="languages - education - research">
+                        <small class="text-muted">Frase pequena por baixo do logótipo. Vazio = "languages - education - research".</small>
+                    </div>
+                    <div class="col-md-7">
+                        <label class="form-label">Texto do crédito</label>
+                        <input name="footer_credit_text" type="text" class="form-control"
+                               value="{{ old('footer_credit_text', $settings->footer_credit_text) }}"
+                               placeholder="Designed &amp; coded by Alexandre Cristóvão">
+                    </div>
+                    <div class="col-md-5">
+                        <label class="form-label">Link do crédito (URL)</label>
+                        <input name="footer_credit_url" type="text" class="form-control"
+                               value="{{ old('footer_credit_url', $settings->footer_credit_url) }}"
+                               placeholder="https://www.linkedin.com/in/...">
+                    </div>
+                    <div class="col-12">
+                        <div class="alert mb-0" style="background:#eef3ff;border:1px solid #c7d7f5;border-radius:8px;font-size:.82rem;color:#1a3a5c;">
+                            <i class="fas fa-envelope me-1"></i> O <strong>email em destaque</strong> do rodapé vem do campo "Email Institucional" —
+                            <a href="#tab-contato" onclick="document.querySelector('a[href=\'#tab-contato\']').click(); return false;" style="text-decoration:underline;color:#1a3a5c;font-weight:600;">editar em Contacto</a>.
+                        </div>
                     </div>
 
                     <div class="col-12"><hr class="my-1"><strong>Altura do rodapé</strong></div>
