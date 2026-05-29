@@ -1605,7 +1605,25 @@
             flex-shrink: 0;
         }
 
-        /* Author credit — highlighted, in the site footer font, original size. */
+        /* Highlighted email — bold, same font & size as the credit. */
+        .gramma-footer .footer-email,
+        .gramma-footer a.footer-email {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+            font-family: var(--font-site-footer);
+            font-size: var(--font-size-footer);
+            font-weight: 700;
+            letter-spacing: .03em;
+            color: #ffffff !important;
+            text-decoration: none;
+            margin-bottom: .3rem;
+            word-break: break-word;
+        }
+        .gramma-footer .footer-email:hover { color: #ffffff !important; text-decoration: underline; }
+
+        /* Author credit — normal weight (not bold), site footer font, original size. */
         .gramma-footer .footer-credit-link,
         .gramma-footer a.footer-credit-link {
             display: inline-flex;
@@ -1615,7 +1633,7 @@
             font-family: var(--font-site-footer);
             font-style: normal;
             font-size: var(--font-size-footer);
-            font-weight: 600;
+            font-weight: 400;
             letter-spacing: .03em;
             color: #ffffff !important;
             text-decoration: none;
@@ -1885,6 +1903,9 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="footer-meta-stack">
+                    @if($settings->email_institucional)
+                        <a href="mailto:{{ $settings->email_institucional }}" class="footer-email"><i class="fas fa-envelope"></i> {{ $settings->email_institucional }}</a>
+                    @endif
                     <a href="https://www.linkedin.com/in/alexandre-crist%C3%B3v%C3%A3o-156073151/"
                        target="_blank" rel="noopener noreferrer"
                        class="footer-credit-link">Designed &amp; coded by Alexandre Crist&oacute;v&atilde;o <i class="fab fa-linkedin"></i></a>

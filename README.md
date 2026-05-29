@@ -58,31 +58,42 @@ parceiros, recursos, página "About Us" e configurações — é gerível sem to
 
 <div align="center"><img src="docs/divider.svg" alt="" width="60%" /></div>
 
-## Quanto Vale um Site Como Este
+## Quanto Vale Este Projeto
 
-Estimativa de **valor de mercado** para construir uma plataforma equivalente, por módulo
-(valores de referência para freelancer/estúdio — 2026):
+Estimativa baseada no que está **realmente implementado neste repositório** — não são
+valores genéricos. Âmbito real medido no código:
 
-| Módulo / Entrega | Esforço | 🇧🇷 BRL | 🇪🇺 EUR | 🇺🇸 USD |
+| Métrica | Valor |
+|---|---:|
+| Rotas definidas (`routes/web.php`) | 81 |
+| Controladores | 26 |
+| Modelos Eloquent | 11 |
+| Migrações | 25 |
+| Vistas Blade (público + admin) | 40 |
+| Idiomas (PT/EN/ES) · chaves de tradução | 3 · 146 |
+
+### Esforço estimado por área (do que existe aqui)
+
+| Área | Horas |
+|---|---:|
+| Front-end & design B&W (Didot, responsivo, hero em vídeo, mega-menu, 20 vistas públicas) | ~55 h |
+| Painel administrativo (AdminLTE, ~10 módulos CRUD, 20 vistas) | ~70 h |
+| Arquitetura de conteúdo (11 modelos, 25 migrações, i18n em JSON, rota de media) | ~35 h |
+| Multilíngue PT/EN/ES (146 chaves + tradução automática) | ~25 h |
+| Autenticação, papéis, segurança e SMTP | ~15 h |
+| Deploy e configuração de produção | ~10 h |
+| **Total** | **~210 h** |
+
+### Valor de mercado (≈ 210 h × taxa horária)
+
+| Cenário | Taxa | 🇧🇷 BRL | 🇪🇺 EUR | 🇺🇸 USD |
 |---|---|---:|---:|---:|
-| UI/UX & Design editorial (Didot, preto & branco, responsivo) | Alto | R$ 7.000 | € 1.300 | $ 1.400 |
-| Site público (10+ páginas, hero em vídeo, animações) | Alto | R$ 9.000 | € 1.650 | $ 1.800 |
-| Painel administrativo (AdminLTE, CRUD completo) | Alto | R$ 8.000 | € 1.500 | $ 1.600 |
-| Sistema multilíngue + tradução automática | Médio | R$ 4.500 | € 850 | $ 900 |
-| Gestão de conteúdo (cursos, glossário, eventos, parceiros, recursos) | Alto | R$ 6.500 | € 1.200 | $ 1.300 |
-| Autenticação, papéis e segurança (CSRF, validação, hashing) | Médio | R$ 3.000 | € 560 | $ 600 |
-| SMTP configurável + testes de email | Baixo | R$ 1.500 | € 280 | $ 300 |
-| Deploy, hospedagem e configuração de produção | Médio | R$ 2.500 | € 460 | $ 500 |
-| **Total estimado** | | **R$ 42.000** | **€ 7.800** | **$ 8.400** |
+| Freelancer (média) | 80 / 25 / 30 | R$ 16.800 | € 5.250 | $ 6.300 |
+| Freelancer sénior | 130 / 40 / 45 | R$ 27.300 | € 8.400 | $ 9.450 |
+| Agência | 200 / 70 / 80 | R$ 42.000 | € 14.700 | $ 16.800 |
 
-> 💡 **Modelos de comercialização**
->
-> | Modelo | 🇧🇷 BRL | 🇪🇺 EUR | 🇺🇸 USD |
-> |---|---:|---:|---:|
-> | Projeto único (entrega chave-na-mão) | R$ 35.000 – 55.000 | € 6.500 – 10.000 | $ 7.000 – 11.000 |
-> | Licença + personalização (por cliente) | R$ 12.000 – 20.000 | € 2.200 – 3.700 | $ 2.400 – 4.000 |
-> | Manutenção mensal (SLA + evolução) | R$ 1.200 / mês | € 220 / mês | $ 240 / mês |
-> | SaaS multi-instituição (por escola/mês) | R$ 400 / mês | € 75 / mês | $ 80 / mês |
+> O total = horas estimadas × taxa horária praticada. As horas refletem o âmbito real
+> deste código; o valor final varia conforme a taxa e o contrato acordado.
 
 <div align="center"><img src="docs/divider.svg" alt="" width="60%" /></div>
 
