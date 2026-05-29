@@ -1605,8 +1605,26 @@
             flex-shrink: 0;
         }
 
-        /* Author credit — full text is the link, with a LinkedIn icon to make
-           clickability obvious. Forced specificity over `.gramma-footer a`. */
+        /* Highlighted email in the footer. */
+        .gramma-footer .footer-email,
+        .gramma-footer a.footer-email {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .55rem;
+            font-family: var(--font-site-footer);
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: .03em;
+            color: #ffffff !important;
+            text-decoration: none;
+            margin-bottom: .35rem;
+            word-break: break-word;
+        }
+        .gramma-footer .footer-email i { font-size: 1rem; opacity: .9; }
+        .gramma-footer .footer-email:hover { color: #ffffff !important; text-decoration: underline; }
+
+        /* Author credit — same size & font as the email (per request). */
         .gramma-footer .footer-credit-link,
         .gramma-footer a.footer-credit-link {
             display: inline-flex;
@@ -1615,7 +1633,7 @@
             gap: .45rem;
             font-family: var(--font-site-footer);
             font-style: normal;
-            font-size: var(--font-size-footer);
+            font-size: 1.2rem;
             letter-spacing: .03em;
             color: #ffffff !important;
             text-decoration: none;
@@ -1630,7 +1648,7 @@
             -webkit-tap-highlight-color: rgba(255,255,255,.16);
             transition: color .2s, background .2s;
             text-align: center;
-            white-space: nowrap;
+            white-space: normal;
         }
         .gramma-footer .footer-credit-link .fab {
             font-size: .95rem;
@@ -1649,7 +1667,7 @@
                 margin: .25rem auto 0;
                 padding: .35rem .5rem;
                 min-height: auto;
-                white-space: nowrap;
+                white-space: normal;
             }
         }
     </style>
@@ -1763,7 +1781,6 @@
                             <div class="nav-dd-cat" data-cat>
                                 <button type="button" class="nav-dd-cat-toggle" data-cat-toggle aria-expanded="false">
                                     <span class="nav-dd-cat-title">{{ $cat->t('title') }}</span>
-                                    <span class="nav-dd-cat-count">{{ $cat->activeLinks->count() }}</span>
                                 </button>
                                 <div class="nav-dd-cat-links">
                                     @forelse($cat->activeLinks->groupBy('grupo') as $grupo => $grupoLinks)
@@ -1886,6 +1903,11 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="footer-meta-stack">
+                    @if($settings->email_institucional)
+                        <a href="mailto:{{ $settings->email_institucional }}" class="footer-email">
+                            <i class="fas fa-envelope"></i> {{ $settings->email_institucional }}
+                        </a>
+                    @endif
                     <a href="https://www.linkedin.com/in/alexandre-crist%C3%B3v%C3%A3o-156073151/"
                        target="_blank" rel="noopener noreferrer"
                        class="footer-credit-link">Designed &amp; coded by Alexandre Crist&oacute;v&atilde;o <i class="fab fa-linkedin"></i></a>

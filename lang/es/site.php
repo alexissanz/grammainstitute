@@ -77,6 +77,7 @@ return array (
   'footer_privacy' => 'Política de Privacidad',
   'footer_terms' => 'Términos de Uso',
   'footer_contact' => 'Contacto',
+  'footer_links' => 'Enlaces',
   'language_select' => 'Idioma',
   'select_language' => 'Seleccionar idioma',
   'page_not_found' => 'Página no encontrada',
