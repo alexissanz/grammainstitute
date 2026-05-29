@@ -1605,26 +1605,7 @@
             flex-shrink: 0;
         }
 
-        /* Highlighted email in the footer. */
-        .gramma-footer .footer-email,
-        .gramma-footer a.footer-email {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: .55rem;
-            font-family: var(--font-site-footer);
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: .03em;
-            color: #ffffff !important;
-            text-decoration: none;
-            margin-bottom: .35rem;
-            word-break: break-word;
-        }
-        .gramma-footer .footer-email i { font-size: 1rem; opacity: .9; }
-        .gramma-footer .footer-email:hover { color: #ffffff !important; text-decoration: underline; }
-
-        /* Author credit — same size & font as the email (per request). */
+        /* Author credit — highlighted, in the site footer font, original size. */
         .gramma-footer .footer-credit-link,
         .gramma-footer a.footer-credit-link {
             display: inline-flex;
@@ -1633,7 +1614,8 @@
             gap: .45rem;
             font-family: var(--font-site-footer);
             font-style: normal;
-            font-size: 1.2rem;
+            font-size: var(--font-size-footer);
+            font-weight: 600;
             letter-spacing: .03em;
             color: #ffffff !important;
             text-decoration: none;
@@ -1903,11 +1885,6 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="footer-meta-stack">
-                    @if($settings->email_institucional)
-                        <a href="mailto:{{ $settings->email_institucional }}" class="footer-email">
-                            <i class="fas fa-envelope"></i> {{ $settings->email_institucional }}
-                        </a>
-                    @endif
                     <a href="https://www.linkedin.com/in/alexandre-crist%C3%B3v%C3%A3o-156073151/"
                        target="_blank" rel="noopener noreferrer"
                        class="footer-credit-link">Designed &amp; coded by Alexandre Crist&oacute;v&atilde;o <i class="fab fa-linkedin"></i></a>
